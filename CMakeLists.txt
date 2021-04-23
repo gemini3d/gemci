@@ -38,7 +38,7 @@ include(cmake/GeminiCompare.cmake)
 include(cmake/GeminiPlot.cmake)
 include(cmake/GeminiPackage.cmake)
 
-set(ci_root ${CMAKE_CURRENT_SOURCE_DIR}/ci)
+set(ci_root ${CMAKE_CURRENT_SOURCE_DIR}/cfg)
 
 
 

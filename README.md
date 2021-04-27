@@ -7,3 +7,5 @@ While the CI tests in general take hours to run, particularly on a laptop, one m
 cmake --preset ninja
 ctest --preset setup
 ```
+
+The "hourly/mini*" tests are good for validating a workflow on a laptop or workstation in about a minute runtime each.

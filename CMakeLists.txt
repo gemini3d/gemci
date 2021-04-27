@@ -20,7 +20,7 @@ include(cmake/libraries.cmake)
 include(cmake/get_simroot.cmake)
 message(STATUS "simulation root directory ${GEMINI_SIMROOT}")
 
-include(cmake/parse_nml.cmake)
+include(cmake/ParseNml.cmake)
 
 find_package(Gemini3D REQUIRED)
 
@@ -31,6 +31,7 @@ find_program(MPIEXEC_EXECUTABLE
   REQUIRED)
 
 # helper functions
+include(cmake/GetEquil.cmake)
 include(cmake/InputSetup.cmake)
 include(cmake/ModelSetup.cmake)
 include(cmake/GeminiRun.cmake)
@@ -95,7 +96,7 @@ if(NOT type_label STREQUAL equilibrium)
 endif()
 
 # setup model
-model_setup(${in_dir} ${out_dir} ${name} ${type_label})
+model_setup(${in_dir} ${out_dir} ${name} ${type_label} ${equil})
 
 # --- compare sim input
 compare_download(${out_dir} ${ref_root} ${name} ${type_label})

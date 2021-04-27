@@ -1,19 +1,6 @@
 function(input_setup in_dir out_dir name label equil)
 
-cmake_path(APPEND nml_file ${in_dir} config.nml)
-
-# get equilibrium directory
-parse_nml(${nml_file} "eq_dir" "path")
-if(NOT eq_dir)
-  message(FATAL_ERROR "${name}: missing eq_dir in ${nml_file}")
-endif()
-
-string(REGEX REPLACE "[\\/]+$" "" eq_dir "${eq_dir}") # must strip trailing slash for cmake_path(... FILENAME) to work
-
-cmake_path(GET eq_dir FILENAME eq_name)
-if(NOT eq_name)
-  message(FATAL_ERROR "${name}: ${eq_dir} seems malformed, could not get directory name ${eq_name}")
-endif()
+get_equil(${in_dir} ${name})
 
 if(NOT equil)
   add_test(NAME "setup:download_equilibrium:${name}"

@@ -1,4 +1,9 @@
-function(model_setup in_dir out_dir name label)
+function(model_setup in_dir out_dir name label equil)
+
+if(NOT label STREQUAL equilibrium)
+  get_equil(${in_dir} ${name})
+  message(VERBOSE "${name} setup depends on run fixture ${eq_name}")
+endif()
 
 if(py_ok)
 
@@ -11,7 +16,7 @@ if(py_ok)
     FIXTURES_SETUP ${name}:setup_fxt
     TIMEOUT 900
     ENVIRONMENT GEMINI_SIMROOT=${GEMINI_SIMROOT}
-    FIXTURES_REQUIRED "${name}:eq_fxt")
+    FIXTURES_REQUIRED "${name}:eq_fxt;${eq_name}:run_fxt")
 
   if(low_ram)
     set_tests_properties("setup:python:${name}" PROPERTIES RESOURCE_LOCK cpu_mpi)
@@ -25,7 +30,7 @@ elseif(MATGEMINI_DIR)
     LABELS "setup;matlab;${label}"
     FIXTURES_SETUP ${name}:setup_fxt
     TIMEOUT 900
-    FIXTURES_REQUIRED "${name}:eq_fxt")
+    FIXTURES_REQUIRED "${name}:eq_fxt;${eq_name}:run_fxt")
 
   if(low_ram)
     set_tests_properties("setup:matlab:${name}" PROPERTIES RESOURCE_LOCK cpu_mpi)

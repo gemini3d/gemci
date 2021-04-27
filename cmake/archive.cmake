@@ -38,14 +38,14 @@ if(fsize LESS 10000)
   message(FATAL_ERROR "Archive ${out} may be malformed.")
 endif()
 
-# put MD5 in JSON
-file(MD5 ${out} md5_hash)
+# put hash in JSON
+file(SHA256 ${out} hash)
 file(READ ${ref_json_file} ref_json)
 # will manually get URL after upload
 string(JSON ref_json SET ${ref_json} ${name} "{}")
 string(JSON ref_json SET ${ref_json} ${name} url \"\")
 string(JSON ref_json SET ${ref_json} ${name} archive \"${archive_name}\")
-string(JSON ref_json SET ${ref_json} ${name} md5 \"${md5_hash}\")
+string(JSON ref_json SET ${ref_json} ${name} sha256 \"${hash}\")
 file(WRITE ${ref_json_file} ${ref_json})
 
 endfunction(make_archive)

@@ -91,7 +91,7 @@ cmake_path(APPEND out_dir ${GEMINI_SIMROOT} ${name})
 
 # input data download (if not an equilibrium itself)
 if(NOT type_label STREQUAL equilibrium)
-  input_setup(${in_dir} ${out_dir} ${name} ${type_label})
+  input_setup(${in_dir} ${out_dir} ${name} ${type_label} ${equil})
 endif()
 
 # setup model

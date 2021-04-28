@@ -54,7 +54,7 @@
   },
   "execution": {
     "noTestsAction": "error",
-    "stopOnFailure": true}
+    "stopOnFailure": false}
 },
 {
   "name": "setup", "inherits": "default",

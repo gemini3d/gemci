@@ -1,6 +1,6 @@
 function(gemini_plot out_dir name label)
 
-if(py_ok)
+if(python AND py_ok)
 
   add_test(NAME "plot:python:${name}"
     COMMAND ${Python_EXECUTABLE} -m gemini3d.plot ${out_dir} all)
@@ -17,7 +17,7 @@ if(py_ok)
     set_tests_properties("plot:python:${name}" PROPERTIES RESOURCE_LOCK cpu_mpi)
   endif()
 
-elseif(MATGEMINI_DIR)
+elseif(matlab AND MATGEMINI_DIR)
 
   add_matlab_test("plot:matlab:${name}" "gemini3d.plot.plotall('${out_dir}', 'png')")
 

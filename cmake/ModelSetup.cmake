@@ -5,7 +5,7 @@ if(NOT label STREQUAL equilibrium)
   message(VERBOSE "${name} setup depends on run fixture ${eq_name}")
 endif()
 
-if(py_ok)
+if(python AND py_ok)
 
   add_test(NAME "setup:python:${name}"
     COMMAND ${Python_EXECUTABLE} -m gemini3d.model ${in_dir} ${out_dir}
@@ -22,7 +22,7 @@ if(py_ok)
     set_tests_properties("setup:python:${name}" PROPERTIES RESOURCE_LOCK cpu_mpi)
   endif()
 
-elseif(MATGEMINI_DIR)
+elseif(matlab AND MATGEMINI_DIR)
 
   add_matlab_test("setup:matlab:${name}" "addpath('${in_dir}'); gemini3d.model.setup('${in_dir}', '${out_dir}')")
 

@@ -35,6 +35,10 @@ execute_process(
   TIMEOUT 30
   COMMAND_ERROR_IS_FATAL ANY)
 
+
+if(false)
+# NOTE: disabled this as it's very slow to upload many small plot files.
+
 # upload plots directory to avoid needing to extract on local computers
 # that is for others to quickly preview plots
 
@@ -44,6 +48,8 @@ set(small_file_opts --fast-list --check-first)
 execute_process(COMMAND rclone copy ${out_dir}/plots ${PACKAGE_REMOTE}:${upload_root}/plots/${name} --verbose ${small_file_opts}
 TIMEOUT 1800
 COMMAND_ERROR_IS_FATAL ANY)
+
+endif(false)
 
 endfunction(upload_package)
 

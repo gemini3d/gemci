@@ -6,9 +6,9 @@ function(upload_package archive out_dir name upload_root ref_json_file)
 # NOTE: rclone copy default does not overwrite
 
 # upload archive itself
+# we use --checksum to avoid waste of data bandwidth as Dropbox requires recopy to set mod time of identical files
 execute_process(
-  COMMAND rclone copy ${archive} ${PACKAGE_REMOTE}:${upload_root} --verbose
-  COMMAND rclone copy ${ref_json_file} ${PACKAGE_REMOTE}:${upload_root} --verbose
+  COMMAND rclone copy ${archive} ${PACKAGE_REMOTE}:${upload_root} --verbose --checksum
   TIMEOUT 1800
   COMMAND_ERROR_IS_FATAL ANY)
 
@@ -31,7 +31,7 @@ file(WRITE ${ref_json_file} ${ref_json})
 
 # update JSON with latest info
 execute_process(
-  COMMAND rclone copy ${ref_json_file} ${PACKAGE_REMOTE}:${upload_root} --verbose
+  COMMAND rclone copy ${ref_json_file} ${PACKAGE_REMOTE}:${upload_root} --verbose --checksum
   TIMEOUT 30
   COMMAND_ERROR_IS_FATAL ANY)
 
@@ -45,7 +45,7 @@ if(false)
 # these options help for lots of small files (plots)
 set(small_file_opts --fast-list --check-first)
 
-execute_process(COMMAND rclone copy ${out_dir}/plots ${PACKAGE_REMOTE}:${upload_root}/plots/${name} --verbose ${small_file_opts}
+execute_process(COMMAND rclone copy ${out_dir}/plots ${PACKAGE_REMOTE}:${upload_root}/plots/${name} --verbose --checksum ${small_file_opts}
 TIMEOUT 1800
 COMMAND_ERROR_IS_FATAL ANY)
 

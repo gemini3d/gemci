@@ -66,14 +66,11 @@ file(GLOB daily_dirs LIST_DIRECTORIES true "${ci_root}/daily/*")
 if(package)
   string(TIMESTAMP package_date "%Y-%m-%d" UTC)
   cmake_path(APPEND upload_root ${GEMINI_SIMROOT} upload-${package_date})
-  set(ref_json_file ${upload_root}/ref.json)
-  message(STATUS "packaging archives in ${upload_root}")
+  cmake_path(APPEND ref_json_file ${upload_root} ref_data.json)
 
-  file(MAKE_DIRECTORY ${upload_root})
-  if(NOT EXISTS ${ref_json_file})
-    # we will read this file and overwrite with new JSON for each sim
-    file(WRITE ${ref_json_file} "{}")
-  endif()
+  include(cmake/system_meta.cmake)
+
+  message(STATUS "packaging archives in ${upload_root}")
 endif()
 
 

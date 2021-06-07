@@ -26,7 +26,7 @@ if(PACKAGE_REMOTE STREQUAL dropbox)
 endif()
 
 file(READ ${ref_json_file} ref_json)
-string(JSON ref_json SET ${ref_json} ${name} url \"${url}\")
+string(JSON ref_json SET ${ref_json} tests ${name} url \"${url}\")
 file(WRITE ${ref_json_file} ${ref_json})
 
 # upload plots directory to avoid needing to extract on local computers

@@ -13,6 +13,7 @@ add_test(NAME "package:archive:${name}"
 set_tests_properties("package:archive:${name}" PROPERTIES
   FIXTURES_REQUIRED ${name}:package_fxt
   FIXTURES_SETUP ${name}:upload_fxt
+  RESOURCE_LOCK package_rclone # prevent race ref_data.json between archive.cmake and upload.cmake
   LABELS "package;${label}"
   REQUIRED_FILES "${data_dir}/inputs/config.nml;${data_dir}/output.nml"
   TIMEOUT 120)
@@ -28,6 +29,7 @@ set_tests_properties("package:upload:${name}" PROPERTIES
   FIXTURES_REQUIRED ${name}:upload_fxt
   LABELS "package;${label}"
   REQUIRED_FILES ${archive}
+  RESOURCE_LOCK package_rclone # prevent race ref_data.json between archive.cmake and upload.cmake and rclone API limit
   TIMEOUT 3600)
   # takes a long time to upload many small files
 

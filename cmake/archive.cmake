@@ -45,6 +45,7 @@ endif()
 # put hash in JSON
 file(SHA256 ${out} hash)
 file(READ ${ref_json_file} ref_json)
+string(JSON m ERROR_VARIABLE e GET ${ref_json} tests)
 if(NOT m)
   string(JSON ref_json SET ${ref_json} tests "{}")
 endif()

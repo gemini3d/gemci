@@ -45,9 +45,8 @@ endif()
 # put hash in JSON
 file(SHA256 ${out} hash)
 file(READ ${ref_json_file} ref_json)
-# will manually get URL after upload
+# URL auto-populated after upload via "rclone link"
 string(JSON ref_json SET ${ref_json} ${name} "{}")
-string(JSON ref_json SET ${ref_json} ${name} url \"\")
 string(JSON ref_json SET ${ref_json} ${name} archive \"${archive_name}\")
 string(JSON ref_json SET ${ref_json} ${name} sha256 \"${hash}\")
 file(WRITE ${ref_json_file} ${ref_json})

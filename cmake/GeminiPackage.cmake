@@ -22,7 +22,7 @@ find_program(rclone NAMES rclone)
 if(rclone)
 
 add_test(NAME "package:upload:${name}"
-  COMMAND ${CMAKE_COMMAND} -Darchive:FILEPATH=${archive} -Dout_dir:PATH=${out_dir} -Dname=${name} -Dupload_root:PATH=gemini_upload-${package_date} -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/upload.cmake)
+  COMMAND ${CMAKE_COMMAND} -Darchive:FILEPATH=${archive} -Dout_dir:PATH=${out_dir} -Dref_json_file:FILEPATH=${ref_json_file} -Dname=${name} -Dupload_root:PATH=gemini_upload-${package_date} -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/upload.cmake)
 
 set_tests_properties("package:upload:${name}" PROPERTIES
   FIXTURES_REQUIRED ${name}:upload_fxt

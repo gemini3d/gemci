@@ -5,9 +5,7 @@ if(py_ok)
 endif()
 
 execute_process(COMMAND ${Python_EXECUTABLE} -c "import gemini3d.model"
-  RESULT_VARIABLE e)
-if(e EQUAL 0)
+  COMMAND_ERROR_IS_FATAL ANY
+  TIMEOUT 15)
+
   set(py_ok true CACHE BOOL "PyGemini detected.")
-else()
-  message(SEND_ERROR "PyGemini is not setup: https://github.com/gemini3d/pygemini")
-endif()

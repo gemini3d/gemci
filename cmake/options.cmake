@@ -10,10 +10,12 @@ if(DEFINED ENV{CMAKE_MESSAGE_LOG_LEVEL})
   set(CMAKE_MESSAGE_LOG_LEVEL $ENV{CMAKE_MESSAGE_LOG_LEVEL})
 endif()
 
+cmake_host_system_information(RESULT host_ramMB QUERY TOTAL_PHYSICAL_MEMORY)
+cmake_host_system_information(RESULT host_cpu QUERY PROCESSOR_DESCRIPTION)
+
 if(NOT DEFINED low_ram)
-  cmake_host_system_information(RESULT ram QUERY TOTAL_PHYSICAL_MEMORY)
   set(low_ram false)
-  if(ram LESS 18000)
+  if(host_ramMB LESS 18000)
     # 18 GB: the 3D Matlab plots use 9GB RAM each
     set(low_ram true)
   endif()

@@ -20,12 +20,8 @@ if(MATGEMINI_DIR)
 endif()
 
 execute_process(COMMAND ${Matlab_MAIN_PROGRAM} -batch "run('${matgemini_SOURCE_DIR}/setup.m'), gemini3d.fileio.expanduser('~');"
-  RESULT_VARIABLE _ok
-  TIMEOUT 90)
+  TIMEOUT 90
+  COMMAND_ERROR_IS_FATAL ANY)
 
-if(_ok EQUAL 0)
-  message(STATUS "MatGemini found: ${matgemini_SOURCE_DIR}")
-  set(MATGEMINI_DIR ${matgemini_SOURCE_DIR} CACHE PATH "MatGemini path")
-else()
-  message(SEND_ERROR "Matlab was requested, but MatGemini not found.")
-endif()
+message(STATUS "MatGemini found: ${matgemini_SOURCE_DIR}")
+set(MATGEMINI_DIR ${matgemini_SOURCE_DIR} CACHE PATH "MatGemini path")

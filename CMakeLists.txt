@@ -68,6 +68,18 @@ if(package)
   cmake_path(APPEND upload_root ${GEMINI_SIMROOT} upload-${package_date})
   cmake_path(APPEND ref_json_file ${upload_root} ref_data.json)
 
+  execute_process(COMMAND ${GEMINI_RUN} -git
+    OUTPUT_VARIABLE git_rev
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    TIMEOUT 5
+    COMMAND_ERROR_IS_FATAL ANY)
+
+  execute_process(COMMAND ${GEMINI_RUN} -compiler_version
+    OUTPUT_VARIABLE fortran_compiler
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    TIMEOUT 5
+    COMMAND_ERROR_IS_FATAL ANY)
+
   include(cmake/system_meta.cmake)
 
   message(STATUS "packaging archives in ${upload_root}")

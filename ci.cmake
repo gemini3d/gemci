@@ -80,13 +80,11 @@ if(NOT DEFINED CTEST_BUILD_NAME)
 
     # execute_process(COMMAND ${run_exe} -compiler_version
     #   OUTPUT_VARIABLE _compiler_version OUTPUT_STRIP_TRAILING_WHITESPACE
-    #   RESULT_VARIABLE _err
     #   TIMEOUT 5
     #   COMMAND_ERROR_IS_FATAL ANY)
 
     execute_process(COMMAND ${run_exe} -git
       OUTPUT_VARIABLE _git_version OUTPUT_STRIP_TRAILING_WHITESPACE
-      RESULT_VARIABLE _err
       TIMEOUT 5
       COMMAND_ERROR_IS_FATAL ANY)
 
@@ -194,11 +192,9 @@ if(CTEST_MODEL STREQUAL Nightly OR CTEST_MODEL STREQUAL Continuous)
   # we try to avoid that by guarding with a Git porcelain check
   execute_process(COMMAND ${GIT_EXECUTABLE} status --porcelain
     WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY}
+    TIMEOUT 5
     OUTPUT_VARIABLE _ret OUTPUT_STRIP_TRAILING_WHITESPACE
-    RESULT_VARIABLE _err)
-  if(NOT _err EQUAL 0)
-    message(FATAL_ERROR "CTest could not check Git porcelain status")
-  endif()
+    COMMAND_ERROR_IS_FATAL ANY)
   if(_ret)
     message(WARNING "CTest would have erased the non-Git Push'd changes, NOT updating.")
   else()

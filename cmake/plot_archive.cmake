@@ -13,13 +13,17 @@ if(ARC_TYPE STREQUAL .zst OR ARC_TYPE STREQUAL .zstd)
   # 2. . instead of ${in} as last argument
   execute_process(
     COMMAND ${CMAKE_COMMAND} -E tar c ${out} --zstd .
-    WORKING_DIRECTORY ${in})
+    WORKING_DIRECTORY ${in}
+    TIMEOUT 600
+    COMMAND_ERROR_IS_FATAL ANY)
 
 elseif(ARC_TYPE STREQUAL .zip)
 
   execute_process(
     COMMAND ${CMAKE_COMMAND} -E tar c ${out} --format=zip .
-    WORKING_DIRECTORY ${in})
+    WORKING_DIRECTORY ${in}
+    TIMEOUT 600
+    COMMAND_ERROR_IS_FATAL ANY)
 
 else()
   message(FATAL_ERROR "unknown archive type ${ARC_TYPE}")

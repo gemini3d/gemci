@@ -29,6 +29,12 @@ file(READ ${ref_json_file} ref_json)
 string(JSON ref_json SET ${ref_json} tests ${name} url \"${url}\")
 file(WRITE ${ref_json_file} ${ref_json})
 
+# update JSON with latest info
+execute_process(
+  COMMAND rclone copy ${ref_json_file} ${PACKAGE_REMOTE}:${upload_root} --verbose
+  TIMEOUT 30
+  COMMAND_ERROR_IS_FATAL ANY)
+
 # upload plots directory to avoid needing to extract on local computers
 # that is for others to quickly preview plots
 

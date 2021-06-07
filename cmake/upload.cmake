@@ -9,7 +9,8 @@ function(upload_package archive out_dir name upload_root ref_json_file)
 # we use --checksum to avoid waste of data bandwidth as Dropbox requires recopy to set mod time of identical files
 execute_process(
   COMMAND rclone copy ${archive} ${PACKAGE_REMOTE}:${upload_root} --verbose --checksum
-  TIMEOUT 1800
+  TIMEOUT 900
+  RESOURCE_LOCK rclone_lock
   COMMAND_ERROR_IS_FATAL ANY)
 
 cmake_path(GET archive FILENAME arc_name)
@@ -17,6 +18,7 @@ cmake_path(GET archive FILENAME arc_name)
 execute_process(
   COMMAND rclone link ${PACKAGE_REMOTE}:${upload_root}/${arc_name}
   TIMEOUT 30
+  RESOURCE_LOCK rclone_lock
   OUTPUT_VARIABLE url
   OUTPUT_STRIP_TRAILING_WHITESPACE
   COMMAND_ERROR_IS_FATAL ANY)
@@ -33,6 +35,7 @@ file(WRITE ${ref_json_file} ${ref_json})
 execute_process(
   COMMAND rclone copy ${ref_json_file} ${PACKAGE_REMOTE}:${upload_root} --verbose --checksum
   TIMEOUT 30
+  RESOURCE_LOCK rclone_lock
   COMMAND_ERROR_IS_FATAL ANY)
 
 
@@ -46,8 +49,9 @@ if(false)
 set(small_file_opts --fast-list --check-first)
 
 execute_process(COMMAND rclone copy ${out_dir}/plots ${PACKAGE_REMOTE}:${upload_root}/plots/${name} --verbose --checksum ${small_file_opts}
-TIMEOUT 1800
-COMMAND_ERROR_IS_FATAL ANY)
+  TIMEOUT 1800
+  RESOURCE_LOCK rclone_lock
+  COMMAND_ERROR_IS_FATAL ANY)
 
 endif(false)
 

@@ -21,12 +21,14 @@ if(NOT DEFINED low_ram)
   endif()
 endif()
 
-if(dev)
-  set(FETCHCONTENT_SOURCE_DIR_PYGEMINI ${PROJECT_SOURCE_DIR}/../pygemini CACHE PATH "PyGemini developer path")
+if(EXISTS ${PROJECT_SOURCE_DIR}/../mat_gemini/setup.m)
   set(FETCHCONTENT_SOURCE_DIR_MATGEMINI ${PROJECT_SOURCE_DIR}/../mat_gemini CACHE PATH "MatGemini developer path")
+endif()
+
+if(dev)
+
 else()
   set(FETCHCONTENT_UPDATES_DISCONNECTED_MATGEMINI true)
-  set(FETCHCONTENT_UPDATES_DISCONNECTED_PYGEMINI true)
 endif()
 
 # --- auto-ignore build directory

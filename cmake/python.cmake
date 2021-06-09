@@ -8,4 +8,4 @@ execute_process(COMMAND ${Python_EXECUTABLE} -c "import gemini3d.model"
   COMMAND_ERROR_IS_FATAL ANY
   TIMEOUT 15)
 
-  set(py_ok true CACHE BOOL "PyGemini detected.")
+set(py_ok true CACHE BOOL "PyGemini detected.")

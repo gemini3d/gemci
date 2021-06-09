@@ -13,13 +13,13 @@ if(WIN32)
 else()
   set(path_sep ":")
 endif()
-set(MATLABPATH "MATLABPATH=${matgemini_SOURCE_DIR}${path_sep}${matgemini_SOURCE_DIR}/matlab-hdf5/")
+set(MATLABPATH "MATLABPATH=${matgemini_SOURCE_DIR}${path_sep}${matgemini_SOURCE_DIR}/matlab-stdlib/")
 
 if(MATGEMINI_DIR)
   return()
 endif()
 
-execute_process(COMMAND ${Matlab_MAIN_PROGRAM} -batch "run('${matgemini_SOURCE_DIR}/setup.m'), gemini3d.fileio.expanduser('~');"
+execute_process(COMMAND ${Matlab_MAIN_PROGRAM} -batch "run('${matgemini_SOURCE_DIR}/setup.m'), stdlib.fileio.expanduser('~');"
   TIMEOUT 90
   COMMAND_ERROR_IS_FATAL ANY)
 

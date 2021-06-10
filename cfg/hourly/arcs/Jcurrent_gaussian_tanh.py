@@ -1,31 +1,33 @@
-import typing as T
 import numpy as np
+import xarray
 
 
-def Jcurrent_gaussian_tanh(E: dict[str, T.Any], Nt: int, gridflag: int, flagdip: bool):
+def Jcurrent_gaussian_tanh(E: xarray.Dataset, gridflag: int, flagdip: bool) -> xarray.Dataset:
     """
     Set the top boundary shape (current density) and potential solve type
     flag.  Can be adjusted by user to achieve any desired shape.
     """
 
-    Jpk = E["Jtarg"]
+    Jpk = E.Jtarg
+    llon = E.mlon.size
+    llat = E.mlat.size
 
-    displace = 10 * E["mlatsig"]
-    mlatctr = E["mlatmean"] + displace * np.tanh((E["MLON"] - E["mlonmean"]) / (2 * E["mlonsig"]))
+    displace = 10 * E.mlatsig
+    mlatctr = E.mlatmean + displace * np.tanh((E.mlon - E.mlonmean) / (2 * E.mlonsig))
     # changed so the arc is wider compared to its twisting
-    for i in range(Nt):
-        E["flagdirich"][i] = 0
-        E["Vminx1it"][i, :, :] = np.zeros((E["llon"], E["llat"]))
+    for i, t in enumerate(E.time):
+        E["flagdirich"].loc[t] = 0
+        E["Vminx1it"].loc[t] = np.zeros((llon, llat))
         if i > 2:
-            E["Vmaxx1it"][i, :, :] = (
+            E["Vmaxx1it"].loc[t] = (
                 Jpk
-                * np.exp(-((E["MLON"] - E["mlonmean"]) ** 2) / 2 / E["mlonsig"] ** 2)
-                * np.exp(-((E["MLAT"] - mlatctr - 1.5 * E["mlatsig"]) ** 2) / 2 / E["mlatsig"] ** 2)
+                * np.exp(-((E.mlon - E.mlonmean) ** 2) / 2 / E.mlonsig ** 2)
+                * np.exp(-((E.mlat - mlatctr - 1.5 * E.mlatsig) ** 2) / 2 / E.mlatsig ** 2)
             )
-            E["Vmaxx1it"][i, :, :] = E["Vmaxx1it"][i, :, :] - Jpk * np.exp(
-                -((E["MLON"] - E["mlonmean"]) ** 2) / 2 / E["mlonsig"] ** 2
-            ) * np.exp(-((E["MLAT"] - mlatctr + 1.5 * E["mlatsig"]) ** 2) / 2 / E["mlatsig"] ** 2)
+            E["Vmaxx1it"].loc[t] = E["Vmaxx1it"].loc[t] - Jpk * np.exp(
+                -((E.mlon - E.mlonmean) ** 2) / 2 / E.mlonsig ** 2
+            ) * np.exp(-((E.mlat - mlatctr + 1.5 * E.mlatsig) ** 2) / 2 / E.mlatsig ** 2)
         else:
-            E["Vmaxx1it"][i, :, :] = np.zeros((E["llon"], E["llat"]))
+            E["Vmaxx1it"].loc[t] = np.zeros((llon, llat))
 
     return E

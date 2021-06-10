@@ -1,4 +1,4 @@
-function(model_setup in_dir out_dir name label equil)
+function(model_setup in_dir out_dir name label low_ram)
 
 if(NOT label STREQUAL equilibrium)
   get_equil(${in_dir} ${name})

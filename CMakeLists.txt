@@ -105,7 +105,7 @@ if(NOT type_label STREQUAL equilibrium)
 endif()
 
 # setup model
-model_setup(${in_dir} ${out_dir} ${name} ${type_label} ${equil})
+model_setup(${in_dir} ${out_dir} ${name} ${type_label} ${low_ram})
 
 # --- compare sim input
 compare_download(${out_dir} ${ref_root} ${name} ${type_label})

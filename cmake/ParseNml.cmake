@@ -1,5 +1,5 @@
 # need this here to keep modern syntax handling
-cmake_minimum_required(VERSION 3.19...${CMAKE_VERSION})
+cmake_minimum_required(VERSION 3.19)
 
 function(parse_nml nml_file var type)
 # get variable from Fortran namelist .nml file

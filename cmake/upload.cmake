@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20...${CMAKE_VERSION})
+cmake_minimum_required(VERSION 3.20)
 
 set(PACKAGE_REMOTE dropbox)
 

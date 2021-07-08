@@ -1,6 +1,3 @@
-# need this here to keep modern syntax handling
-cmake_minimum_required(VERSION 3.19)
-
 function(get_equil in name)
 
 cmake_path(APPEND nml_file ${in} config.nml)

@@ -92,6 +92,9 @@ foreach(in_dir ${equilibrium_dirs} ${hourly_dirs} ${daily_dirs})
 
 if(NOT IS_DIRECTORY ${in_dir})
   continue()  # stray file
+elseif(NOT EXISTS ${in_dir}/config.nml)
+  message(STATUS "${in_dir} does not contain config.nml")
+  continue()
 endif()
 
 cmake_path(GET in_dir PARENT_PATH _t)

@@ -2,6 +2,10 @@ function(parse_nml nml_file var type)
 # get variable from Fortran namelist .nml file
 # only looks for variable name, assumes unique variable names
 
+if(NOT EXISTS ${nml_file})
+  message(FATAL_ERROR "Namelist file ${nml_file} does not exist")
+endif()
+
 set(pre "${var}[ ]*=[ ]*")
 
 if(type STREQUAL "path")

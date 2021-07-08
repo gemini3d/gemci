@@ -24,28 +24,6 @@ else()
   return()
 endif()
 
-cmake_host_system_information(RESULT sys_info QUERY OS_NAME OS_PLATFORM)
-if(sys_info STREQUAL "macOS;arm64")
-  # Apple Silicon M1 workaround for hwloc et al:
-  # https://github.com/open-mpi/hwloc/issues/454
-  cmake_host_system_information(RESULT Nhybrid QUERY NUMBER_OF_PHYSICAL_CORES)
-
-  math(EXPR N "${Nhybrid} / 2")  # use only fast cores, else MPI tests very slow
-  if(N GREATER Ncpu)
-    set(N ${Ncpu})
-  endif()
-
-  while(N GREATER 2)
-    math(EXPR R "${Ncpu} % ${N}")
-    if(R EQUAL 0)
-      break()
-    endif()
-    math(EXPR N "${N} - 1")
-  endwhile()
-
-  set(Ncpu ${N})
-endif()
-
 set(plan_cpu ${Ncpu} PARENT_SCOPE)
 
 

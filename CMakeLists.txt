@@ -5,7 +5,7 @@
 cmake_minimum_required(VERSION 3.20...3.21)
 
 project(GeminiCI
-LANGUAGES NONE
+LANGUAGES C
 HOMEPAGE_URL https://github.com/gemini3d/gemini-examples
 DESCRIPTION "Long-running Gemini3D test cases"
 VERSION 0.1.0)
@@ -23,12 +23,7 @@ message(STATUS "simulation root directory ${GEMINI_SIMROOT}")
 include(cmake/ParseNml.cmake)
 
 find_package(Gemini3D REQUIRED)
-
-find_program(MPIEXEC_EXECUTABLE
-  NAMES mpiexec
-  HINTS MPI_ROOT ENV MPI_ROOT ENV I_MPI_ROOT
-  PATH_SUFFIXES bin
-  REQUIRED)
+find_package(MPI REQUIRED)
 
 # helper functions
 include(cmake/GetEquil.cmake)
@@ -40,8 +35,6 @@ include(cmake/GeminiPlot.cmake)
 include(cmake/GeminiPackage.cmake)
 
 set(ci_root ${CMAKE_CURRENT_SOURCE_DIR}/cfg)
-
-
 
 # --- PyGemini
 if(python)

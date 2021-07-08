@@ -90,6 +90,9 @@ endif()
 
 foreach(in_dir ${equilibrium_dirs} ${hourly_dirs} ${daily_dirs})
 
+if(NOT IS_DIRECTORY ${in_dir})
+  continue()  # stray file
+endif()
 
 cmake_path(GET in_dir PARENT_PATH _t)
 cmake_path(GET _t STEM type_label)

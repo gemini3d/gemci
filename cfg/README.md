@@ -20,14 +20,38 @@ These tests are intended to *supplement* (not replace) those already conducted a
 
 For each example there are sample commands showing how to run the example using ```mpirun``` on either a small workstation (4 cores) or a large workstation (16 cores).  MPI image splits can be adjusted accordingly to best leverage whatever system one runs from.  Each test description below also briefly describes the specific GEMINI features that the example in intended to test/verify.
 
+
+# Test 
+
+For each test documented below, we list:
+
+* *Dimensionality*
+* *Grid coordinate system*
+* *Grid periodicity*
+* *Grid size*
+* *Grid motion*
+* *Potential solver type*
+* *Potential boundary conditions*
+* *Precipitation boundary conditions*
+* *Neutral perturbations*
+
+to allow once to check specific integrated functionality for different combinations of solvers by choosing an appropriate (integration) test.  
+
+
 ##  arcs\_CI
 
-* Simulation of an auroral arc demonstrating FAC boundary conditions, nonuniform grids, and structured impact ionization
-* Designed to. test simultaneous function of precipitation and field-aligned current input
-* Tests 2D field-integrated solver using FAC input
-* Tests non-uniform 3D Cartesian mesh capabilities
+* Simulation of an auroral arc
+* Tests:
+	* *Dimensionality* - 3D
+	* *Grid coordinate system* - Cartesian
+	* *Grid periodicity* - aperiodic
+	* *Grid size* - 98 x 96 (nonuniform) x 96 (nonuniform)
+	* *Grid motion* - Eulerian
+	* *Potential solver type* - 2D field-integrated, Cartesian, noninertial
+	* *Potential boundary conditions* - Neumann via source terms
+	* *Precipitation boundary conditions* - auroral
+	* *Neutral perturbations* - none
 * corresponding eq simulation:  ./arcs_eq
-* grid size:  98 x 96 x 96
 * (future work) validation of currents using MATLAB scripts
 
 *Small workstation run:*
@@ -49,7 +73,8 @@ mpirun -np 16 ./gemini.bin ~/simulations/arcs_CI -manual_grid 4 4
 ## arcs\_CI magnetic fields
 
 * Calculates magnetic field perturbations after the arcs\_CI example has been completed.
-* Test magnetic field calculations against an archived reference
+* Tests:
+	* magnetic field calculations for a 3D Cartesian grid
 * (future work) Could also be further run using curl(H) script to validate magcalc...
 
 *Small workstation run:*
@@ -71,11 +96,19 @@ mpirun -np 16 ./magcalc.bin ~/simulations/arcs_CI -manual_grid 4 4 -debug -start
 
 ## GDI\_periodic\_lowres\_CI
 
-* Simulation of gradient-drift instability on a nonuniform, periodic, Lagrangian mesh
+* Simulation of gradient-drift instability
+* Tests:
+	* *Dimensionality* - 3D
+	* *Grid coordinate system* - Cartesian
+	* *Grid periodicity* - periodic in x3
+	* *Grid size* - 34 x 184 (nonuniform) x 48
+	* *Grid motion* - Lagrangian
+	* *Potential solver type* - 2D field integrated, Cartesian, inertial
+	* *Potential boundary conditions* - Neumann
+	* *Precipitation boundary conditions* - minimal, background
+	* *Neutral perturbations* - none
 * corresponding eq simulation:  ./GDIKHI_eq
-* tests field integrated solver with FAC boundary condition and background field; ionospheric capacitance option
 * tests Lagrangian mesh features
-* grid size:  34 x 184 x 48
 
 *Small workstation run:*
 
@@ -96,7 +129,6 @@ mpirun -np 16 ./gemini.bin ~/simulations/GDI_CI -manual_grid 4 4
 Testing restart with GDI example:
 
 
-
 ## Restarting GDI\_periodic\_lowres\_CI
 
 * The prior simulation may also be used to test the restart code for 3D simulations.  There is a milestone on the 6th (of 8th output).  By making a copy of the output and deleting the 7-8th outputs the same command can be run again to produce a restarted 7,8th output.
@@ -105,10 +137,18 @@ Testing restart with GDI example:
 
 ## KHI\_periodic\_lowres\_CI
 
-* Simulation of Kelvin-Helmholtz instability on a nonuniform, periodic grid
+* Simulation of Kelvin-Helmholtz instability
+* Tests:
+	* *Dimensionality* - 3D
+	* *Grid coordinate system* - Cartesian
+	* *Grid periodicity* - periodic in x3
+	* *Grid size* - 34 x 256 (nonuniform) x 128
+	* *Grid motion* - Eulerian
+	* *Potential solver type* - 2D, field integrated, Cartesian, inertial
+	* *Potential boundary conditions* - Neumann via source terms, specified Dirichlet in x2
+	* *Precipitation boundary conditions* - minimal, background
+	* *Neutral perturbations* - none
 * corresponding eq simulation:  ./GDIKHI_eq
-* tests field integrated solver with FAC boundary condition; magnetospheric capacitance option
-* grid size:  34 x 256 x 128
 
 *Small workstation run:*
 
@@ -130,10 +170,17 @@ mpirun -np 16 ./gemini.bin ~/simulations/KHI_CI -manual_grid 4 4
 ## tohoku20113D\_lowres\_3Dneu\_CI
 
 * 3D dipole simulation with 3D neutral perturbation input.
+* Tests:
+	* *Dimensionality* - 3D
+	* *Grid coordinate system* - closed dipole
+	* *Grid periodicity* - aperiodic
+	* *Grid size* - 512 x 128 x 48
+	* *Grid motion* - Eulerian
+	* *Potential solver type* - 2D field-integrated, Dipole, noninertial
+	* *Potential boundary conditions* - Neumann with neutral source terms
+	* *Precipitation boundary conditions* - none
+	* *Neutral perturbations* - 3D Cartesian
 * corresponding eq simulation:  ./tohoku20113D_eq
-* tests the 3D neutral input code, which is complicated to due grid overlap calculations
-* tests 2D field-integrated solver with neutral source terms
-* grid size:  384 x 96 x 64
 
 *Small workstation run:*
 
@@ -155,9 +202,17 @@ mpirun -np 16 ./gemini.bin ~/simulations/tohoku20113D_lowres_3Dneu_CI -manual_gr
 ## tohoku20113D\_lowres\_axineu\_CI
 
 * 3D dipole simulation with 2D axisymmetric perturbation input.
+* Tests:
+	* *Dimensionality* - 3D
+	* *Grid coordinate system* - closed dipole
+	* *Grid periodicity* - aperiodic
+	* *Grid size* - 512 x 128 x 48
+	* *Grid motion* - Eulerian
+	* *Potential solver type* - 2D field-integrated, Dipole, noninertial
+	* *Potential boundary conditions* - Neumann with neutral source terms
+	* *Precipitation boundary conditions* - none
+	* *Neutral perturbations* - 2D axisymmetric
 * corresponding eq simulation:  ./tohoku20113D_eq
-* tests the 2D axisymmetric neutral input code when applied to a 3D GEMINI grid
-* grid size:  384 x 96 x 64
 
 *Small workstation run:*
 
@@ -179,8 +234,17 @@ mpirun -np 16 ./gemini.bin ~/simulations/tohoku20113D_lowres_axineu_CI -manual_g
 ## tohoku20112D\_medres\_axineu\_CI
 
 * 2D Dipole grid simulation using axisymmetric neutral perturbations as input.
+* 	Tests:
+	* *Dimensionality* - 2D
+	* *Grid coordinate system* - closed dipole
+	* *Grid periodicity* - aperiodic
+	* *Grid size* - 512 x 512 x 1
+	* *Grid motion* - Eulerian
+	* *Potential solver type* - 2D field-resolved, dipole
+	* *Potential boundary conditions* - Neumann
+	* *Precipitation boundary conditions* - none
+	* *Neutral perturbations* - 2D axisymmetric
 * corresponding eq simulation:  ./tohoku20112D_eq
-* tests field-resolved 2D potential solver with neutral inputs (axisymmetric)
 * grid size:  512 x 512 x 1
 
 *Small workstation run:*
@@ -209,9 +273,17 @@ mpirun -np 16 ./gemini.bin ~/simulations/tohoku20112D_medres_axineu_CI
 ## tohoku20112D\_medres\_2Dneu\_CI
 
 * 2D Dipole grid simulation using 2D Cartesian neutral perturbations as input.
+* Tests:
+	* *Dimensionality* - 2D
+	* *Grid coordinate system* - closed dipole
+	* *Grid periodicity* - aperiodic
+	* *Grid size* - 512 x 512 x 1
+	* *Grid motion* - Eulerian
+	* *Potential solver type* - 2D field-resolved, dipole
+	* *Potential boundary conditions* - Neumann
+	* *Precipitation boundary conditions* - none
+	* *Neutral perturbations* - 2D Cartesian
 * corresponding eq simulation:  ./tohoku20112D_eq
-* tests field-resolved 2D potential solver with neutral inputs (2D Cartesian)
-* grid size:  512 x 512 x 1
 
 *Small workstation run:*
 
@@ -233,9 +305,17 @@ mpirun -np 16 ./gemini.bin ~/simulations/tohoku20112D_medres_2Dneu_CI
 ## cusp\_softprecip3D\_CI
 
 * 3D open dipole simulation with particle flux and FAC inputs
+* Tests:
+	* *Dimensionality* - 3D
+	* *Grid coordinate system* - open dipole
+	* *Grid periodicity* - aperiodic
+	* *Grid size* - 160 x 120 x 64
+	* *Grid motion* - Eulerian
+	* *Potential solver type* - 2D field integrated, dipole, noninertial
+	* *Potential boundary conditions* - Neumann via source terms
+	* *Precipitation boundary conditions* - auroral
+	* *Neutral perturbations* - none
 * corresponding eq simulation:  ./cusp3D_eq
-* tests field-resolved 2D potential solver on an open dipole grid
-* grid size:  160 x 120 x 64
 
 *Small workstation run:*
 
@@ -256,9 +336,17 @@ mpirun -np 16 ./gemini.bin ~/simulations/cusp_softprecip -manual_grid 4 4
 
 ## cusp\_softprecip2D\_Dirich\_CI
 
-* 3D open dipole simulation with particle flux and potential boudary condition inputs (Dirichlet problem)
+* 2D open dipole simulation with particle flux and potential boudary condition inputs (Dirichlet problem)
+	* *Dimensionality* - 2D
+	* *Grid coordinate system* - open dipole
+	* *Grid periodicity* - aperiodic
+	* *Grid size* - 160 x 128 x 1
+	* *Grid motion* - Eulerian
+	* *Potential solver type* - 2D field resolved, noninertial
+	* *Potential boundary conditions* - Dirichlet
+	* *Precipitation boundary conditions* - auroral
+	* *Neutral perturbations* - none
 * corresponding eq simulation:  ./cusp2D_eq
-* grid size:  160 x 128 x 1
 
 *Small workstation run:*
 
@@ -280,8 +368,17 @@ mpirun -np 16 ./gemini.bin ~/simulations/cusp_softprecip -manual_grid
 ## cusp\_softprecip2D\_Neu\_CI
 
 * 3D open dipole simulation with particle flux and FAC boundary inputs (Nuemann problem)
+* Tests:
+	* *Dimensionality* - 2D
+	* *Grid coordinate system* - open dipole
+	* *Grid periodicity* - aperiodic
+	* *Grid size* - 160 x 128 x 1
+	* *Grid motion* - Eulerian
+	* *Potential solver type* - 2D field resolved, noninertial
+	* *Potential boundary conditions* - Neumann
+	* *Precipitation boundary conditions* - auroral
+	* *Neutral perturbations* - none
 * corresponding eq simulation:  ./cusp2D_eq
-* tests field-resolved 2D potential solver on an open dipole grid with Neumann conditions
 * grid size:  160 x 128 x 1
 
 *Small workstation run:*

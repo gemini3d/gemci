@@ -25,7 +25,9 @@ COMMAND ${CMAKE_COMMAND} -Din:PATH=${out_dir}/plot_diff -Dout:FILEPATH=${out_dir
 set_tests_properties(plotdiff:output:${name} PROPERTIES
 TIMEOUT 30
 FIXTURES_CLEANUP ${name}:plotdiff_fxt
-LABELS "compare;plot;${label}")
+LABELS "compare;plot;${label}"
+REQUIRED_FILES ${out_dir}/output.nml
+)
 
 endfunction(compare_output)
 

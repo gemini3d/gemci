@@ -6,7 +6,6 @@
   "name": "default",
   "binaryDir": "${sourceDir}/build",
   "cacheVariables": {
-    "CMAKE_BUILD_TYPE": "Release",
     "python": true,
     "matlab": false,
     "package": false,

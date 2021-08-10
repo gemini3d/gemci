@@ -48,11 +48,12 @@ if(CTEST_MODEL STREQUAL Nightly OR CTEST_MODEL STREQUAL Continuous)
   endif()
 endif()
 
-if(NOT CMAKE_BUILD_TYPE AND NOT DEFINED ENV{CMAKE_BUILD_TYPE})
-  # RelWithDebInfo -O2, Release -O3
-  set(CMAKE_BUILD_TYPE Release)
-endif()
-list(APPEND opts -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE})
+# build_type not used in GemCI project, but in normal projects it would be used.
+# if(NOT CMAKE_BUILD_TYPE AND NOT DEFINED ENV{CMAKE_BUILD_TYPE})
+#   # RelWithDebInfo -O2, Release -O3
+#   set(CMAKE_BUILD_TYPE Release)
+# endif()
+# list(APPEND opts -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE})
 
 if(NOT DEFINED CTEST_SITE)
   if(DEFINED ENV{CTEST_SITE})

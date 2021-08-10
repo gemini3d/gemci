@@ -1,4 +1,4 @@
-set(_names matgemini pygemini)
+set(_names matgemini)
 
 file(READ ${CMAKE_CURRENT_LIST_DIR}/libraries.json _libj)
 

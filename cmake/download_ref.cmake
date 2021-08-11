@@ -1,5 +1,7 @@
 if(DEFINED ENV{CMAKE_MESSAGE_LOG_LEVEL})
   set(CMAKE_MESSAGE_LOG_LEVEL $ENV{CMAKE_MESSAGE_LOG_LEVEL})
+else()
+set(CMAKE_MESSAGE_LOG_LEVEL "VERBOSE")
 endif()
 
 function(download_ref name ref_root)

@@ -8,6 +8,8 @@ option(package "package reference data .zst files")
 
 if(DEFINED ENV{CMAKE_MESSAGE_LOG_LEVEL})
   set(CMAKE_MESSAGE_LOG_LEVEL $ENV{CMAKE_MESSAGE_LOG_LEVEL})
+else()
+  set(CMAKE_MESSAGE_LOG_LEVEL "VERBOSE")
 endif()
 
 cmake_host_system_information(RESULT host_ramMB QUERY TOTAL_PHYSICAL_MEMORY)

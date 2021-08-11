@@ -8,7 +8,7 @@ option(package "package reference data .zst files")
 
 if(DEFINED ENV{CMAKE_MESSAGE_LOG_LEVEL})
   set(CMAKE_MESSAGE_LOG_LEVEL $ENV{CMAKE_MESSAGE_LOG_LEVEL})
-else()
+elseif(NOT CMAKE_MESSAGE_LOG_LEVEL)
   set(CMAKE_MESSAGE_LOG_LEVEL "VERBOSE")
 endif()
 

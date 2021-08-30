@@ -11,7 +11,7 @@ if(NOT equil)
   REQUIRED_FILES ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/reference_url.json
   TIMEOUT 900
   FIXTURES_SETUP ${name}:eq_fxt
-  RESOURCE_LOCK ${eq_name}_eq_download_lock)  # avoids two tests trying to download same file at same time
+  RESOURCE_LOCK download_lock)
 endif()
 # get neutral input directory, if present
 parse_nml(${nml_file} "source_dir" "path")
@@ -27,7 +27,7 @@ LABELS "download;${label}"
 REQUIRED_FILES ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/reference_url.json
 TIMEOUT 7200
 FIXTURES_SETUP ${name}:eq_fxt  # no need for distinct fixture
-RESOURCE_LOCK ${eq_name}_neutral_download_lock)
+RESOURCE_LOCK download_lock)
 
 
 

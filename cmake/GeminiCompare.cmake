@@ -67,7 +67,7 @@ FIXTURES_REQUIRED ${name}:setup_fxt
 REQUIRED_FILES ${out_dir}/inputs/config.nml
 # not required output.nml since we may want to compare just input without running sim
 LABELS "download;${label}"
-RESOURCE_LOCK ${name}_compare_download_lock
+RESOURCE_LOCK download_lock
 TIMEOUT 600)
 
 endfunction(compare_download)

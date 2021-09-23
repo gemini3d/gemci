@@ -53,7 +53,7 @@
   "filter": {"include": {"label": "setup"}}
 },
 {
-  "name": "regen-package", "inherits": "default",
+  "name": "regen", "inherits": "default",
   "configurePreset": "regen",
   "description": "Regenerates .zstd reference data, by disabling compare",
   "filter": {

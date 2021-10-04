@@ -18,7 +18,7 @@ include(cmake/options.cmake)
 include(cmake/libraries.cmake)
 
 include(cmake/get_simroot.cmake)
-message(STATUS "simulation root directory ${GEMINI_SIMROOT}")
+message(STATUS "simulation root directory ${GEMINI_CIROOT}")
 
 include(cmake/ParseNml.cmake)
 
@@ -58,7 +58,7 @@ file(GLOB daily_dirs LIST_DIRECTORIES true "${ci_root}/daily/*")
 # --- init package directory and ref json
 if(package)
   string(TIMESTAMP package_date "%Y-%m-%d" UTC)
-  cmake_path(APPEND upload_root ${GEMINI_SIMROOT} upload-${package_date})
+  cmake_path(APPEND upload_root ${GEMINI_CIROOT} upload-${package_date})
   cmake_path(APPEND ref_json_file ${upload_root} ref_data.json)
 
   execute_process(COMMAND ${GEMINI_RUN} -git
@@ -96,7 +96,7 @@ cmake_path(GET in_dir FILENAME name)
 
 message(DEBUG "${name}: ${type_label}")
 
-cmake_path(APPEND out_dir ${GEMINI_SIMROOT} ${name})
+cmake_path(APPEND out_dir ${GEMINI_CIROOT} ${name})
 
 # input data download (if not an equilibrium itself)
 if(NOT type_label STREQUAL equilibrium)
@@ -132,7 +132,7 @@ gemini_plot(${out_dir} ${name} ${type_label})
 
 # --- package upload
 if(package)
-  gemini_package(${GEMINI_SIMROOT} ${out_dir} ${ref_json_file} ${name} ${type_label})
+  gemini_package(${GEMINI_CIROOT} ${out_dir} ${ref_json_file} ${name} ${type_label})
 endif()
 
 endforeach()

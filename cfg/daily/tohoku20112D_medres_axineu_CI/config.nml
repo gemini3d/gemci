@@ -32,7 +32,7 @@ flagsource=1
 nmf=5e11
 nme=2e11
 
-eq_dir = '@GEMINI_SIMROOT@/tohoku2d_eq'
+eq_dir = '@GEMINI_CIROOT@/tohoku2d_eq'
 /
 
 &files
@@ -52,7 +52,7 @@ dzn = 5000.0
 drhon = 8333.3
 !dzn = 1000.0
 !drhon = 1000.0
-source_dir = '@GEMINI_SIMROOT@/acoustic2D_axisymmetric_neutrals'
+source_dir = '@GEMINI_CIROOT@/acoustic2D_axisymmetric_neutrals'
 /
 
 &milestone

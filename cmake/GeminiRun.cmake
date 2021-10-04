@@ -16,6 +16,6 @@ set_tests_properties("run:${name}" PROPERTIES
   FIXTURES_REQUIRED "${name}:setup_fxt;${name}:inputOK_fxt"
   TIMEOUT 43200
   RESOURCE_LOCK cpu_mpi
-  ENVIRONMENT GEMINI_SIMROOT=${GEMINI_SIMROOT})
+  ENVIRONMENT GEMINI_CIROOT=${GEMINI_CIROOT})
 
 endfunction(gemini_run)

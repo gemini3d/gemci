@@ -15,7 +15,7 @@ if(python AND py_ok)
     LABELS "setup;python;${label}"
     FIXTURES_SETUP ${name}:setup_fxt
     TIMEOUT 900
-    ENVIRONMENT GEMINI_SIMROOT=${GEMINI_SIMROOT}
+    ENVIRONMENT GEMINI_CIROOT=${GEMINI_CIROOT}
     FIXTURES_REQUIRED "${name}:eq_fxt;${eq_name}:run_fxt")
 
   if(low_ram)

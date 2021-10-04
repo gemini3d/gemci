@@ -1,11 +1,11 @@
 # the directory where all simulation output dirs are under.
 # Since we use one sim to drive another, and we don't want to
 # erase long runs
-if(NOT GEMINI_SIMROOT AND DEFINED ENV{GEMINI_SIMROOT})
-  set(GEMINI_SIMROOT $ENV{GEMINI_SIMROOT})
+if(NOT GEMINI_CIROOT AND DEFINED ENV{GEMINI_CIROOT})
+  set(GEMINI_CIROOT $ENV{GEMINI_CIROOT})
 endif()
 
-if(NOT GEMINI_SIMROOT)
+if(NOT GEMINI_CIROOT)
   foreach(d ~/simulations ~/sims)
     if(CMAKE_VERSION VERSION_LESS 3.21)
       get_filename_component(d ${d} ABSOLUTE)
@@ -13,25 +13,25 @@ if(NOT GEMINI_SIMROOT)
       file(REAL_PATH ${d} d EXPAND_TILDE)
     endif()
     if(IS_DIRECTORY ${d})
-      set(GEMINI_SIMROOT ${d})
+      set(GEMINI_CIROOT ${d})
       break()
     endif()
   endforeach()
 endif()
 
-if(NOT GEMINI_SIMROOT)
-  set(GEMINI_SIMROOT ~/sims)
+if(NOT GEMINI_CIROOT)
+  set(GEMINI_CIROOT ~/sims)
 endif()
 
 if(CMAKE_VERSION VERSION_LESS 3.21)
-  get_filename_component(GEMINI_SIMROOT ${GEMINI_SIMROOT} ABSOLUTE)
+  get_filename_component(GEMINI_CIROOT ${GEMINI_CIROOT} ABSOLUTE)
 else()
-  file(REAL_PATH ${GEMINI_SIMROOT} GEMINI_SIMROOT EXPAND_TILDE)
+  file(REAL_PATH ${GEMINI_CIROOT} GEMINI_CIROOT EXPAND_TILDE)
 endif()
-cmake_path(APPEND ref_root ${GEMINI_SIMROOT} test_ref)
+cmake_path(APPEND ref_root ${GEMINI_CIROOT} test_ref)
 
-if(NOT IS_DIRECTORY ${GEMINI_SIMROOT})
-  file(MAKE_DIRECTORY ${GEMINI_SIMROOT})
+if(NOT IS_DIRECTORY ${GEMINI_CIROOT})
+  file(MAKE_DIRECTORY ${GEMINI_CIROOT})
 endif()
 
 if(NOT IS_DIRECTORY ${ref_root})

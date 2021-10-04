@@ -2,10 +2,10 @@ set(ARC_TYPE zst)
 # prefer .zst to .zstd as tools are better at recognizing .zst
 
 
-function(gemini_package GEMINI_SIMROOT out_dir ref_json_file name label)
+function(gemini_package GEMINI_CIROOT out_dir ref_json_file name label)
 
 cmake_path(APPEND archive ${upload_root} ${name}.${ARC_TYPE})
-cmake_path(APPEND data_dir ${GEMINI_SIMROOT} ${name})
+cmake_path(APPEND data_dir ${GEMINI_CIROOT} ${name})
 
 add_test(NAME "package:archive:${name}"
   COMMAND ${CMAKE_COMMAND} -Din:PATH=${data_dir} -Dout:FILEPATH=${archive} -Dref_json_file:FILEPATH=${ref_json_file} -Dname=${name} -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/archive.cmake)

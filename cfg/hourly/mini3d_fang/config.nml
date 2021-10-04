@@ -40,7 +40,7 @@ E0precip = 5e3
 Etarg = 50e-3   ! V/m
 Efield_latwidth = 0
 Efield_lonwidth = 0.142857
-eq_dir = '@GEMINI_SIMROOT@/mini3d_eq'
+eq_dir = '@GEMINI_CIROOT@/mini3d_eq'
 /
 
 &precip

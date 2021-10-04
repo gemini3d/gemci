@@ -11,7 +11,7 @@ if(python AND py_ok)
     FIXTURES_SETUP ${name}:package_fxt
     TIMEOUT 7200
     REQUIRED_FILES "${out_dir}/inputs/config.nml;${out_dir}/output.nml"
-    ENVIRONMENT GEMINI_SIMROOT=${GEMINI_SIMROOT})
+    ENVIRONMENT GEMINI_CIROOT=${GEMINI_CIROOT})
 
   if(low_ram)
     set_tests_properties("plot:python:${name}" PROPERTIES RESOURCE_LOCK cpu_mpi)

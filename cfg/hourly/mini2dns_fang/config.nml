@@ -38,7 +38,7 @@ Qprecip_background = 0.0
 E0precip = 5e3
 Etarg = 50e-3   ! V/m
 Efield_latwidth = 0.142857
-eq_dir = '@GEMINI_SIMROOT@/mini2dns_eq'
+eq_dir = '@GEMINI_CIROOT@/mini2dns_eq'
 /
 
 &precip

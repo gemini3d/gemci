@@ -2,7 +2,7 @@
 # version and/or Git tag that we wish to use as a milestone.
 
 # We use a lot of recent CMake features for CI.
-cmake_minimum_required(VERSION 3.20...3.21)
+cmake_minimum_required(VERSION 3.20...3.22)
 
 project(GeminiCI
 LANGUAGES C
@@ -122,7 +122,7 @@ if(py_ok)
 endif()
 
 # --- run
-gemini_run(${GEMINI_RUN} ${out_dir} ${name} ${type_label})
+gemini_run(${out_dir} ${name} ${type_label})
 
 # --- compare sim output
 compare_output(${GEMINI_COMPARE} ${out_dir} ${ref_root} ${name} ${type_label})

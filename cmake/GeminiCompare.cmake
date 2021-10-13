@@ -12,7 +12,6 @@ endif()
 add_test(NAME compare:output:${name} COMMAND ${cmd})
 
 set_tests_properties(compare:output:${name} PROPERTIES
-DISABLED $<NOT:$<BOOL:${compare_exe}>>
 LABELS "compare;${label}"
 FIXTURES_REQUIRED "${name}:run_fxt;${name}:compare_fxt"
 FIXTURES_SETUP ${name}:plotdiff_fxt
@@ -46,7 +45,6 @@ endif()
 add_test(NAME compare:input:${name} COMMAND ${cmd})
 
 set_tests_properties(compare:input:${name} PROPERTIES
-DISABLED $<NOT:$<BOOL:${compare_exe}>>
 LABELS "compare;${label}"
 FIXTURES_REQUIRED ${name}:compare_fxt
 FIXTURES_SETUP ${name}:inputOK_fxt

@@ -14,7 +14,7 @@ add_test(NAME "run_bounds_check:${name}"
   WORKING_DIRECTORY ${run_parent}
 )
 set_tests_properties("run_bounds_check:${name}" PROPERTIES
-  DISABLED $<NOT:$<BOOL:GEMINI_RUN_BOUNDS_CHECK>>
+  DISABLED $<NOT:$<BOOL:${GEMINI_RUN_BOUNDS_CHECK}>>
   LABELS "run;${label}"
   FIXTURES_SETUP ${name}:run_bounds_fxt
   FIXTURES_REQUIRED "${name}:setup_fxt;${name}:inputOK_fxt"

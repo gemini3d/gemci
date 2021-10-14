@@ -111,15 +111,16 @@ compare_download(${out_dir} ${ref_root} ${name} ${type_label})
 compare_input(${GEMINI_COMPARE} ${out_dir} ${ref_root} ${name} ${type_label})
 
 # check that scripts can read grid
-if(py_ok)
+if(python)
   add_test(NAME "read_grid:python:${name}"
     COMMAND ${Python_EXECUTABLE} -c "import gemini3d.read; xg = gemini3d.read.grid('${out_dir}'); print(xg['lx'])")
   set_tests_properties("read_grid:python:${name}" PROPERTIES
     REQUIRED_FILES ${out_dir}/inputs/simgrid.h5
     FIXTURES_REQUIRED ${name}:setup_fxt
     LABELS python
+    DISABLED $<NOT:$<BOOL:${py_ok}>>
     TIMEOUT 30)
-endif()
+endif(python)
 
 # --- run
 gemini_run(${out_dir} ${name} ${type_label})

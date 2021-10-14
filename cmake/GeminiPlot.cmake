@@ -1,6 +1,6 @@
 function(gemini_plot out_dir name label)
 
-if(python AND py_ok)
+if(python)
 
   add_test(NAME "plot:python:${name}"
     COMMAND ${Python_EXECUTABLE} -m gemini3d.plot ${out_dir} all)
@@ -11,13 +11,15 @@ if(python AND py_ok)
     FIXTURES_SETUP ${name}:package_fxt
     TIMEOUT 7200
     REQUIRED_FILES "${out_dir}/inputs/config.nml;${out_dir}/output.nml"
-    ENVIRONMENT GEMINI_CIROOT=${GEMINI_CIROOT})
+    ENVIRONMENT GEMINI_CIROOT=${GEMINI_CIROOT}
+    DISABLED $<NOT:$<BOOL:${py_ok}>>
+    )
 
   if(low_ram)
     set_tests_properties("plot:python:${name}" PROPERTIES RESOURCE_LOCK cpu_mpi)
   endif()
 
-elseif(matlab AND MATGEMINI_DIR)
+elseif(matlab)
 
   add_matlab_test("plot:matlab:${name}" "gemini3d.plot.plotall('${out_dir}', 'png')")
 
@@ -26,7 +28,9 @@ elseif(matlab AND MATGEMINI_DIR)
     FIXTURES_REQUIRED ${name}:run_fxt
     FIXTURES_SETUP ${name}:package_fxt
     TIMEOUT 7200
-    REQUIRED_FILES "${out_dir}/inputs/config.nml;${out_dir}/output.nml")
+    REQUIRED_FILES "${out_dir}/inputs/config.nml;${out_dir}/output.nml"
+    DISABLED $<NOT:$<BOOL:${MATGEMINI_DIR}>>
+    )
 
   if(low_ram)
     set_tests_properties("plot:matlab:${name}" PROPERTIES RESOURCE_LOCK cpu_mpi)

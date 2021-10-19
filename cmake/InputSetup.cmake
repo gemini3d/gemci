@@ -4,7 +4,7 @@ get_equil(${in_dir} ${name})
 
 if(NOT equil)
   add_test(NAME "setup:download_equilibrium:${name}"
-  COMMAND ${CMAKE_COMMAND} -Dinput_dir:PATH=${eq_dir} -Dname=${name} -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/download_input.cmake)
+  COMMAND ${CMAKE_COMMAND} -Dinput_dir:PATH=${eq_dir} -Dname=${name} -Dinput_type=tests -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/download_input.cmake)
 
   set_tests_properties("setup:download_equilibrium:${name}" PROPERTIES
   LABELS "download;${label}"
@@ -20,7 +20,7 @@ if(NOT source_dir)
 endif()
 
 add_test(NAME "setup:download_neutral:${name}"
-COMMAND ${CMAKE_COMMAND} -Dinput_dir:PATH=${source_dir} -Dname=${name} -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/download_input.cmake)
+COMMAND ${CMAKE_COMMAND} -Dinput_dir:PATH=${source_dir} -Dname=${name} -Dinput_type=neutrals -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/download_input.cmake)
 
 set_tests_properties("setup:download_neutral:${name}" PROPERTIES
 LABELS "download;${label}"

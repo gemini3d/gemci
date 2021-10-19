@@ -5,7 +5,7 @@ elseif(NOT CMAKE_MESSAGE_LOG_LEVEL)
 endif()
 
 
-function(download_input input_dir name)
+function(download_input input_dir name input_type)
 
 string(REGEX REPLACE "[\\/]+$" "" input_dir "${input_dir}") # must strip trailing slash for cmake_path(... FILENAME) to work
 cmake_path(GET input_dir FILENAME input_name)
@@ -14,10 +14,10 @@ if(NOT input_name)
 endif()
 
 file(READ ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/ref_data.json _refj)
-string(JSON url GET ${_refj} neutrals ${input_name} url)
-string(JSON archive_name GET ${_refj} neutrals ${input_name} archive)
+string(JSON url GET ${_refj} ${input_type} ${input_name} url)
+string(JSON archive_name GET ${_refj} ${input_type} ${input_name} archive)
 # optional checksum
-string(JSON hash ERROR_VARIABLE e GET ${_refj} neutrals ${input_name} sha256)
+string(JSON hash ERROR_VARIABLE e GET ${_refj} ${input_type} ${input_name} sha256)
 
 cmake_path(GET input_dir PARENT_PATH input_root)
 cmake_path(APPEND archive ${input_root} ${archive_name})
@@ -68,4 +68,4 @@ file(WRITE ${input_dir}/sha256sum.txt ${archive_hash})
 endfunction(download_input)
 
 
-download_input(${input_dir} ${name})
+download_input(${input_dir} ${name} ${input_type})

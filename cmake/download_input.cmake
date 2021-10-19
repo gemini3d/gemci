@@ -13,11 +13,11 @@ if(NOT input_name)
   message(FATAL_ERROR "${name}: ${input_dir} seems malformed, could not get directory name ${input_name}")
 endif()
 
-file(READ ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/reference_url.json _refj)
-string(JSON url GET ${_refj} ${input_name} url)
-string(JSON archive_name GET ${_refj} ${input_name} archive)
+file(READ ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/ref_data.json _refj)
+string(JSON url GET ${_refj} neutrals ${input_name} url)
+string(JSON archive_name GET ${_refj} neutrals ${input_name} archive)
 # optional checksum
-string(JSON hash ERROR_VARIABLE e GET ${_refj} ${input_name} sha256)
+string(JSON hash ERROR_VARIABLE e GET ${_refj} neutrals ${input_name} sha256)
 
 cmake_path(GET input_dir PARENT_PATH input_root)
 cmake_path(APPEND archive ${input_root} ${archive_name})

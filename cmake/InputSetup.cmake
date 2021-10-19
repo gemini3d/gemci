@@ -8,7 +8,7 @@ if(NOT equil)
 
   set_tests_properties("setup:download_equilibrium:${name}" PROPERTIES
   LABELS "download;${label}"
-  REQUIRED_FILES ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/reference_url.json
+  REQUIRED_FILES ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/ref_data.json
   TIMEOUT 900
   FIXTURES_SETUP ${name}:eq_fxt
   RESOURCE_LOCK download_lock)
@@ -24,7 +24,7 @@ COMMAND ${CMAKE_COMMAND} -Dinput_dir:PATH=${source_dir} -Dname=${name} -P ${CMAK
 
 set_tests_properties("setup:download_neutral:${name}" PROPERTIES
 LABELS "download;${label}"
-REQUIRED_FILES ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/reference_url.json
+REQUIRED_FILES ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/ref_data.json
 TIMEOUT 7200
 FIXTURES_SETUP ${name}:eq_fxt  # no need for distinct fixture
 RESOURCE_LOCK download_lock)

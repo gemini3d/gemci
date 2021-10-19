@@ -11,11 +11,11 @@ if(NOT IS_DIRECTORY ${ref_root})
   message(FATAL_ERROR "must provide 'ref_root' e.g. ~/simulations/ref_data")
 endif()
 
-file(READ ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/reference_url.json _refj)
-string(JSON url GET ${_refj} ${name} url)
-string(JSON archive_name GET ${_refj} ${name} archive)
+file(READ ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/ref_data.json _refj)
+string(JSON url GET ${_refj} tests ${name} url)
+string(JSON archive_name GET ${_refj} tests ${name} archive)
 # optional checksum
-string(JSON hash ERROR_VARIABLE e GET ${_refj} ${name} sha256)
+string(JSON hash ERROR_VARIABLE e GET ${_refj} tests ${name} sha256)
 
 cmake_path(APPEND ref_dir ${ref_root} ${name})
 cmake_path(APPEND archive ${ref_root} ${archive_name})

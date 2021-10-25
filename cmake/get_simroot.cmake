@@ -6,21 +6,11 @@ if(NOT GEMINI_CIROOT AND DEFINED ENV{GEMINI_CIROOT})
 endif()
 
 if(NOT GEMINI_CIROOT)
-  foreach(d ~/simulations ~/sims)
-    if(CMAKE_VERSION VERSION_LESS 3.21)
-      get_filename_component(d ${d} ABSOLUTE)
-    else()
-      file(REAL_PATH ${d} d EXPAND_TILDE)
-    endif()
-    if(IS_DIRECTORY ${d})
-      set(GEMINI_CIROOT ${d})
-      break()
-    endif()
-  endforeach()
-endif()
+  message(FATAL_ERROR "please specify GEMINI_CIROOT, either by:
 
-if(NOT GEMINI_CIROOT)
-  set(GEMINI_CIROOT ~/sims)
+  * set environment variable GEMINI_CIROOT
+  * at configure time:  cmake -DGEMINI_CIROOT:PATH=/path/to/CI-data
+  ")
 endif()
 
 if(CMAKE_VERSION VERSION_LESS 3.21)

@@ -1,3 +1,4 @@
+from __future__ import annotations
 import typing as T
 import xarray
 import numpy as np
@@ -7,9 +8,7 @@ import gemini3d.read
 from gemini3d.config import datetime_range
 
 
-def perturb_efield(
-    cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any], params: T.Dict[str, float] = None
-):
+def perturb_efield(cfg: dict[str, T.Any], xg: dict[str, T.Any], params: dict[str, float] = None):
     """Electric field boundary conditions and initial condition for KHI case arguments"""
 
     if not params:
@@ -37,7 +36,7 @@ def perturb_efield(
 
     nsscale = init_profile(xg, dat)
 
-    nsperturb = perturb_density(xg, dat, nsscale, x1, x2, params)
+    nsperturb = perturb_density(cfg, xg, dat, nsscale, x1, x2, params)
 
     # %% compute initial potential, background
     Phitop = potential_bg(x2, lx2, lx3, params)
@@ -55,7 +54,7 @@ def perturb_efield(
     create_Efield(cfg, xg, params)
 
 
-def init_profile(xg: T.Dict[str, T.Any], dat: xarray.Dataset) -> np.ndarray:
+def init_profile(xg: dict[str, T.Any], dat: xarray.Dataset) -> np.ndarray:
 
     lsp = dat["ns"].shape[0]
 
@@ -80,17 +79,25 @@ def init_profile(xg: T.Dict[str, T.Any], dat: xarray.Dataset) -> np.ndarray:
 
 
 def perturb_density(
-    xg: T.Dict[str, T.Any],
+    cfg: dict[str, T.Any],
+    xg: dict[str, T.Any],
     dat: xarray.Dataset,
     nsscale: np.ndarray,
     x1: np.ndarray,
     x2: np.ndarray,
-    params: T.Dict[str, float],
+    params: dict[str, float],
 ) -> np.ndarray:
     """
     because this is derived from current density it is invariant with respect
     to frame of reference.
     """
+
+    # %% if user sets random seed for simulation generation, set it once
+    if "random_seed_init" in cfg:
+        rng = np.random.Generator(np.random.MT19937(seed=cfg["random_seed_init"]))
+    else:
+        rng = np.random.default_rng()
+
     lsp = dat["ns"].shape[0]
 
     nsperturb = np.zeros_like(dat["ns"])
@@ -98,12 +105,12 @@ def perturb_density(
     for i in range(lsp):
         for ix2 in range(xg["lx"][1]):
             # 3D noise
-            # amplitude = np.random.randn(xg["lx"][0], 1, xg["lx"][2])
+            # amplitude = rng.standard_normal((xg["lx"][0], 1, xg["lx"][2]))
             # AGWN
             # amplitude = 0.01*amplitude
 
             # 2D noise
-            amplitude = np.random.randn(xg["lx"][2])
+            amplitude = rng.standard_normal(xg["lx"][2])
             amplitude = moving_average(amplitude, 10)
             amplitude = 0.01 * amplitude
 
@@ -144,7 +151,7 @@ def perturb_density(
     return nsperturb
 
 
-def potential_bg(x2: np.ndarray, lx2: int, lx3: int, params: T.Dict[str, float]) -> np.ndarray:
+def potential_bg(x2: np.ndarray, lx2: int, lx3: int, params: dict[str, float]) -> np.ndarray:
 
     vel3 = np.empty((lx2, lx3))
     for i in range(lx3):

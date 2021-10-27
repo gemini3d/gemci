@@ -1,15 +1,21 @@
+from __future__ import annotations
 import typing as T
 import numpy as np
-import numpy.random
 
 import gemini3d.read
 import gemini3d.write
 
 
-def perturb(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
+def perturb(cfg: dict[str, T.Any], xg: dict[str, T.Any]):
     """
     perturb plasma from initial_conditions file
     """
+
+    # %% if user sets random seed for simulation generation, set it once
+    if "random_seed_init" in cfg:
+        rng = np.random.Generator(np.random.MT19937(seed=cfg["random_seed_init"]))
+    else:
+        rng = np.random.default_rng()
 
     # %% READ IN THE SIMULATION INFORMATION
     # trim ghost cells
@@ -48,7 +54,7 @@ def perturb(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     nsperturb = np.zeros_like(ns)
     for i in range(lsp - 1):
         for j in range(xg["lx"][1]):
-            amplitude = numpy.random.standard_normal([xg["lx"][0], xg["lx"][2]])
+            amplitude = rng.standard_normal([xg["lx"][0], xg["lx"][2]])
             # AWGN - note that can result in subtractive effects on density so apply a floor later!!!
             amplitude = 0.01 * amplitude
             # amplitude standard dev. is scaled to be 1% of reference profile

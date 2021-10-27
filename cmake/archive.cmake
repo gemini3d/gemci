@@ -1,4 +1,4 @@
-function(make_archive in out ref_json_file name)
+function(make_archive in out ref_json_file name gemini_version)
 
 cmake_path(GET out EXTENSION LAST_ONLY ARC_TYPE)
 cmake_path(GET out FILENAME archive_name)
@@ -39,6 +39,8 @@ if(fsize LESS 10000)
   message(FATAL_ERROR "Archive ${out} may be malformed.")
 endif()
 
+message(STATUS "Created archive ${out}")
+
 # put hash in JSON
 file(SHA256 ${out} hash)
 file(READ ${ref_json_file} ref_json)
@@ -50,8 +52,11 @@ endif()
 string(JSON ref_json SET ${ref_json} tests ${name} "{}")
 string(JSON ref_json SET ${ref_json} tests ${name} archive \"${archive_name}\")
 string(JSON ref_json SET ${ref_json} tests ${name} sha256 \"${hash}\")
+string(JSON ref_json SET ${ref_json} tests ${name} gemini3d_version \"${gemini_version}\")
 file(WRITE ${ref_json_file} ${ref_json})
+
+message(STATUS "Updated ${ref_json_file}")
 
 endfunction(make_archive)
 
-make_archive(${in} ${out} ${ref_json_file} ${name})
+make_archive(${in} ${out} ${ref_json_file} ${name} ${gemini_version})

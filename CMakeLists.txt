@@ -62,7 +62,7 @@ if(package)
   cmake_path(APPEND ref_json_file ${upload_root} ref_data.json)
 
   execute_process(COMMAND ${GEMINI_RUN} -git
-    OUTPUT_VARIABLE git_rev
+    OUTPUT_VARIABLE GEMINI_VERSION
     OUTPUT_STRIP_TRAILING_WHITESPACE
     TIMEOUT 5
     COMMAND_ERROR_IS_FATAL ANY)

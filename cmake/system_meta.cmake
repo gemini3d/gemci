@@ -31,7 +31,7 @@ if(NOT m)
   string(JSON ref_json SET ${ref_json} gemini3d "{}")
 endif()
 
-string(JSON ref_json SET ${ref_json} gemini3d version \"${git_rev}\")
+string(JSON ref_json SET ${ref_json} gemini3d version \"${GEMINI_VERSION}\")
 if(git_branch)
   string(JSON ref_json SET ${ref_json} gemini3d git_branch \"${git_branch}\")
 endif(git_branch)

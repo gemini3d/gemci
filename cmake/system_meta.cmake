@@ -16,22 +16,14 @@ endif()
 
 string(JSON ref_json SET ${ref_json} system cmake_version \"${CMAKE_VERSION}\")
 
-# not relevant for GemCI itself
-# string(JSON ref_json SET ${ref_json} system cmake_build_type \"${CMAKE_BUILD_TYPE}\")
+# CMAKE_BUILD_TYPE, CMAKE_*_COMPILER_ID not relevant for GemCI itself
 
 string(JSON ref_json SET ${ref_json} system operating_system \"${CMAKE_HOST_SYSTEM_NAME}\")
 string(JSON ref_json SET ${ref_json} system cpu \"${host_cpu}\")
 string(JSON ref_json SET ${ref_json} system memory_ram_MB ${host_ramMB})
-if(CMAKE_Fortran_COMPILER_ID)
-  string(JSON ref_json SET ${ref_json} system fortran_compiler \"${CMAKE_Fortran_COMPILER_ID}:${CMAKE_Fortran_COMPILER_VERSION}\")
-elseif(fortran_compiler)
+if(fortran_compiler)
   string(JSON ref_json SET ${ref_json} system fortran_compiler \"${fortran_compiler}\")
 endif()
-
-# not relevant for GemCI itself
-# if(CMAKE_C_COMPILER_ID)
-#   string(JSON ref_json SET ${ref_json} system c_compiler \"${CMAKE_C_COMPILER_ID}:${CMAKE_C_COMPILER_VERSION}\")
-# endif(CMAKE_C_COMPILER_ID)
 
 # check if tag exists, create if not
 string(JSON m ERROR_VARIABLE e GET ${ref_json} gemini3d)

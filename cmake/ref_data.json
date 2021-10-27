@@ -47,14 +47,16 @@
     "GDI_periodic_lowres" :
     {
       "archive" : "GDI_periodic_lowres.zst",
-      "sha256" : "aed0d499fb04416b10664fbefddcd53816ebf7235f5de04b7d6998de363c39f0",
-      "url" : "https://www.dropbox.com/s/l9kmza4ys0990h9/GDI_periodic_lowres.zst?dl=1"
+      "sha256" : "c746fc58113dfd026bb3e9e60528282c5b9bbf7198dd364b48b0b97ec9129b8c",
+      "url" : "https://www.dropbox.com/s/4ke3g2xrqjxubsi/GDI_periodic_lowres.zst?dl=1",
+      "gemini3d_version" : "v1.1.1-14-g0fa0a117 1.1.1"
     },
     "KHI_periodic_lowres" :
     {
       "archive" : "KHI_periodic_lowres.zst",
-      "sha256" : "81a56937bdeed68665baffb5d8cf4a9f377568eef3c6396daa50ae6f95ccedb7",
-      "url" : "https://www.dropbox.com/s/5zcl06wkpbh6obb/KHI_periodic_lowres.zst?dl=1"
+      "sha256" : "f851feea0f1f073ba0b4071b3513bd1bcd61dc2da07479ca0b4fd601e88cf3b3",
+      "url" : "https://www.dropbox.com/s/7k1rk0lurbnkvmz/KHI_periodic_lowres.zst?dl=1",
+      "gemini3d_version" : "v1.1.1-14-g0fa0a117 1.1.1"
     },
     "arcs" :
     {

@@ -8,29 +8,32 @@ cmake_path(APPEND archive ${upload_root} ${name}.${ARC_TYPE})
 cmake_path(APPEND data_dir ${GEMINI_CIROOT} ${name})
 
 add_test(NAME "package:archive:${name}"
-  COMMAND ${CMAKE_COMMAND} -Din:PATH=${data_dir} -Dout:FILEPATH=${archive} -Dref_json_file:FILEPATH=${ref_json_file} -Dgemini_version=${GEMINI_VERSION} -Dname=${name} -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/archive.cmake)
+COMMAND ${CMAKE_COMMAND} -Din:PATH=${data_dir} -Dout:FILEPATH=${archive} -Dref_json_file:FILEPATH=${ref_json_file} -Dgemini_version=${GEMINI_VERSION} -Dname=${name} -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/archive.cmake
+)
 
 set_tests_properties("package:archive:${name}" PROPERTIES
-  FIXTURES_REQUIRED ${name}:package_fxt
-  FIXTURES_SETUP ${name}:upload_fxt
-  RESOURCE_LOCK package_rclone # prevent race ref_data.json between archive.cmake and upload.cmake
-  LABELS "package;${label}"
-  REQUIRED_FILES "${data_dir}/inputs/config.nml;${data_dir}/output.nml"
-  TIMEOUT 120)
+FIXTURES_REQUIRED ${name}:package_fxt
+FIXTURES_SETUP ${name}:upload_fxt
+RESOURCE_LOCK package_rclone # prevent race ref_data.json between archive.cmake and upload.cmake
+LABELS "package;${label}"
+REQUIRED_FILES "${data_dir}/inputs/config.nml;${data_dir}/output.nml"
+TIMEOUT 120
+)
 
 find_program(rclone NAMES rclone)
 
 add_test(NAME "package:upload:${name}"
-  COMMAND ${CMAKE_COMMAND} -Darchive:FILEPATH=${archive} -Dout_dir:PATH=${out_dir} -Dref_json_file:FILEPATH=${ref_json_file} -Dname=${name} -Dupload_root:PATH=gemini_upload-${package_date} -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/upload.cmake)
+COMMAND ${CMAKE_COMMAND} -Darchive:FILEPATH=${archive} -Dout_dir:PATH=${out_dir} -Dref_json_file:FILEPATH=${ref_json_file} -Dname=${name} -Dupload_root:PATH=gemini_upload-${package_date} -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/upload.cmake
+)
 
 set_tests_properties("package:upload:${name}" PROPERTIES
-  FIXTURES_REQUIRED ${name}:upload_fxt
-  LABELS "package;${label}"
-  REQUIRED_FILES ${archive}
-  RESOURCE_LOCK package_rclone # prevent race ref_data.json between archive.cmake and upload.cmake and rclone API limit
-  TIMEOUT 3600
-  DISABLED $<NOT:$<BOOL:${rclone}>>
-  )
-  # takes a long time to upload many small files
+FIXTURES_REQUIRED ${name}:upload_fxt
+LABELS "package;${label}"
+REQUIRED_FILES ${archive}
+RESOURCE_LOCK package_rclone # prevent race ref_data.json between archive.cmake and upload.cmake and rclone API limit
+TIMEOUT 3600
+DISABLED $<NOT:$<BOOL:${rclone}>>
+)
+# takes a long time to upload many small files
 
 endfunction(gemini_package)

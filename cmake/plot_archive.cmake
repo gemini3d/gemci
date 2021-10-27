@@ -7,27 +7,23 @@ endif()
 
 cmake_path(GET out EXTENSION LAST_ONLY ARC_TYPE)
 
-if(ARC_TYPE STREQUAL .zst OR ARC_TYPE STREQUAL .zstd)
-  # to avoid relative path issues:
-  # 1. working_directory ${in}
-  # 2. . instead of ${in} as last argument
-  execute_process(
-    COMMAND ${CMAKE_COMMAND} -E tar c ${out} --zstd .
-    WORKING_DIRECTORY ${in}
-    TIMEOUT 600
-    COMMAND_ERROR_IS_FATAL ANY)
+# need working_directory ${in} to avoid computer-specific relative paths
+# use . not ${in} as last argument to avoid more relative path issues
 
+if(ARC_TYPE STREQUAL .zst)
+  set(arc_args --zstd)
 elseif(ARC_TYPE STREQUAL .zip)
-
-  execute_process(
-    COMMAND ${CMAKE_COMMAND} -E tar c ${out} --format=zip .
-    WORKING_DIRECTORY ${in}
-    TIMEOUT 600
-    COMMAND_ERROR_IS_FATAL ANY)
-
+  set(arc_args --format=zip)
 else()
   message(FATAL_ERROR "unknown archive type ${ARC_TYPE}")
 endif()
+
+execute_process(
+COMMAND ${CMAKE_COMMAND} -E tar c ${out} ${arc_args} .
+WORKING_DIRECTORY ${in}
+TIMEOUT 600
+COMMAND_ERROR_IS_FATAL ANY
+)
 
 # ensure an archive file was created (weak validation)
 if(NOT EXISTS ${out})

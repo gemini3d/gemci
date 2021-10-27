@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.20...3.22)
 
 set(PACKAGE_REMOTE dropbox)
 
@@ -8,22 +8,29 @@ function(upload_package archive out_dir name upload_root ref_json_file)
 # upload archive itself
 # we use --checksum to avoid waste of data bandwidth as Dropbox requires recopy to set mod time of identical files
 execute_process(
-  COMMAND rclone copy ${archive} ${PACKAGE_REMOTE}:${upload_root} --verbose --checksum
-  TIMEOUT 900
-  COMMAND_ERROR_IS_FATAL ANY)
+COMMAND rclone copy ${archive} ${PACKAGE_REMOTE}:${upload_root} --verbose --checksum
+TIMEOUT 900
+COMMAND_ERROR_IS_FATAL ANY
+)
 
 cmake_path(GET archive FILENAME arc_name)
 
+set(archive_path ${upload_root}/${arc_name})
+
+# retrieve remote URL for this archive
 execute_process(
-  COMMAND rclone link ${PACKAGE_REMOTE}:${upload_root}/${arc_name}
-  TIMEOUT 30
-  OUTPUT_VARIABLE url
-  OUTPUT_STRIP_TRAILING_WHITESPACE
-  COMMAND_ERROR_IS_FATAL ANY)
+COMMAND rclone link ${PACKAGE_REMOTE}:${archive_path}
+TIMEOUT 30
+OUTPUT_VARIABLE url
+OUTPUT_STRIP_TRAILING_WHITESPACE
+COMMAND_ERROR_IS_FATAL ANY
+)
 
 if(PACKAGE_REMOTE STREQUAL dropbox)
   string(REPLACE "${arc_name}?dl=0" "${arc_name}?dl=1" url ${url})
 endif()
+
+message(STATUS "${archive_path} => ${url}")
 
 file(READ ${ref_json_file} ref_json)
 string(JSON ref_json SET ${ref_json} tests ${name} url \"${url}\")
@@ -31,9 +38,10 @@ file(WRITE ${ref_json_file} ${ref_json})
 
 # update JSON with latest info
 execute_process(
-  COMMAND rclone copy ${ref_json_file} ${PACKAGE_REMOTE}:${upload_root} --verbose --checksum
-  TIMEOUT 30
-  COMMAND_ERROR_IS_FATAL ANY)
+COMMAND rclone copy ${ref_json_file} ${PACKAGE_REMOTE}:${upload_root} --verbose --checksum
+TIMEOUT 30
+COMMAND_ERROR_IS_FATAL ANY
+)
 
 
 if(false)
@@ -46,8 +54,9 @@ if(false)
 set(small_file_opts --fast-list --check-first)
 
 execute_process(COMMAND rclone copy ${out_dir}/plots ${PACKAGE_REMOTE}:${upload_root}/plots/${name} --verbose --checksum ${small_file_opts}
-  TIMEOUT 1800
-  COMMAND_ERROR_IS_FATAL ANY)
+TIMEOUT 1800
+COMMAND_ERROR_IS_FATAL ANY
+)
 
 endif(false)
 

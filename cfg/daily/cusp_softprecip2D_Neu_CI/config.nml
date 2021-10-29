@@ -1,4 +1,4 @@
-! cusp simulation
+! cusp simulation  cusp_softprecip2D_Neu_CI
 
 &base
 ymd = 2016,3,3               ! year, month, day

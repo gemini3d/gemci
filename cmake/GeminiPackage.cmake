@@ -8,7 +8,7 @@ cmake_path(APPEND archive ${upload_root} ${name}.${ARC_TYPE})
 cmake_path(APPEND data_dir ${GEMINI_CIROOT} ${name})
 
 add_test(NAME "package:archive:${name}"
-COMMAND ${CMAKE_COMMAND} -Din:PATH=${data_dir} -Dout:FILEPATH=${archive} -Dref_json_file:FILEPATH=${ref_json_file} -Dgemini_version=${GEMINI_VERSION} -Dname=${name} -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/archive.cmake
+COMMAND ${CMAKE_COMMAND} -Din:PATH=${data_dir} -Dout:FILEPATH=${archive} -Dref_json_file:FILEPATH=${ref_json_file} -Dgemini_version=${GEMINI_VERSION} -Dpygemini_version=${PYGEMINI_VERSION} -Dname=${name} -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/archive.cmake
 )
 
 set_tests_properties("package:archive:${name}" PROPERTIES

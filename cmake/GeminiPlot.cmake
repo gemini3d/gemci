@@ -12,7 +12,7 @@ if(python)
     TIMEOUT 7200
     REQUIRED_FILES "${out_dir}/inputs/config.nml;${out_dir}/output.nml"
     ENVIRONMENT GEMINI_CIROOT=${GEMINI_CIROOT}
-    DISABLED $<NOT:$<BOOL:${py_ok}>>
+    DISABLED $<OR:$<NOT:$<BOOL:${py_ok}>>,${${name}_DISABLED}>
     )
 
   if(low_ram)

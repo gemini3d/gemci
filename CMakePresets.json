@@ -9,8 +9,7 @@
     "python": true,
     "matlab": false,
     "package": false,
-    "equil": false,
-    "CMAKE_MESSAGE_LOG_LEVEL": "VERBOSE"
+    "equil": false
   }
 },
 {

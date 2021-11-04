@@ -31,6 +31,7 @@ set_tests_properties("run:${name}" PROPERTIES
   LABELS "run;${label}"
   FIXTURES_SETUP ${name}:run_fxt
   FIXTURES_REQUIRED "${name}:setup_fxt;${name}:inputOK_fxt;${name}:run_bounds_fxt"  # list them all in case .debug exe missing
+  DISABLED ${${name}_DISABLED}
   TIMEOUT 43200
   RESOURCE_LOCK cpu_mpi
   ENVIRONMENT GEMINI_CIROOT=${GEMINI_CIROOT}

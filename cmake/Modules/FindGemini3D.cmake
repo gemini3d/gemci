@@ -7,13 +7,24 @@ function(check_gemini_feature)
 execute_process(COMMAND ${GEMINI_RUN} -features
 TIMEOUT 5
 RESULT_VARIABLE ret
-OUTPUT_VARIABLE gemini_features
+OUTPUT_VARIABLE _f
 OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
+string(REPLACE " " ";" _f ${_f})
+set(gemini_features)
+foreach(f ${_f})
+  string(STRIP "${f}" f)
+  if(f)
+    list(APPEND gemini_features ${f})
+  endif()
+endforeach()
 set(GEMINI_FEATURES ${gemini_features} CACHE STRING "GEMINI3D Features")
 
 # --- detailed check
+if(NOT GEMINI_RUN_DEBUG)
+  return()
+endif()
 
 execute_process(COMMAND ${GEMINI_RUN_DEBUG} -compiler
 TIMEOUT 5
@@ -83,7 +94,7 @@ DOC "Gemini3d.run Fortran front-end: debugging enabled"
 
 # determine if exe has Fortran bounds checking.
 # currently, we handle GCC and Intel/IntelLLVM.
-if(GEMINI_RUN_DEBUG AND NOT DEFINED GEMINI_RUN_BOUNDS_CHECK)
+if(NOT DEFINED GEMINI_RUN_BOUNDS_CHECK)
   check_gemini_feature()
 endif()
 

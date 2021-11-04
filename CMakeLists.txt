@@ -96,6 +96,17 @@ cmake_path(GET in_dir FILENAME name)
 
 message(DEBUG "${name}: ${type_label}")
 
+# --- disable tests if Gemini3D feature not enabled
+set(${name}_DISABLED 0)
+
+if(name MATCHES "msis2" AND NOT "MSIS2" IN_LIST GEMINI_FEATURES)
+  message(STATUS "MSIS2 not enabled, disabling ${name}")
+  set(${name}_DISABLED 1)
+endif()
+
+# --- proceed with simulation setup
+
+
 cmake_path(APPEND out_dir ${GEMINI_CIROOT} ${name})
 
 # input data download (if not an equilibrium itself)
@@ -118,7 +129,7 @@ if(python)
     REQUIRED_FILES ${out_dir}/inputs/simgrid.h5
     FIXTURES_REQUIRED ${name}:setup_fxt
     LABELS python
-    DISABLED $<NOT:$<BOOL:${py_ok}>>
+    DISABLED $<OR:$<NOT:$<BOOL:${py_ok}>>,${${name}_DISABLED}>
     TIMEOUT 30)
 endif(python)
 

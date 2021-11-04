@@ -6,12 +6,6 @@ option(dev "dev mode" on)
 option(equil "run equilibrium (takes 10+ hours)")
 option(package "package reference data .zst files")
 
-if(DEFINED ENV{CMAKE_MESSAGE_LOG_LEVEL})
-  set(CMAKE_MESSAGE_LOG_LEVEL $ENV{CMAKE_MESSAGE_LOG_LEVEL})
-elseif(NOT CMAKE_MESSAGE_LOG_LEVEL)
-  set(CMAKE_MESSAGE_LOG_LEVEL "VERBOSE")
-endif()
-
 cmake_host_system_information(RESULT host_ramMB QUERY TOTAL_PHYSICAL_MEMORY)
 cmake_host_system_information(RESULT host_cpu QUERY PROCESSOR_DESCRIPTION)
 

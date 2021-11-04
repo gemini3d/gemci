@@ -8,17 +8,18 @@ endif()
 if(python)
 
   add_test(NAME "setup:python:${name}"
-    COMMAND ${Python_EXECUTABLE} -m gemini3d.model ${in_dir} ${out_dir}
-    WORKING_DIRECTORY ${in_dir})
+  COMMAND ${Python_EXECUTABLE} -m gemini3d.model ${in_dir} ${out_dir}
+  WORKING_DIRECTORY ${in_dir}
+  )
 
   set_tests_properties("setup:python:${name}" PROPERTIES
-    LABELS "setup;python;${label}"
-    FIXTURES_SETUP ${name}:setup_fxt
-    TIMEOUT 900
-    ENVIRONMENT GEMINI_CIROOT=${GEMINI_CIROOT}
-    FIXTURES_REQUIRED "${name}:eq_fxt;${eq_name}:run_fxt"
-    DISABLED $<NOT:$<BOOL:${py_ok}>>
-    )
+  LABELS "setup;python;${label}"
+  FIXTURES_SETUP ${name}:setup_fxt
+  TIMEOUT 900
+  ENVIRONMENT GEMINI_CIROOT=${GEMINI_CIROOT}
+  FIXTURES_REQUIRED "${name}:eq_fxt;${eq_name}:run_fxt"
+  DISABLED $<OR:$<NOT:$<BOOL:${py_ok}>>,${${name}_DISABLED}>
+  )
 
   if(low_ram)
     set_tests_properties("setup:python:${name}" PROPERTIES RESOURCE_LOCK cpu_mpi)
@@ -29,12 +30,12 @@ elseif(matlab)
   add_matlab_test("setup:matlab:${name}" "addpath('${in_dir}'); gemini3d.model.setup('${in_dir}', '${out_dir}')")
 
   set_tests_properties("setup:matlab:${name}" PROPERTIES
-    LABELS "setup;matlab;${label}"
-    FIXTURES_SETUP ${name}:setup_fxt
-    TIMEOUT 900
-    FIXTURES_REQUIRED "${name}:eq_fxt;${eq_name}:run_fxt"
-    DISABLED $<NOT:$<BOOL:${MATGEMINI_DIR}>>
-    )
+  LABELS "setup;matlab;${label}"
+  FIXTURES_SETUP ${name}:setup_fxt
+  TIMEOUT 900
+  FIXTURES_REQUIRED "${name}:eq_fxt;${eq_name}:run_fxt"
+  DISABLED $<NOT:$<BOOL:${MATGEMINI_DIR}>>
+  )
 
   if(low_ram)
     set_tests_properties("setup:matlab:${name}" PROPERTIES RESOURCE_LOCK cpu_mpi)

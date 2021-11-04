@@ -1,4 +1,4 @@
-function(make_archive in out ref_json_file name gemini_version pygemini_version)
+function(make_archive in out ref_json_file name gemini_version gemini_features pygemini_version)
 
 cmake_path(GET out EXTENSION LAST_ONLY ARC_TYPE)
 cmake_path(GET out FILENAME archive_name)
@@ -56,6 +56,9 @@ string(JSON ref_json SET ${ref_json} tests ${name} gemini3d_version \"${gemini_v
 if(pygemini_version)
   string(JSON ref_json SET ${ref_json} tests ${name} pygemini_version \"${pygemini_version}\")
 endif()
+if(gemini_features)
+  string(JSON ref_json SET ${ref_json} tests ${name} gemini3d_features \"${gemini_features}\")
+endif()
 
 file(WRITE ${ref_json_file} ${ref_json})
 
@@ -63,4 +66,4 @@ message(STATUS "Updated ${ref_json_file}")
 
 endfunction(make_archive)
 
-make_archive(${in} ${out} ${ref_json_file} ${name} ${gemini_version} "${pygemini_version}")
+make_archive(${in} ${out} ${ref_json_file} ${name} ${gemini_version} "${gemini_features}" "${pygemini_version}")

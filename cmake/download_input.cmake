@@ -1,10 +1,3 @@
-if(DEFINED ENV{CMAKE_MESSAGE_LOG_LEVEL})
-  set(CMAKE_MESSAGE_LOG_LEVEL $ENV{CMAKE_MESSAGE_LOG_LEVEL})
-elseif(NOT CMAKE_MESSAGE_LOG_LEVEL)
-  set(CMAKE_MESSAGE_LOG_LEVEL "VERBOSE")
-endif()
-
-
 function(download_input input_dir name input_type)
 
 string(REGEX REPLACE "[\\/]+$" "" input_dir "${input_dir}") # must strip trailing slash for cmake_path(... FILENAME) to work
@@ -24,17 +17,21 @@ cmake_path(APPEND archive ${input_root} ${archive_name})
 
 # check if extracted data exists
 if(IS_DIRECTORY ${input_dir})
-  if(hash AND EXISTS ${input_dir}/sha256sum.txt)
+  if(NOT hash)
+    message(STATUS "${name}: ${input_name} hash not given and ${input_dir} exists--skipping download.")
+    return()
+  endif()
+
+  if(EXISTS ${input_dir}/sha256sum.txt)
     file(READ ${input_dir}/sha256sum.txt ext_hash)
     if(${ext_hash} STREQUAL ${hash})
-      message(VERBOSE "${name}: ${input_name} extracted hash == JSON hash, no need to download.")
+      message(STATUS "${name}: ${input_name} extracted hash == JSON hash--skipping download.")
       return()
     else()
-      message(STATUS "${name}: ${input_name} extracted hash ${ext_hash} != JSON hash ${hash}")
+      message(STATUS "${name}: ${input_name} extracted hash ${ext_hash} != JSON hash ${hash}, re-downloading.")
     endif()
   else()
-    message(VERBOSE "${name}: ${input_name} hash not given and ${input_dir} exists, no need to download.")
-    return()
+    message(STATUS "${name}: ${input_name} extracted hash not found, re-downloading.")
   endif()
 endif()
 
@@ -42,7 +39,7 @@ set(hash_ok true)
 if(EXISTS ${archive} AND DEFINED hash)
   file(SHA256 ${archive} archive_hash)
   if(${archive_hash} STREQUAL ${hash})
-    message(VERBOSE "${name}: archive hash == JSON hash, no need to download.")
+    message(STATUS "${name}: archive hash == JSON hash--skipping download.")
   else()
     message(STATUS "${name}: archive hash ${archive_hash} != JSON hash ${hash}")
     set(hash_ok false)

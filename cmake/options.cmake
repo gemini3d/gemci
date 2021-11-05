@@ -9,6 +9,8 @@ option(package "package reference data .zst files")
 cmake_host_system_information(RESULT host_ramMB QUERY TOTAL_PHYSICAL_MEMORY)
 cmake_host_system_information(RESULT host_cpu QUERY PROCESSOR_DESCRIPTION)
 
+set(CMAKE_TLS_VERIFY true)
+
 if(NOT DEFINED low_ram)
   set(low_ram false)
   if(host_ramMB LESS 18000)

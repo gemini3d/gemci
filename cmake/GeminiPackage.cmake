@@ -7,6 +7,8 @@ function(gemini_package GEMINI_CIROOT out_dir ref_json_file name label)
 cmake_path(APPEND archive ${upload_root} ${name}.${ARC_TYPE})
 cmake_path(APPEND data_dir ${GEMINI_CIROOT} ${name})
 
+string(REPLACE ";" "\\;" GEMINI_FEATURES "${GEMINI_FEATURES}")
+
 add_test(NAME "archive:${name}"
 COMMAND ${CMAKE_COMMAND} -Din:PATH=${data_dir} -Dout:FILEPATH=${archive} -Dref_json_file:FILEPATH=${ref_json_file} -Dgemini_version=${GEMINI_VERSION} -Dgemini_features=${GEMINI_FEATURES} -Dpygemini_version=${PYGEMINI_VERSION} -Dname=${name} -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/archive.cmake
 )

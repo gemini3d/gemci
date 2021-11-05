@@ -11,21 +11,21 @@
   {
     "acoustic2D_axisymmetric_neutrals":
     {
-      "url": "https://zenodo.org/record/4660269/files/acoustic2D_axisymmetric_neutrals.zstd?download=1",
-      "archive": "acoustic2D_axisymmetric_neutrals.zstd",
-      "md5": "2d871f08e02fa89a338f6640e1142279"
+      "url": "https://www.dropbox.com/s/pxjvfxguto9a4pb/acoustic2D_axisymmetric_neutrals.zst?dl=1",
+      "archive": "acoustic2D_axisymmetric_neutrals.zst",
+      "sha256": "38be5c826ea36f657b892432ca5598d100725b63a60688b5753a272541cae25c"
     },
     "acoustic2D_cartesian_neutrals":
     {
-      "url": "https://zenodo.org/record/4660269/files/acoustic2D_cartesian_neutrals.zstd?download=1",
-      "archive": "acoustic2D_cartesian_neutrals.zstd",
-      "md5": "0222c3b7d99eab3e5751969f329f871f"
+      "url": "https://www.dropbox.com/s/uaucly9aqlap1wo/acoustic2D_cartesian_neutrals.zst?dl=1",
+      "archive": "acoustic2D_cartesian_neutrals.zst",
+      "sha256": "641593f747332e413434940dd1766e9b797a46abfa17a50c51dd73cf5c7e46e1"
     },
     "acoustic3D_cartesian_neutrals":
     {
-      "url": "https://www.dropbox.com/s/8uyob0kducjpngx/acoustic3D_cartesian_neutrals.zstd?dl=1",
-      "archive": "acoustic3D_cartesian_neutrals.zstd",
-      "md5": "a374723b9ebafeb60cf49747e0188c07"
+      "url": "https://www.dropbox.com/s/8uyob0kducjpngx/acoustic3D_cartesian_neutrals.zst?dl=1",
+      "archive": "acoustic3D_cartesian_neutrals.zst",
+      "sha256": "6fdeaaae755f6b348c1a893d23430022fb918a1646a753da808b2257efef3ce4"
     }
   },
   "system" :
@@ -85,20 +85,29 @@
     "cusp_softprecip2D_Dirich_CI" :
     {
       "archive" : "cusp_softprecip2D_Dirich_CI.zst",
-      "sha256" : "418beb59348daa36a2da05331e1a516961a02b0497e9fec639cf6034b025fc30",
-      "url" : "https://www.dropbox.com/s/gxnpzsrgfgsqgli/cusp_softprecip2D_Dirich_CI.zst?dl=1"
+      "gemini3d_version" : "v1.1.1-27-ge5d856ff 1.1.2",
+      "gemini_features" : [ "REALBITS:64", "MPI", "GLOW", "MSIS2", "HDF5", "HWLOC" ],
+      "pygemini_version" : "1.6.0",
+      "sha256" : "397a65b5abc0e934d7ea4de6118f19d2a9c640040f6af2ae4ff08b7b62716896",
+      "url" : "https://www.dropbox.com/s/o0bwgr7tpmulyrg/cusp_softprecip2D_Dirich_CI.zst?dl=1"
     },
     "cusp_softprecip2D_Neu_CI" :
     {
       "archive" : "cusp_softprecip2D_Neu_CI.zst",
-      "sha256" : "69686d713e2c01bcb5bcc59c8002e934b32e0d17816a9d434b66a8776ebda890",
-      "url" : "https://www.dropbox.com/s/ioj2ubp3a7o3cy8/cusp_softprecip2D_Neu_CI.zst?dl=1"
+      "gemini3d_version" : "v1.1.1-27-ge5d856ff 1.1.2",
+      "gemini_features" : [ "REALBITS:64", "MPI", "GLOW", "MSIS2", "HDF5", "HWLOC" ],
+      "pygemini_version" : "1.6.0",
+      "sha256" : "db0088b8391caf12d3f617bad8969be282af65489ca8eb42583126b527de810e",
+      "url" : "https://www.dropbox.com/s/5p01j78kibrxw8j/cusp_softprecip2D_Neu_CI.zst?dl=1"
     },
     "cusp_softprecip3D_CI" :
     {
       "archive" : "cusp_softprecip3D_CI.zst",
-      "sha256" : "f373228d9b2d95998684eeed95637c3d940cc9fea9ba96362f41e13c2a555cb3",
-      "url" : "https://www.dropbox.com/s/k1gl800prn4qn46/cusp_softprecip3D_CI.zst?dl=1"
+      "gemini3d_version" : "v1.1.1-27-ge5d856ff 1.1.2",
+      "gemini_features" : [ "REALBITS:64", "MPI", "GLOW", "MSIS2", "HDF5", "HWLOC" ],
+      "pygemini_version" : "1.6.0",
+      "sha256" : "a29471ac911224b21884883faa9273587650583e9f2e08729093c8d58995f8b2",
+      "url" : "https://www.dropbox.com/s/y2o3cr8rel6cytu/cusp_softprecip3D_CI.zst?dl=1"
     },
     "mini2dew_eq" :
     {

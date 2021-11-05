@@ -30,6 +30,7 @@ if(IS_DIRECTORY ${input_dir})
   endif()
 endif()
 
+# check if archive available
 set(hash_ok true)
 if(EXISTS ${archive})
   file(SHA256 ${archive} archive_hash)

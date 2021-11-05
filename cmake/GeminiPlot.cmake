@@ -8,7 +8,7 @@ if(python)
   set_tests_properties("plot:python:${name}" PROPERTIES
     LABELS "plot;python;${label}"
     FIXTURES_REQUIRED ${name}:run_fxt
-    FIXTURES_SETUP ${name}:package_fxt
+    FIXTURES_SETUP ${name}:plot_fxt
     TIMEOUT 7200
     REQUIRED_FILES "${out_dir}/inputs/config.nml;${out_dir}/output.nml"
     ENVIRONMENT GEMINI_CIROOT=${GEMINI_CIROOT}
@@ -26,7 +26,7 @@ elseif(matlab)
   set_tests_properties("plot:matlab:${name}" PROPERTIES
     LABELS "plot;matlab;${label}"
     FIXTURES_REQUIRED ${name}:run_fxt
-    FIXTURES_SETUP ${name}:package_fxt
+    FIXTURES_SETUP ${name}:plot_fxt
     TIMEOUT 7200
     REQUIRED_FILES "${out_dir}/inputs/config.nml;${out_dir}/output.nml"
     DISABLED $<NOT:$<BOOL:${MATGEMINI_DIR}>>

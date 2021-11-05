@@ -12,7 +12,7 @@ COMMAND ${CMAKE_COMMAND} -Din:PATH=${data_dir} -Dout:FILEPATH=${archive} -Dref_j
 )
 
 set_tests_properties("package:archive:${name}" PROPERTIES
-FIXTURES_REQUIRED ${name}:package_fxt
+FIXTURES_REQUIRED "${name}:run_fxt;${name}:plot_fxt"
 FIXTURES_SETUP ${name}:upload_fxt
 DISABLED ${${name}_DISABLED}
 RESOURCE_LOCK package_rclone # prevent race ref_data.json between archive.cmake and upload.cmake

@@ -11,6 +11,8 @@ OUTPUT_VARIABLE _f
 OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
+if(ret EQUAL 0)
+
 string(REPLACE " " ";" _f ${_f})
 set(gemini_features)
 foreach(f ${_f})
@@ -21,6 +23,7 @@ foreach(f ${_f})
 endforeach()
 set(GEMINI_FEATURES ${gemini_features} CACHE STRING "GEMINI3D Features")
 
+endif()
 # --- detailed check
 if(NOT GEMINI_RUN_DEBUG)
   return()
@@ -78,7 +81,7 @@ find_program(GEMINI_RUN
 NAMES gemini3d.run
 HINTS ${GEMINI_ROOT} ENV GEMINI_ROOT
 PATHS ${PROJECT_SOURCE_DIR}/../gemini3d
-PATH_SUFFIXES build/Release build/RelWithDebInfo build bin
+PATH_SUFFIXES build/Release build/RelWithDebInfo build/Debug build bin
 NO_DEFAULT_PATH
 DOC "Gemini3d.run Fortran front-end"
 )
@@ -94,7 +97,7 @@ DOC "Gemini3d.run Fortran front-end: debugging enabled"
 
 # determine if exe has Fortran bounds checking.
 # currently, we handle GCC and Intel/IntelLLVM.
-if(NOT DEFINED GEMINI_RUN_BOUNDS_CHECK)
+if(GEMINI_RUN AND NOT DEFINED GEMINI_RUN_BOUNDS_CHECK)
   check_gemini_feature()
 endif()
 

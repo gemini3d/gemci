@@ -25,5 +25,6 @@ if(NOT IS_DIRECTORY ${GEMINI_CIROOT})
 endif()
 
 if(NOT IS_DIRECTORY ${ref_root})
+  message("Creating reference data directory ${ref_root}")
   file(MAKE_DIRECTORY ${ref_root})
 endif()

@@ -2,7 +2,7 @@ function(download_ref name ref_root)
 
 # sanity check to avoid making mess
 if(NOT IS_DIRECTORY ${ref_root})
-  message(FATAL_ERROR "must provide 'ref_root' e.g. ~/simulations/ref_data")
+  message(FATAL_ERROR "${ref_root} is not a directory.")
 endif()
 
 file(READ ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/ref_data.json _refj)
@@ -29,14 +29,14 @@ if(IS_DIRECTORY ${ref_dir})
 endif()
 
 # check if archive available
-set(hash_ok true)
+set(hash_ok false)
 if(EXISTS ${archive})
   file(SHA256 ${archive} archive_hash)
   if(${archive_hash} STREQUAL ${hash})
     message(STATUS "${name}: archive hash == JSON hash--skipping download.")
+    set(hash_ok true)
   else()
     message(STATUS "${name}: archive hash ${archive_hash} != JSON hash ${hash}")
-    set(hash_ok false)
   endif()
 endif()
 

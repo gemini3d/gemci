@@ -31,14 +31,14 @@ if(IS_DIRECTORY ${input_dir})
 endif()
 
 # check if archive available
-set(hash_ok true)
+set(hash_ok false)
 if(EXISTS ${archive})
   file(SHA256 ${archive} archive_hash)
   if(${archive_hash} STREQUAL ${hash})
     message(STATUS "${name}: archive hash == JSON hash--skipping download.")
+    set(hash_ok true)
   else()
     message(STATUS "${name}: archive hash ${archive_hash} != JSON hash ${hash}")
-    set(hash_ok false)
   endif()
 endif()
 

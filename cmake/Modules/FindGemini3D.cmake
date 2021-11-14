@@ -81,7 +81,7 @@ find_program(GEMINI_RUN
 NAMES gemini3d.run
 HINTS ${GEMINI_ROOT} ENV GEMINI_ROOT
 PATHS ${PROJECT_SOURCE_DIR}/../gemini3d
-PATH_SUFFIXES build/Release build/RelWithDebInfo build/Debug build bin
+PATH_SUFFIXES Release RelWithDebInfo Debug build/Release build/RelWithDebInfo build/Debug build bin
 NO_DEFAULT_PATH
 DOC "Gemini3d.run Fortran front-end"
 )
@@ -90,7 +90,7 @@ find_program(GEMINI_RUN_DEBUG
 NAMES gemini3d.run.debug
 HINTS ${GEMINI_ROOT} ENV GEMINI_ROOT
 PATHS ${PROJECT_SOURCE_DIR}/../gemini3d
-PATH_SUFFIXES build/Debug build bin
+PATH_SUFFIXES Debug build/Debug build bin
 NO_DEFAULT_PATH
 DOC "Gemini3d.run Fortran front-end: debugging enabled"
 )

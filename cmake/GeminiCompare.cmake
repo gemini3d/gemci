@@ -48,7 +48,7 @@ set_tests_properties(compare:input:${name} PROPERTIES
 LABELS "compare;${label}"
 FIXTURES_REQUIRED ${name}:compare_fxt
 FIXTURES_SETUP ${name}:inputOK_fxt
-TIMEOUT 300
+TIMEOUT 600
 ENVIRONMENT "${MATLABPATH};GEMINI_CIROOT=${GEMINI_CIROOT}")
 
 endfunction(compare_input)

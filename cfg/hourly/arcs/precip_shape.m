@@ -17,4 +17,11 @@ Q = Qpeak * S;
 
 Q(Q < Qbackground) = Qbackground;
 
+% h=pcolor(pg.MLON, pg.MLAT, Q);
+% set(h,'edgecolor','none')
+% colorbar
+% title("arcs: precip\_shape: Q")
+% xlabel("MLON")
+% ylabel("MLAT")
+
 end % function

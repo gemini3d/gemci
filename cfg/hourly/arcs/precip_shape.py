@@ -20,4 +20,14 @@ def precip_shape(pg: xarray.Dataset, Qpeak: float, Qbackground: float) -> xarray
         * np.exp(-((pg.mlat - mlatctr - 1.5 * pg.mlat_sigma) ** 2) / 2 / pg.mlat_sigma ** 2)
     )
 
+    # from matplotlib.pyplot import figure,show
+    # fg = figure()
+    # ax = fg.gca()
+    # hi = ax.pcolormesh(pg.mlon, pg.mlat, Q)
+    # fg.colorbar(hi, ax=ax)
+    # ax.set_title("arcs: precip_shape: Q")
+    # ax.set_xlabel("MLON")
+    # ax.set_ylabel("MLAT")
+    # show()
+
     return Q.clip(min=Qbackground)

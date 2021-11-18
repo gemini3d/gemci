@@ -13,7 +13,7 @@ add_test(NAME compare:output:${name} COMMAND ${cmd})
 
 set_tests_properties(compare:output:${name} PROPERTIES
 LABELS "compare;${label}"
-FIXTURES_REQUIRED "${name}:run_fxt;${name}:compare_fxt"
+FIXTURES_REQUIRED "${name}:run_fxt;${name}:download_fxt"
 FIXTURES_SETUP ${name}:plotdiff_fxt
 TIMEOUT 300
 ENVIRONMENT "${MATLABPATH};GEMINI_CIROOT=${GEMINI_CIROOT}")
@@ -46,9 +46,8 @@ add_test(NAME compare:input:${name} COMMAND ${cmd})
 
 set_tests_properties(compare:input:${name} PROPERTIES
 LABELS "compare;${label}"
-FIXTURES_REQUIRED ${name}:compare_fxt
+FIXTURES_REQUIRED ${name}:download_fxt
 FIXTURES_SETUP ${name}:inputOK_fxt
-DISABLED $<NOT:$<OR:$<BOOL:${py_ok}>,$<BOOL:${MATGEMINI_DIR}>>>
 TIMEOUT 600
 ENVIRONMENT "${MATLABPATH};GEMINI_CIROOT=${GEMINI_CIROOT}")
 
@@ -61,7 +60,7 @@ add_test(NAME compare:download:${name}
 COMMAND ${CMAKE_COMMAND} -Dname=${name} -Dref_root:PATH=${ref_root} -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/download_ref.cmake)
 
 set_tests_properties(compare:download:${name} PROPERTIES
-FIXTURES_SETUP ${name}:compare_fxt
+FIXTURES_SETUP ${name}:download_fxt
 FIXTURES_REQUIRED ${name}:setup_fxt
 # REQUIRED_FILES ${out_dir}/inputs/config.nml
 LABELS "download;${label}"

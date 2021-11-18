@@ -1,4 +1,4 @@
-function(model_setup in_dir out_dir name label low_ram)
+function(model_setup in_dir out_dir ref_root name label low_ram)
 
 if(NOT label STREQUAL equilibrium)
   get_equil(${in_dir} ${name})
@@ -40,7 +40,21 @@ elseif(matlab)
   if(low_ram)
     set_tests_properties("setup:matlab:${name}" PROPERTIES RESOURCE_LOCK cpu_mpi)
   endif()
+else()
+  # Copy reference input files to output directory
+  cmake_path(APPEND ref_dir ${ref_root} ${name})
 
+  add_test(NAME "setup:copy:${name}"
+  COMMAND ${CMAKE_COMMAND} -E copy_directory ${ref_dir}/inputs ${out_dir}/inputs
+  )
+
+  set_tests_properties("setup:copy:${name}" PROPERTIES
+  LABELS "setup;${label}"
+  FIXTURES_SETUP "${name}:inputOK_fxt"
+  TIMEOUT 60
+  FIXTURES_REQUIRED "${name}:eq_fxt;${name}:download_fxt"
+  DISABLED ${${name}_DISABLED}
+  )
 endif()
 
 endfunction(model_setup)

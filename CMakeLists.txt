@@ -119,11 +119,13 @@ if(NOT type_label STREQUAL equilibrium)
 endif()
 
 # setup model
-model_setup(${in_dir} ${out_dir} ${name} ${type_label} ${low_ram})
+model_setup(${in_dir} ${out_dir} ${ref_root} ${name} ${type_label} ${low_ram})
 
 # --- compare sim input
 compare_download(${out_dir} ${ref_root} ${name} ${type_label})
-compare_input(${GEMINI_COMPARE} ${out_dir} ${ref_root} ${name} ${type_label})
+if(py_ok OR MATGEMINI_DIR)
+  compare_input(${GEMINI_COMPARE} ${out_dir} ${ref_root} ${name} ${type_label})
+endif()
 
 # check that scripts can read grid
 if(python)

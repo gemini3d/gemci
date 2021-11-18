@@ -29,5 +29,4 @@ def Jcurrent_gaussian_tanh(E: xarray.Dataset, gridflag: int, flagdip: bool) -> x
             ) * np.exp(-((E.mlat - mlatctr + 1.5 * E.mlatsig) ** 2) / 2 / E.mlatsig ** 2)
         else:
             E["Vmaxx1it"].loc[t] = np.zeros((llon, llat))
-
     return E

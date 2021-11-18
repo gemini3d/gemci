@@ -32,8 +32,8 @@ jobs:
         sudo apt update -yq
         sudo apt install -yq --no-install-recommends libhdf5-dev liblapack-dev libmumps-dev libopenmpi-dev openmpi-bin
 
-    - name: Configure multi
-      run: cmake --preset default
+    - name: no python
+      run: cmake -B build -Dpython:BOOL=no
 
     - name: build
       run: cmake --build build --parallel

@@ -48,6 +48,7 @@ set_tests_properties(compare:input:${name} PROPERTIES
 LABELS "compare;${label}"
 FIXTURES_REQUIRED ${name}:compare_fxt
 FIXTURES_SETUP ${name}:inputOK_fxt
+DISABLED $<NOT:$<OR:$<BOOL:${py_ok}>,$<BOOL:${MATGEMINI_DIR}>>>
 TIMEOUT 600
 ENVIRONMENT "${MATLABPATH};GEMINI_CIROOT=${GEMINI_CIROOT}")
 
@@ -62,10 +63,13 @@ COMMAND ${CMAKE_COMMAND} -Dname=${name} -Dref_root:PATH=${ref_root} -P ${CMAKE_C
 set_tests_properties(compare:download:${name} PROPERTIES
 FIXTURES_SETUP ${name}:compare_fxt
 FIXTURES_REQUIRED ${name}:setup_fxt
-REQUIRED_FILES ${out_dir}/inputs/config.nml
-# not required output.nml since we may want to compare just input without running sim
+# REQUIRED_FILES ${out_dir}/inputs/config.nml
 LABELS "download;${label}"
 RESOURCE_LOCK download_lock
-TIMEOUT 600)
+TIMEOUT 600
+)
+# not required:
+# * output.nml since we may want to compare just input without running sim
+# * config.nml since we may choose not to generate input
 
 endfunction(compare_download)

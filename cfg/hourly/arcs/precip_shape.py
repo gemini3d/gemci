@@ -12,7 +12,7 @@ def precip_shape(pg: xarray.Dataset, Qpeak: float, Qbackground: float) -> np.nda
 
     displace = 10 * pg.mlat_sigma
 
-    [MLON,MLAT]=np.meshgrid(pg.mlon.data,pg.mlat.data)
+    [MLON,MLAT]=np.meshgrid(pg.mlon.data,pg.mlat.data,indexing='ij')
 
     mlatctr = mlat_mean + displace * np.tanh((MLON - mlon_mean) / (2 * pg.mlon_sigma))
     # changed so the arc is wider compared to its twisting

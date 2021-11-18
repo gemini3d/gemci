@@ -5,11 +5,17 @@ if(py_ok)
 endif()
 
 execute_process(COMMAND ${Python_EXECUTABLE} -c "import gemini3d.model"
-COMMAND_ERROR_IS_FATAL ANY
+RESULT_VARAIBLE ret
 TIMEOUT 15
 )
 
-set(py_ok true CACHE BOOL "PyGemini detected.")
+if(ret EQUAL 0)
+  set(py_ok true CACHE BOOL "PyGemini detected.")
+else()
+  message(WARNING "PyGemini not functioning or found")
+  set(py_ok false)
+  return()
+endif()
 
 execute_process(COMMAND ${Python_EXECUTABLE} -c "import gemini3d; print(gemini3d.__version__)"
 RESULT_VARIABLE ret

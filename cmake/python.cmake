@@ -5,7 +5,7 @@ if(py_ok)
 endif()
 
 execute_process(COMMAND ${Python_EXECUTABLE} -c "import gemini3d.model"
-RESULT_VARAIBLE ret
+RESULT_VARIABLE ret
 TIMEOUT 15
 )
 

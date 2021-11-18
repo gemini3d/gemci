@@ -22,8 +22,12 @@ message(STATUS "simulation root directory ${GEMINI_CIROOT}")
 
 include(cmake/ParseNml.cmake)
 
-find_package(Gemini3D REQUIRED)
 find_package(MPI REQUIRED)
+
+find_package(Gemini3D)
+if(NOT Gemini3D_FOUND)
+  include(cmake/build_gemini3d.cmake)
+endif()
 
 # helper functions
 include(cmake/GetEquil.cmake)

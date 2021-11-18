@@ -70,18 +70,16 @@ endif()
 message(STATUS "Could not determine if ${GEMINI_RUN_DEBUG} was compiled with bounds checking. Assuming bounds checking disabled.")
 set(GEMINI_RUN_BOUNDS_CHECK false CACHE BOOL "NOT FOUND")
 
-
-
 endfunction(check_gemini_feature)
 
 # --- main script ---
 
 # --- find gemini frontend
+
 find_program(GEMINI_RUN
 NAMES gemini3d.run
 HINTS ${GEMINI_ROOT} ENV GEMINI_ROOT
-PATHS ${PROJECT_SOURCE_DIR}/../gemini3d
-PATH_SUFFIXES Release RelWithDebInfo Debug build/Release build/RelWithDebInfo build/Debug build bin
+PATH_SUFFIXES Release/bin RelWithDebInfo/bin Debug/bin build/Release build/RelWithDebInfo build/Debug build bin
 NO_DEFAULT_PATH
 DOC "Gemini3d.run Fortran front-end"
 )
@@ -89,8 +87,7 @@ DOC "Gemini3d.run Fortran front-end"
 find_program(GEMINI_RUN_DEBUG
 NAMES gemini3d.run.debug
 HINTS ${GEMINI_ROOT} ENV GEMINI_ROOT
-PATHS ${PROJECT_SOURCE_DIR}/../gemini3d
-PATH_SUFFIXES Debug build/Debug build bin
+PATH_SUFFIXES Debug/bin build/Debug build bin
 NO_DEFAULT_PATH
 DOC "Gemini3d.run Fortran front-end: debugging enabled"
 )
@@ -105,8 +102,7 @@ endif()
 find_program(GEMINI_COMPARE
 NAMES gemini3d.compare
 HINTS ${GEMINI_ROOT} ENV GEMINI_ROOT
-PATHS ${PROJECT_SOURCE_DIR}/../gemini3d
-PATH_SUFFIXES build bin build/Release build/RelWithDebInfo build/Debug
+PATH_SUFFIXES Release/bin RelWithDebInfo/bin Debug/bin build/Release build/RelWithDebInfo build/Debug build bin
 NO_DEFAULT_PATH
 DOC "Gemini3d.compare data"
 )

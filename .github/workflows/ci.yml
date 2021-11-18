@@ -1,0 +1,45 @@
+name: ci
+
+env:
+  CMAKE_BUILD_PARALLEL_LEVEL: 3
+  CTEST_PARALLEL_LEVEL: 1
+  GEMINI_CIROOT: ~/gemci
+
+on:
+  push:
+    paths:
+      - "**.py"
+      - "**.nml"
+      - "**.cmake"
+      - "**/CMakeLists.txt"
+      - ".github/workflows/ci.yml"
+
+
+jobs:
+
+  linux:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+
+    - name: Install Prereqs
+      run: |
+        sudo apt update -yq
+        sudo apt install -yq --no-install-recommends libhdf5-dev liblapack-dev libmumps-dev libopenmpi-dev openmpi-bin
+
+    - name: Configure multi
+      run: cmake --preset default
+
+    - name: build
+      run: cmake --build build --parallel
+
+    - name: Run Bounds check
+      run: ctest --preset default -R run_bounds_check
+
+    - name: Debug core test
+      run: ctest --preset debug -LE unit -R "(2dew_fang|2dns_fang)" --output-junit test-debug-core.xml

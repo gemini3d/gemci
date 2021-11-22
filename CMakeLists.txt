@@ -30,7 +30,10 @@ include(cmake/ParseNml.cmake)
 
 find_package(MPI REQUIRED)
 
-find_package(Gemini3D)
+if(GEMINI_ROOT)
+  # only reuse Gemini3D external binary if user specifies it.
+  find_package(Gemini3D)
+endif()
 if(NOT Gemini3D_FOUND)
   include(cmake/build_gemini3d.cmake)
 endif()

@@ -39,10 +39,14 @@ INACTIVITY_TIMEOUT 15
 CONFIGURE_HANDLED_BY_BUILD true
 )
 
-set(GEMINI_RUN_DEBUG ${GEMINI_ROOT}/bin/gemini3d.run.debug)
 set(GEMINI_RUN ${GEMINI_ROOT}/bin/gemini3d.run)
+set(GEMINI_RUN_DEBUG ${GEMINI_ROOT}/bin/gemini3d.run.debug)
+
+set(GEMINI_BIN ${GEMINI_ROOT}/bin/gemini.bin)
+set(GEMINI_BIN_DEBUG ${GEMINI_ROOT}/bin/gemini.bin.debug)
+
 set(GEMINI_COMPARE ${GEMINI_ROOT}/bin/gemini3d.compare)
 # there doesn't seem to be an easy way to run "gemini3d.run -features" and capture output
 # via ExternalProject without using auxiliary files.
 set(GEMINI_FEATURES "REALBITS:64 MPI GLOW MSIS2 HDF5")
-set(GEMINI_RUN_BOUNDS_CHECK true CACHE BOOL "assume flags OK on self-build")
+set(GEMINI_RUN_BOUNDS_CHECK true CACHE BOOL "assume bounds flags OK on self-build")

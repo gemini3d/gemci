@@ -25,7 +25,7 @@ set(GEMINI_FEATURES ${gemini_features} CACHE STRING "GEMINI3D Features")
 
 endif()
 # --- detailed check
-if(NOT GEMINI_RUN_DEBUG)
+if(NOT GEMINI_RUN_DEBUG AND GEMINI_BIN_DEBUG)
   return()
 endif()
 
@@ -79,17 +79,34 @@ endfunction(check_gemini_feature)
 find_program(GEMINI_RUN
 NAMES gemini3d.run
 HINTS ${GEMINI_ROOT} ENV GEMINI_ROOT
-PATH_SUFFIXES Release/bin RelWithDebInfo/bin Debug/bin build/Release build/RelWithDebInfo build/Debug build bin
+PATH_SUFFIXES build/Release build bin
 NO_DEFAULT_PATH
 DOC "Gemini3d.run Fortran front-end"
 )
 
+find_program(GEMINI_BIN
+NAMES gemini.bin
+HINTS ${GEMINI_ROOT} ENV GEMINI_ROOT
+PATH_SUFFIXES build/Release build bin
+NO_DEFAULT_PATH
+DOC "Gemini.bin Fortran main program"
+)
+
+
 find_program(GEMINI_RUN_DEBUG
 NAMES gemini3d.run.debug
 HINTS ${GEMINI_ROOT} ENV GEMINI_ROOT
-PATH_SUFFIXES Debug/bin build/Debug build bin
+PATH_SUFFIXES build/RelWithDebInfo build/Debug build bin
 NO_DEFAULT_PATH
-DOC "Gemini3d.run Fortran front-end: debugging enabled"
+DOC "Gemini3d.run Fortran front-end: debug enabled"
+)
+
+find_program(GEMINI_BIN_DEBUG
+NAMES gemini3d.bin.debug
+HINTS ${GEMINI_ROOT} ENV GEMINI_ROOT
+PATH_SUFFIXES build/RelWithDebInfo build/Debug build bin
+NO_DEFAULT_PATH
+DOC "Gemini.bin Fortran main program: debug enabled"
 )
 
 # determine if exe has Fortran bounds checking.
@@ -102,7 +119,7 @@ endif()
 find_program(GEMINI_COMPARE
 NAMES gemini3d.compare gemini3d.compare.debug
 HINTS ${GEMINI_ROOT} ENV GEMINI_ROOT
-PATH_SUFFIXES Release/bin RelWithDebInfo/bin Debug/bin build/Release build/RelWithDebInfo build/Debug build bin
+PATH_SUFFIXES build/Release build/RelWithDebInfo build/Debug build bin
 NO_DEFAULT_PATH
 DOC "Gemini3d.compare data"
 )

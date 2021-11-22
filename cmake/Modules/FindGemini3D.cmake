@@ -100,7 +100,7 @@ endif()
 
 # --- find gemini.compare
 find_program(GEMINI_COMPARE
-NAMES gemini3d.compare
+NAMES gemini3d.compare gemini3d.compare.debug
 HINTS ${GEMINI_ROOT} ENV GEMINI_ROOT
 PATH_SUFFIXES Release/bin RelWithDebInfo/bin Debug/bin build/Release build/RelWithDebInfo build/Debug build bin
 NO_DEFAULT_PATH

@@ -1,7 +1,7 @@
 {
   "gemini3d" :
   {
-    "version" : "v1.0.4-25-gcfdc0690 1.0.4"
+    "version" : "v1.1.2-153-gaac30d70 1.1.2"
   },
   "library" :
   {
@@ -30,7 +30,7 @@
   },
   "system" :
   {
-    "cmake_version" : "3.21.3",
+    "cmake_version" : "3.22.0",
     "cpu" : "32 core Intel(R) Xeon(R) Gold 6226R CPU @ 2.90GHz",
     "fortran_compiler" : "GCC version 8.5.0 20210514 (Red Hat 8.5.0-3)",
     "memory_ram_MB" : 772419,
@@ -41,175 +41,245 @@
     "GDI_KHI_eq" :
     {
       "archive" : "GDI_KHI_eq.zst",
-      "sha256" : "507c38e2d37db2e1d27aff2d62dc9d75ce8ae7775b49103cc1d2243a6b7ff5ac",
-      "url" : "https://www.dropbox.com/s/lybeb52nnhm2288/GDI_KHI_eq.zst?dl=1"
+      "gemini3d_version" : "v1.1.2-153-gaac30d70 1.1.2",
+      "gemini_features" : [ "REALBITS:64", "MPI", "GLOW", "MSIS2", "HDF5", "HWLOC" ],
+      "pygemini_version" : "1.6.0",
+      "sha256" : "095ac7633e52e1e9b5cc2cbec116335103092183b6c2377ab7e49ff3b1cc1c2e",
+      "url" : "https://www.dropbox.com/s/cz6bq84c7ahl1s3/GDI_KHI_eq.zst?dl=1"
     },
     "GDI_periodic_lowres" :
     {
       "archive" : "GDI_periodic_lowres.zst",
-      "sha256" : "c746fc58113dfd026bb3e9e60528282c5b9bbf7198dd364b48b0b97ec9129b8c",
-      "url" : "https://www.dropbox.com/s/4ke3g2xrqjxubsi/GDI_periodic_lowres.zst?dl=1",
-      "gemini3d_version" : "v1.1.1-14-g0fa0a117 1.1.1"
+      "gemini3d_version" : "v1.1.2-153-gaac30d70 1.1.2",
+      "gemini_features" : [ "REALBITS:64", "MPI", "GLOW", "MSIS2", "HDF5", "HWLOC" ],
+      "pygemini_version" : "1.6.0",
+      "sha256" : "7b5cab6c3592e7439ca9d0706bc36f17a34f6e24da7c4a7ba42b35aa51c634f1",
+      "url" : "https://www.dropbox.com/s/k1vmkfddgxryxh8/GDI_periodic_lowres.zst?dl=1"
     },
     "KHI_periodic_lowres" :
     {
       "archive" : "KHI_periodic_lowres.zst",
-      "sha256" : "f851feea0f1f073ba0b4071b3513bd1bcd61dc2da07479ca0b4fd601e88cf3b3",
-      "url" : "https://www.dropbox.com/s/7k1rk0lurbnkvmz/KHI_periodic_lowres.zst?dl=1",
-      "gemini3d_version" : "v1.1.1-14-g0fa0a117 1.1.1"
+      "gemini3d_version" : "v1.1.2-153-gaac30d70 1.1.2",
+      "gemini_features" : [ "REALBITS:64", "MPI", "GLOW", "MSIS2", "HDF5", "HWLOC" ],
+      "pygemini_version" : "1.6.0",
+      "sha256" : "39852136882910559ac5a828d512c070f7cf15a742c911f27936be953368357a",
+      "url" : "https://www.dropbox.com/s/k39uqlx4436td30/KHI_periodic_lowres.zst?dl=1"
     },
     "arcs" :
     {
       "archive" : "arcs.zst",
-      "sha256" : "dc83cb2baf39f2434517873cb3313f16bde009727076dc68da40d6649d34d0fe",
-      "url" : "https://www.dropbox.com/s/vhogbzbs032f54w/arcs.zst?dl=1"
+      "gemini3d_version" : "v1.1.2-153-gaac30d70 1.1.2",
+      "gemini_features" : [ "REALBITS:64", "MPI", "GLOW", "MSIS2", "HDF5", "HWLOC" ],
+      "pygemini_version" : "1.6.0",
+      "sha256" : "70a64adde14899f061edce8a6ee0df3f7307ae14b7a2e31c7efaa2d26a4484b2",
+      "url" : "https://www.dropbox.com/s/j871bn3wgmn134p/arcs.zst?dl=1"
     },
     "arcs_eq" :
     {
       "archive" : "arcs_eq.zst",
-      "sha256" : "c856be001e74c3ec16c057c7cef99ccc155e7a7a3e979bbac9042bc300a1aa28",
-      "url" : "https://www.dropbox.com/s/cnroodwknuw45xx/arcs_eq.zst?dl=1"
+      "gemini3d_version" : "v1.1.2-153-gaac30d70 1.1.2",
+      "gemini_features" : [ "REALBITS:64", "MPI", "GLOW", "MSIS2", "HDF5", "HWLOC" ],
+      "pygemini_version" : "1.6.0",
+      "sha256" : "2584879c9021ebb2985ebd20f0a135aaaf8b8b18d41eebcc2cddd49fe2af8b6d",
+      "url" : "https://www.dropbox.com/s/o2ypsjfjp2d6nfw/arcs_eq.zst?dl=1"
     },
     "cusp2d_eq" :
     {
       "archive" : "cusp2d_eq.zst",
-      "sha256" : "ca288b9e0a39d96db67f838983d19ad1e581dfef31ac66ea4a146ef72df6e14e",
-      "url" : "https://www.dropbox.com/s/2wes3j9foaugmof/cusp2d_eq.zst?dl=1"
+      "gemini3d_version" : "v1.1.2-153-gaac30d70 1.1.2",
+      "gemini_features" : [ "REALBITS:64", "MPI", "GLOW", "MSIS2", "HDF5", "HWLOC" ],
+      "pygemini_version" : "1.6.0",
+      "sha256" : "57b24dadafd27a66b1f7739b55ed34755d087c799904da2afaf66485aca4440a",
+      "url" : "https://www.dropbox.com/s/mwtdza2enukxcex/cusp2d_eq.zst?dl=1"
     },
     "cusp3d_eq" :
     {
       "archive" : "cusp3d_eq.zst",
-      "sha256" : "e0e20347287cc9f7e7f1112c29fe48ed13ae98c3f9fc8dc07d62ad6ae6569e93",
-      "url" : "https://www.dropbox.com/s/8jvizsnrul4anyl/cusp3d_eq.zst?dl=1"
+      "gemini3d_version" : "v1.1.2-153-gaac30d70 1.1.2",
+      "gemini_features" : [ "REALBITS:64", "MPI", "GLOW", "MSIS2", "HDF5", "HWLOC" ],
+      "pygemini_version" : "1.6.0",
+      "sha256" : "0cfafd9c62564cf194f2740e5cef7429de81ae1c7b85a6bb93211e362c54d075",
+      "url" : "https://www.dropbox.com/s/o39mvnqptclwuc2/cusp3d_eq.zst?dl=1"
     },
     "cusp_softprecip2D_Dirich_CI" :
     {
       "archive" : "cusp_softprecip2D_Dirich_CI.zst",
-      "gemini3d_version" : "v1.1.1-27-ge5d856ff 1.1.2",
+      "gemini3d_version" : "v1.1.2-153-gaac30d70 1.1.2",
       "gemini_features" : [ "REALBITS:64", "MPI", "GLOW", "MSIS2", "HDF5", "HWLOC" ],
       "pygemini_version" : "1.6.0",
-      "sha256" : "397a65b5abc0e934d7ea4de6118f19d2a9c640040f6af2ae4ff08b7b62716896",
-      "url" : "https://www.dropbox.com/s/o0bwgr7tpmulyrg/cusp_softprecip2D_Dirich_CI.zst?dl=1"
+      "sha256" : "8ba2a8761c3281e25751267cc4f439caa972184103901456479aa3fd87f30618",
+      "url" : "https://www.dropbox.com/s/x4a62lw86ia65mh/cusp_softprecip2D_Dirich_CI.zst?dl=1"
     },
     "cusp_softprecip2D_Neu_CI" :
     {
       "archive" : "cusp_softprecip2D_Neu_CI.zst",
-      "gemini3d_version" : "v1.1.1-27-ge5d856ff 1.1.2",
+      "gemini3d_version" : "v1.1.2-153-gaac30d70 1.1.2",
       "gemini_features" : [ "REALBITS:64", "MPI", "GLOW", "MSIS2", "HDF5", "HWLOC" ],
       "pygemini_version" : "1.6.0",
-      "sha256" : "db0088b8391caf12d3f617bad8969be282af65489ca8eb42583126b527de810e",
-      "url" : "https://www.dropbox.com/s/5p01j78kibrxw8j/cusp_softprecip2D_Neu_CI.zst?dl=1"
+      "sha256" : "820fed2a86e6cabe4cac3006fc90df31377da05b1a3d7d6b34ac3310146fdfdb",
+      "url" : "https://www.dropbox.com/s/u8nrykynm0r36rp/cusp_softprecip2D_Neu_CI.zst?dl=1"
     },
     "cusp_softprecip3D_CI" :
     {
       "archive" : "cusp_softprecip3D_CI.zst",
-      "gemini3d_version" : "v1.1.1-27-ge5d856ff 1.1.2",
+      "gemini3d_version" : "v1.1.2-153-gaac30d70 1.1.2",
       "gemini_features" : [ "REALBITS:64", "MPI", "GLOW", "MSIS2", "HDF5", "HWLOC" ],
       "pygemini_version" : "1.6.0",
-      "sha256" : "a29471ac911224b21884883faa9273587650583e9f2e08729093c8d58995f8b2",
-      "url" : "https://www.dropbox.com/s/y2o3cr8rel6cytu/cusp_softprecip3D_CI.zst?dl=1"
+      "sha256" : "dd9c58b1c1d8fef6045620f0348c6f57f198dc03e6fcd1521e8c059358422861",
+      "url" : "https://www.dropbox.com/s/0en2rssra7ez4y1/cusp_softprecip3D_CI.zst?dl=1"
     },
     "mini2dew_eq" :
     {
       "archive" : "mini2dew_eq.zst",
-      "sha256" : "0cdd49c543e35c5227956dcce21aafeb854065fb681a2e637aa3069b8e669ba6",
-      "url" : "https://www.dropbox.com/s/8jm6wlwq57lvjvv/mini2dew_eq.zst?dl=1"
+      "gemini3d_version" : "v1.1.2-153-gaac30d70 1.1.2",
+      "gemini_features" : [ "REALBITS:64", "MPI", "GLOW", "MSIS2", "HDF5", "HWLOC" ],
+      "pygemini_version" : "1.6.0",
+      "sha256" : "829413c7b3507848a42b6e51e78a414778b98a8ffa491735051ae40a02fadce5",
+      "url" : "https://www.dropbox.com/s/rqewmt996ztwxdt/mini2dew_eq.zst?dl=1"
     },
     "mini2dew_fang" :
     {
       "archive" : "mini2dew_fang.zst",
-      "sha256" : "698111f504934cff1036d0aa9f5da89d9f92f6d0220d1af6aa0bb02268d4594d",
-      "url" : "https://www.dropbox.com/s/ymest51t2jjl683/mini2dew_fang.zst?dl=1"
+      "gemini3d_version" : "v1.1.2-153-gaac30d70 1.1.2",
+      "gemini_features" : [ "REALBITS:64", "MPI", "GLOW", "MSIS2", "HDF5", "HWLOC" ],
+      "pygemini_version" : "1.6.0",
+      "sha256" : "d00be142eaf6ab8d67567b93e2922269c8f9c4d818d2f819e5c93c68b4839f56",
+      "url" : "https://www.dropbox.com/s/qs4608b32pww0j7/mini2dew_fang.zst?dl=1"
     },
     "mini2dew_glow" :
     {
       "archive" : "mini2dew_glow.zst",
-      "sha256" : "657866035572a6189c08f8ce783a292e99197a3042b8d10f30a30e2d4837c93f",
-      "url" : "https://www.dropbox.com/s/8ztsctf9kp66wub/mini2dew_glow.zst?dl=1"
+      "gemini3d_version" : "v1.1.2-153-gaac30d70 1.1.2",
+      "gemini_features" : [ "REALBITS:64", "MPI", "GLOW", "MSIS2", "HDF5", "HWLOC" ],
+      "pygemini_version" : "1.6.0",
+      "sha256" : "c23ca497db181e4e5702130ac8bb83c3386fdaa624c98cdf1dd77f157fd12f73",
+      "url" : "https://www.dropbox.com/s/taueeunfogmq6gt/mini2dew_glow.zst?dl=1"
     },
     "mini2dns_eq" :
     {
       "archive" : "mini2dns_eq.zst",
-      "sha256" : "00dcd1a05c3aead3ca1992871c095c2976d4b18743a9f0016fa94cfbd45bfc9b",
-      "url" : "https://www.dropbox.com/s/i9x6cc1o8ywxgn3/mini2dns_eq.zst?dl=1"
+      "gemini3d_version" : "v1.1.2-153-gaac30d70 1.1.2",
+      "gemini_features" : [ "REALBITS:64", "MPI", "GLOW", "MSIS2", "HDF5", "HWLOC" ],
+      "pygemini_version" : "1.6.0",
+      "sha256" : "a6260eccdb09fd71c3ff3d4483cd0f23e9ea5abb2ab769f94d3073d4acbad690",
+      "url" : "https://www.dropbox.com/s/350srim1e3gqhif/mini2dns_eq.zst?dl=1"
     },
     "mini2dns_fang" :
     {
       "archive" : "mini2dns_fang.zst",
-      "sha256" : "d7cb2c40aa74c336a89260140d1f6dc32d6e9f0be0504f40fd7f2bea1d732cb2",
-      "url" : "https://www.dropbox.com/s/xo8t8499oxxkp2d/mini2dns_fang.zst?dl=1"
+      "gemini3d_version" : "v1.1.2-153-gaac30d70 1.1.2",
+      "gemini_features" : [ "REALBITS:64", "MPI", "GLOW", "MSIS2", "HDF5", "HWLOC" ],
+      "pygemini_version" : "1.6.0",
+      "sha256" : "f6794235d874f0fe39adea7e55ffb4aa750dee75ee3c2661708bbebef4dc60f7",
+      "url" : "https://www.dropbox.com/s/xl2jhr4hhgirip1/mini2dns_fang.zst?dl=1"
     },
     "mini2dns_glow" :
     {
       "archive" : "mini2dns_glow.zst",
-      "sha256" : "41fd377513a9cc4a7f815a6fafe0aae9965e81d512886e483bb63e69f03e8918",
-      "url" : "https://www.dropbox.com/s/um7nvw7p1aibj8i/mini2dns_glow.zst?dl=1"
+      "gemini3d_version" : "v1.1.2-153-gaac30d70 1.1.2",
+      "gemini_features" : [ "REALBITS:64", "MPI", "GLOW", "MSIS2", "HDF5", "HWLOC" ],
+      "pygemini_version" : "1.6.0",
+      "sha256" : "b4c2d2c8856bb0afbc76472692cd172d429197b7810b35e1aeeab75f892eb74b",
+      "url" : "https://www.dropbox.com/s/hq1gf71j85i2y2u/mini2dns_glow.zst?dl=1"
     },
     "mini2dns_msis2_eq" :
     {
       "archive" : "mini2dns_msis2_eq.zst",
-      "sha256" : "72ebb05a6c503f9da280201d06d5ed2f951a2e9e2105a329ec9f35f70e1cce2c",
-      "url" : "https://www.dropbox.com/s/10o87p0n2plyn3a/mini2dns_msis2_eq.zst?dl=1"
+      "gemini3d_version" : "v1.1.2-153-gaac30d70 1.1.2",
+      "gemini_features" : [ "REALBITS:64", "MPI", "GLOW", "MSIS2", "HDF5", "HWLOC" ],
+      "pygemini_version" : "1.6.0",
+      "sha256" : "d6c731bd5e5745691c931613b7e2b542d9e5033bfe29d442514597e95963d89b",
+      "url" : "https://www.dropbox.com/s/pfku553sartr6l4/mini2dns_msis2_eq.zst?dl=1"
     },
     "mini3d_eq" :
     {
       "archive" : "mini3d_eq.zst",
-      "sha256" : "c27d0b09c5a9cece56622c8827f76237923cebd6dc5ace2bb0a202837fbc39af",
-      "url" : "https://www.dropbox.com/s/9cgl4z1kf674ihk/mini3d_eq.zst?dl=1"
+      "gemini3d_version" : "v1.1.2-153-gaac30d70 1.1.2",
+      "gemini_features" : [ "REALBITS:64", "MPI", "GLOW", "MSIS2", "HDF5", "HWLOC" ],
+      "pygemini_version" : "1.6.0",
+      "sha256" : "daddbcc114bcee601e96d64361c29086fecf0353aa731251fc39aef8875202ba",
+      "url" : "https://www.dropbox.com/s/qnlp5v9ncyojs2o/mini3d_eq.zst?dl=1"
     },
     "mini3d_fang" :
     {
       "archive" : "mini3d_fang.zst",
-      "sha256" : "8c1a85c97e90060d17197f47bbc5efbf6c7042445943b7cc1d22d0463fcccfb0",
-      "url" : "https://www.dropbox.com/s/v8mkahxh26wko01/mini3d_fang.zst?dl=1"
+      "gemini3d_version" : "v1.1.2-153-gaac30d70 1.1.2",
+      "gemini_features" : [ "REALBITS:64", "MPI", "GLOW", "MSIS2", "HDF5", "HWLOC" ],
+      "pygemini_version" : "1.6.0",
+      "sha256" : "5e98c3553f1b3b15aed256959ddb2c969336c8d718fb8a221d84d15eeaf72f10",
+      "url" : "https://www.dropbox.com/s/z8elp7l4rficsf2/mini3d_fang.zst?dl=1"
     },
     "mini3d_glow" :
     {
       "archive" : "mini3d_glow.zst",
-      "sha256" : "e6e9378f4bc9d0d5a2607606a9c5450b28e3f4f8f5eede3a9646ca0698869583",
-      "url" : "https://www.dropbox.com/s/6cq29p55e91s1ty/mini3d_glow.zst?dl=1"
+      "gemini3d_version" : "v1.1.2-153-gaac30d70 1.1.2",
+      "gemini_features" : [ "REALBITS:64", "MPI", "GLOW", "MSIS2", "HDF5", "HWLOC" ],
+      "pygemini_version" : "1.6.0",
+      "sha256" : "255bf18c36dbb42a4b151fb9f58c1b51f3be05e4a465fa07dd822e47a41ce73a",
+      "url" : "https://www.dropbox.com/s/7lxlxzd9jn9hj42/mini3d_glow.zst?dl=1"
     },
     "mini3d_msis2_eq" :
     {
       "archive" : "mini3d_msis2_eq.zst",
-      "sha256" : "6892add3626ec7d3b01c5bb170e94c205b84a4a17bd1b3b6d4746c536b6f9266",
-      "url" : "https://www.dropbox.com/s/0l16xfb5toj136x/mini3d_msis2_eq.zst?dl=1"
+      "gemini3d_version" : "v1.1.2-153-gaac30d70 1.1.2",
+      "gemini_features" : [ "REALBITS:64", "MPI", "GLOW", "MSIS2", "HDF5", "HWLOC" ],
+      "pygemini_version" : "1.6.0",
+      "sha256" : "ef41954c90ad167fe9f7e561588bbc5c8daffa27cb964e76de837004f085a692",
+      "url" : "https://www.dropbox.com/s/q4r38lacbber2fh/mini3d_msis2_eq.zst?dl=1"
     },
     "tohoku20112D_medres_2Dneu" :
     {
       "archive" : "tohoku20112D_medres_2Dneu.zst",
-      "sha256" : "4a2be06e29a0df855d7ba65b785d8e9ca392458f83ecad1f643e3b474bd32a6f",
-      "url" : "https://www.dropbox.com/s/uc9jesm8kw720y4/tohoku20112D_medres_2Dneu.zst?dl=1"
+      "gemini3d_version" : "v1.1.2-153-gaac30d70 1.1.2",
+      "gemini_features" : [ "REALBITS:64", "MPI", "GLOW", "MSIS2", "HDF5", "HWLOC" ],
+      "pygemini_version" : "1.6.0",
+      "sha256" : "23ee3fab91e47bd3e3eeeb4b21ce6a670fb7cd9c8c57e150fd7c7fe471364476",
+      "url" : "https://www.dropbox.com/s/77rsw86s3lhavdf/tohoku20112D_medres_2Dneu.zst?dl=1"
     },
     "tohoku20112D_medres_axineu_CI" :
     {
       "archive" : "tohoku20112D_medres_axineu_CI.zst",
-      "sha256" : "92e66a96a0b27f1bd09583c163207ccb27c9f17b292a2a6ff96e8447643febb4",
-      "url" : "https://www.dropbox.com/s/m0gid6y8hl5oamc/tohoku20112D_medres_axineu_CI.zst?dl=1"
+      "gemini3d_version" : "v1.1.2-153-gaac30d70 1.1.2",
+      "gemini_features" : [ "REALBITS:64", "MPI", "GLOW", "MSIS2", "HDF5", "HWLOC" ],
+      "pygemini_version" : "1.6.0",
+      "sha256" : "1cbd1a73eb12735e99b1bbf6ca03d049d8e1a19fb1983bee17fec141d6ac126a",
+      "url" : "https://www.dropbox.com/s/gfu45mwh2su3bjj/tohoku20112D_medres_axineu_CI.zst?dl=1"
     },
     "tohoku20113D_lowres_3Dneu" :
     {
       "archive" : "tohoku20113D_lowres_3Dneu.zst",
-      "sha256" : "ef0c5311706dec101921da3e59c8232ad9a8c76016f229b29efc6dd13f551651",
-      "url" : "https://www.dropbox.com/s/oe3ynqsylbxla0o/tohoku20113D_lowres_3Dneu.zst?dl=1"
+      "gemini3d_version" : "v1.1.2-153-gaac30d70 1.1.2",
+      "gemini_features" : [ "REALBITS:64", "MPI", "GLOW", "MSIS2", "HDF5", "HWLOC" ],
+      "pygemini_version" : "1.6.0",
+      "sha256" : "39841c5091c7b9ced58cc7d90904829524baee31b87e404149a48cdbc8e0a1cb",
+      "url" : "https://www.dropbox.com/s/l70eprcbxbftrcv/tohoku20113D_lowres_3Dneu.zst?dl=1"
     },
     "tohoku20113D_lowres_axineu" :
     {
       "archive" : "tohoku20113D_lowres_axineu.zst",
-      "sha256" : "a0cd22ef644b605aff1cbdbee86ab524fcb14dc44c64448f9cc297d197074202",
-      "url" : "https://www.dropbox.com/s/x3qndgzkwce8phm/tohoku20113D_lowres_axineu.zst?dl=1"
+      "gemini3d_version" : "v1.1.2-153-gaac30d70 1.1.2",
+      "gemini_features" : [ "REALBITS:64", "MPI", "GLOW", "MSIS2", "HDF5", "HWLOC" ],
+      "pygemini_version" : "1.6.0",
+      "sha256" : "45a21d4527d92b4f2e4c56faec4f3cdc3379f7b33d7e7bf9f92d1641feb2b728",
+      "url" : "https://www.dropbox.com/s/20n0imt7ju7h5lq/tohoku20113D_lowres_axineu.zst?dl=1"
     },
     "tohoku2d_eq" :
     {
       "archive" : "tohoku2d_eq.zst",
-      "sha256" : "904e2a4ef199eb2d87f9c1c6707acde5d97daccf6a8e0b7d9237d07d0bc34253",
-      "url" : "https://www.dropbox.com/s/5jnz3fxn2ajqkxv/tohoku2d_eq.zst?dl=1"
+      "gemini3d_version" : "v1.1.2-153-gaac30d70 1.1.2",
+      "gemini_features" : [ "REALBITS:64", "MPI", "GLOW", "MSIS2", "HDF5", "HWLOC" ],
+      "pygemini_version" : "1.6.0",
+      "sha256" : "ea61b56daf9d2781989a0ff00518949063dbf0d0f7be0f3b325e797b9020e361",
+      "url" : "https://www.dropbox.com/s/fonyahx0p0vfhnn/tohoku2d_eq.zst?dl=1"
     },
     "tohoku3d_eq" :
     {
       "archive" : "tohoku3d_eq.zst",
-      "sha256" : "6e03cfb5634fdeb6ff7e703e9b33a7fcc86cbf3167a63b8ecb649ee0f65ac996",
-      "url" : "https://www.dropbox.com/s/ilu3y84dtbmz1my/tohoku3d_eq.zst?dl=1"
+      "gemini3d_version" : "v1.1.2-153-gaac30d70 1.1.2",
+      "gemini_features" : [ "REALBITS:64", "MPI", "GLOW", "MSIS2", "HDF5", "HWLOC" ],
+      "pygemini_version" : "1.6.0",
+      "sha256" : "0bae547cf58f93f082dcf98fc1fa6124a1ae89ba66b40428503d71eda5bd99a9",
+      "url" : "https://www.dropbox.com/s/288gils5eodeqac/tohoku3d_eq.zst?dl=1"
     }
   }
 }

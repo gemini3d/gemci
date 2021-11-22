@@ -42,7 +42,7 @@ if(EXISTS ${archive})
   endif()
 endif()
 
-if(NOT EXISTS ${archive} OR NOT hash_ok)
+if(NOT hash_ok)
   message(STATUS "${name}:DOWNLOAD: ${url} => ${archive}   ${hash}")
   file(DOWNLOAD ${url} ${archive} SHOW_PROGRESS EXPECTED_HASH SHA256=${hash} INACTIVITY_TIMEOUT 15)
 endif()

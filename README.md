@@ -2,57 +2,145 @@
 
 [![ci](https://github.com/gemini3d/gemci/actions/workflows/ci.yml/badge.svg)](https://github.com/gemini3d/gemci/actions/workflows/ci.yml)
 
-Gemini3D CI consists of several minutes to hours simulations that can run as a daily CI job on a powerful workstation or HPC.
-While the CI tests in general take hours to run, particularly on a laptop, one may quickly (in a few minutes) check that the CI simulations setup by:
+Gemini3D CI "GemCI" consists of several simulations that can run as a daily CI job on a powerful workstation or HPC.
+The CI tests in general each take a few minutes to about an hour to run on a powerful computer.
+It is possible to select subsets of tests to speedup testing.
+
+As typical for CMake projects, there is a 3 step process: configure-build-test:
 
 ```sh
 cmake --preset default
-ctest --preset setup
+
+cmake --build build
+
+ctest --preset default
 ```
 
-The "hourly/mini*" tests are good for validating a workflow on a laptop or workstation in about a minute runtime each.
+It is necessary to specify the data directory where the CI tests will be run and reference data downloaded.
+This is accomplished by either/both:
+
+* set environment variable GEMINI_CIROOT
+* CMake configure option `cmake -DGEMINI_CIROOT=<path>`  (priority over environment variable)
+
+Note there can be over 20 GB of data, so ensure your hard drive has enough disk space.
+
+## Selecting tests
+
+[CTest](https://cmake.org/cmake/help/latest/manual/ctest.1.html)
+has a regex syntax to select tests.
+Use `ctest -R` to select a subset of tests.
+Note that CTest
+[test fixtures](https://cmake.org/cmake/help/latest/prop_test/FIXTURES_REQUIRED.html)
+are used to specify the hierarchy of tests.
+Since there are hundreds of individual tests, learn about how the tests are organized by selecting one simulation and look at the JSON produced like:
+
+```sh
+ctest --preset default -R mini2dns_glow -N
+```
+
+The "-N" flag prints the test names that would run.
+We use "-N" frequently to avoid wasting time running unwanted tests in interactive use.
+Run the tests by omitting "-N".
+
+To omit all tests automatically added by fixtures, add option `ctest -FA fxt`.
+The "-FA" flag also uses regex--in GemCI we use the suffix "_fxt" on each fixture to allow for easy selection.
+
+The "default" preset in CMakePresets.json does not run equilibrium simulations, as they take more than an hour each, and use the most basic features of Gemini.
+To enable equilibrium simulations, run:
+
+```sh
+cmake --preset default -Dequil=on
+```
+
+For developers, the flag `ctest --show-only=json-v1` emits JSON test trace data revealing the dependencies between tests in detail.
+
+### Example test selection
+
+```sh
+ctest --preset default -R mini2dns_glow -N
+```
+
+```
+Test project gemci/build
+  Test #51: setup:download_equilibrium:mini2dns_glow
+  Test #52: setup:python:mini2dns_glow
+  Test #53: compare:download:mini2dns_glow
+  Test #54: compare:input:mini2dns_glow
+  Test #55: read_grid:python:mini2dns_glow
+  Test #56: run_bounds_check:mini2dns_glow
+  Test #57: run:mini2dns_glow
+  Test #58: compare:output:mini2dns_glow
+  Test #59: plotdiff:output:mini2dns_glow
+  Test #60: plot:python:mini2dns_glow
+
+Total Tests: 10
+```
+
+To omit plotting, which can take nearly as long as the simulation itself:
+
+```sh
+ctest --preset default -R mini2dns_glow -E plot -N
+```
+
+```
+Test project gemci/build
+  Test #51: setup:download_equilibrium:mini2dns_glow
+  Test #52: setup:python:mini2dns_glow
+  Test #53: compare:download:mini2dns_glow
+  Test #54: compare:input:mini2dns_glow
+  Test #55: read_grid:python:mini2dns_glow
+  Test #56: run_bounds_check:mini2dns_glow
+  Test #57: run:mini2dns_glow
+  Test #58: compare:output:mini2dns_glow
+
+Total Tests: 8
+```
 
 ## Bounds checking
 
-Typically the CI is run with Gemini3D having been built with `cmake -DCMAKE_BUILD_TYPE=Release`, which is the default if no build type has been specified.
-Among other options, Release builds have compiler flag `-O3` or equivalent that make simulations runtimes several times faster than no optimizations. Even `-O2` is significantly slower.
+Most Gemini3D users build with `cmake -DCMAKE_BUILD_TYPE=Release`, which is the Gemini3D default if no CMake build type has been specified.
+Among other options, Release builds have compiler flag "-O3" or equivalent that make simulation runtimes several times faster than no optimizations.
+Even "-O2" is significantly slower than "-O3".
 
 Bounds checking is a basic runtime check that arrays are not being indexed outside their bounds.
 This check is not perfect, but has in the past caught array indexing bugs.
 We mitigate the slower runtimes by only running bounds checks with simulation "-dryrun" option that only runs the first time step of the simulation without file output.
 
-The way this is implemented is to first build Gemini3D using Ninja Multi-Config, instead of the plain GNU Make or Ninja builds that are the default.
-First, build Gemini3D with:
+Normally, GemCI automatically "git pull" the latest Gemini3D code and builds a local copy of Gemini3D.
+Developers may override this by pointing GemCI to an externally prepared Gemini3D build directory.
+This would be done when working on a new feature branch or working to resolve a bug.
 
-```sh
-cd gemini3d/
-cmake --preset multi
-cmake --build --preset release
-cmake --build --preset debug
-```
-
-It doesn't matter if you build release or debug first. The executables will be under:
-gemini3d/build/Release/
-gemini3d/build/Debug/
-
-The GemCI CMake scripts know how to find these executables and use them appropriately.
-A basic check is made to help ensure that bounds checking flags were enabled.
-
-After doing the above Gemini3D Ninja Multi-Config build, come back to gemci/ and use a fresh build/ directory:
-
-```sh
-cmake --preset default
-ctest --preset default -N
-```
-
-Notice the tests named "run_bounds_check:".
+The tests named "run_bounds_check:" are only present if "gemini3d.run.debug" is available with bounds checking enabled.
 They should not have "(Disabled)" after the test name.
-Those use the `-dryrun` option and bounds checking.
+Those tests use the `-dryrun` option and bounds checking.
 
-## Data directory
+## Regenerating reference data
 
-It is necessary to specify the data directory where the CI tests will be run.
-This is accomplished by either/both:
+This is usually only done by development team.
+It takes about 12 hours to run all the simulations on a powerful 32-core workstation or HPC.
+We recommend using PyGemini for this `pip install pygemini`.
+If neither PyGemini or MatGemini are available, the regeneration will use previously generated reference input, which is not a clean regeneration of the reference data.
+It's preferable to have PyGemini working before regenerating the reference data.
 
-* set environment variable GEMINI_CIROOT
-* CMake configure option `cmake -DGEMINI_CIROOT=<path>`  (priority over environment variable)
+1. set environment variable GEMINI_CIROOT to a fresh directory, or erase all the existing files/folders there.
+2. Configure GemCI in a fresh build directory. Make Gemini3D autobuild on the latest Gemini3D code by NOT specifying -DGEMINI_ROOT.
+
+    ```sh
+    cmake --preset regen
+    ```
+3. Build Gemini3D:
+
+    ```sh
+    cmake --build build
+    ```
+4. Run the tests, which regenerates data in the GEMINI_CIROOT directory:
+
+    ```sh
+    ctest --preset regen
+    ```
+
+Uploading the reference data for public use can be manually done from the GEMINI_CIROOT directory.
+Optionally, if the program
+[rclone](https://rclone.org/)
+is present and has been configured by the user for the appropriate file sharing service, CTest will automatically upload the reference data to the cloud storage.
+The final step would be visually checking that the URLs in "ref_data.json" are correct and "git commit" the new ref_data.json in gemci/.

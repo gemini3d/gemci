@@ -61,7 +61,7 @@ OUTPUT_STRIP_TRAILING_WHITESPACE
 if(ret EQUAL 0)
   foreach(s ${_flags_exp})
     if(_comp_opt MATCHES ${s})
-      set(GEMINI_RUN_BOUNDS_CHECK true CACHE BOOL "gemini3d.debug.run with bounds checking")
+      set(GEMINI_RUN_BOUNDS_CHECK true CACHE BOOL "gemini3d.run.debug with bounds checking")
       return()
     endif()
   endforeach()

@@ -128,7 +128,7 @@ def perturb_density(
             nsperturb[i, :, ix2, :] = nsperturb[i, :, ix2, :] + n1here
             # perturbation
 
-    nsperturb = np.clip(nsperturb, a_min=1e4)  # type: ignore
+    nsperturb = nsperturb.clip(min=1e4)
     # enforce a density floor
     # particularly need to pull out negative densities which can occur when noise is applied
     nsperturb[-1, :, :, :] = nsperturb[:6, :, :, :].sum(axis=0)

@@ -30,7 +30,14 @@ else()
   set(FETCHCONTENT_UPDATES_DISCONNECTED_MATGEMINI true)
 endif()
 
-# --- default install directory under build/local
+# --- for ExternalProject generator
+if(CMAKE_GENERATOR STREQUAL "Ninja Multi-Config")
+  set(EXTPROJ_GENERATOR "Ninja")
+else()
+  set(EXTPROJ_GENERATOR ${CMAKE_GENERATOR})
+endif()
+
+# --- default install directory
 # users can specify like "cmake -B build -DCMAKE_INSTALL_PREFIX=~/mydir"
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
   # will not take effect without FORCE

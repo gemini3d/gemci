@@ -23,6 +23,8 @@ RESOURCE_LOCK cpu_mpi
 ENVIRONMENT GEMINI_CIROOT=${GEMINI_CIROOT}
 )
 
+set(run_args ${out_dir} -mpiexec ${MPIEXEC_EXECUTABLE} -exe ${GEMINI_BIN})
+
 add_test(NAME "run:${name}"
 COMMAND ${GEMINI_RUN} ${run_args}
 WORKING_DIRECTORY ${run_parent}

@@ -16,6 +16,29 @@ cmake --build build
 ctest --preset default
 ```
 
+## Gemini3D build
+
+For robustness/repeatability, GemCI downloads and builds its own copy of Gemini3D.
+The default Git tag/commit is in the top-level gemci/libraries.json.
+The user may specify a custom Gemini3D Git tag/commit like:
+
+```sh
+cmake --preset default -Dgemini3d_tag=my_branch
+```
+
+Every time GemCI CMake reconfigures, it checks if there is an update to Gemini3D on gemini3d_tag.
+If you make a change to Gemini3D that you want to test with GemCI, reconfigure before CTest like:
+
+```sh
+cmake --preset default
+
+ctest --preset default
+```
+
+CTest ignores changes to CMake scripts and other projects.
+
+## Data directory
+
 It is necessary to specify the data directory where the CI tests will be run and reference data downloaded.
 This is accomplished by either/both:
 
@@ -105,10 +128,6 @@ Even "-O2" is significantly slower than "-O3".
 Bounds checking is a basic runtime check that arrays are not being indexed outside their bounds.
 This check is not perfect, but has in the past caught array indexing bugs.
 We mitigate the slower runtimes by only running bounds checks with simulation "-dryrun" option that only runs the first time step of the simulation without file output.
-
-Normally, GemCI automatically "git pull" the latest Gemini3D code and builds a local copy of Gemini3D.
-Developers may override this by pointing GemCI to an externally prepared Gemini3D build directory.
-This would be done when working on a new feature branch or working to resolve a bug.
 
 The tests named "run_bounds_check:" are only present if "gemini3d.run.debug" is available with bounds checking enabled.
 They should not have "(Disabled)" after the test name.

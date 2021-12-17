@@ -23,10 +23,11 @@ if(EXISTS ${PROJECT_SOURCE_DIR}/../mat_gemini/setup.m)
   set(FETCHCONTENT_SOURCE_DIR_MATGEMINI ${PROJECT_SOURCE_DIR}/../mat_gemini CACHE PATH "MatGemini developer path")
 endif()
 
+set_directory_properties(PROPERTIES EP_UPDATE_DISCONNECTED false)
+
 if(dev)
 
 else()
-  set_directory_properties(PROPERTIES EP_UPDATE_DISCONNECTED true)
   set(FETCHCONTENT_UPDATES_DISCONNECTED_MATGEMINI true)
 endif()
 

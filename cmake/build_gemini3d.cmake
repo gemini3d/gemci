@@ -17,13 +17,9 @@ set(gemini_args
 --install-prefix=${GEMINI_ROOT}
 )
 
-file(READ ${PROJECT_SOURCE_DIR}/libraries.json _libj)
-string(JSON gemini_url GET ${_libj} gemini3d url)
-string(JSON gemini_tag GET ${_libj} gemini3d tag)
-
 ExternalProject_Add(GEMINI3D_RELEASE
-GIT_REPOSITORY ${gemini_url}
-GIT_TAG ${gemini_tag}
+GIT_REPOSITORY ${gemini3d_url}
+GIT_TAG ${gemini3d_tag}
 CMAKE_ARGS ${gemini_args} -DCMAKE_BUILD_TYPE=Release
 CMAKE_GENERATOR ${EXTPROJ_GENERATOR}
 INACTIVITY_TIMEOUT 15
@@ -31,8 +27,8 @@ CONFIGURE_HANDLED_BY_BUILD true
 )
 
 ExternalProject_Add(GEMINI3D_DEBUG
-GIT_REPOSITORY ${gemini_url}
-GIT_TAG ${gemini_tag}
+GIT_REPOSITORY ${gemini3d_url}
+GIT_TAG ${gemini3d_tag}
 CMAKE_ARGS ${gemini_args} -DCMAKE_BUILD_TYPE=Debug
 CMAKE_GENERATOR ${EXTPROJ_GENERATOR}
 INACTIVITY_TIMEOUT 15

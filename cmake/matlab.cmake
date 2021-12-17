@@ -3,7 +3,7 @@ include(FetchContent)
 find_package(Matlab COMPONENTS MAIN_PROGRAM REQUIRED)
 
 FetchContent_Declare(MATGEMINI
-  GIT_REPOSITORY ${matgemini_git}
+  GIT_REPOSITORY ${matgemini_url}
   GIT_TAG ${matgemini_tag})
 
 FetchContent_MakeAvailable(MATGEMINI)

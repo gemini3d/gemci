@@ -2,5 +2,9 @@
   "gemini3d": {
     "url": "https://github.com/gemini3d/gemini3d.git",
     "tag": "main"
+  },
+  "matgemini": {
+    "url": "https://github.com/gemini3d/mat_gemini.git",
+    "tag": "v5.0.1"
   }
 }

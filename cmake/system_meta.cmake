@@ -21,8 +21,8 @@ string(JSON ref_json SET ${ref_json} system cmake_version \"${CMAKE_VERSION}\")
 string(JSON ref_json SET ${ref_json} system operating_system \"${CMAKE_HOST_SYSTEM_NAME}\")
 string(JSON ref_json SET ${ref_json} system cpu \"${host_cpu}\")
 string(JSON ref_json SET ${ref_json} system memory_ram_MB ${host_ramMB})
-if(fortran_compiler)
-  string(JSON ref_json SET ${ref_json} system fortran_compiler \"${fortran_compiler}\")
+if(fortran_compiler_info)
+  string(JSON ref_json SET ${ref_json} system fortran_compiler \"${fortran_compiler_info}\")
 endif()
 
 # check if tag exists, create if not

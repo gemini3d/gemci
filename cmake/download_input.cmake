@@ -1,4 +1,4 @@
-function(download_input input_dir name input_type)
+function(download_input input_dir name input_type arc_json_file)
 
 string(REGEX REPLACE "[\\/]+$" "" input_dir "${input_dir}") # must strip trailing slash for cmake_path(... FILENAME) to work
 cmake_path(GET input_dir FILENAME input_name)
@@ -6,7 +6,7 @@ if(NOT input_name)
   message(FATAL_ERROR "${name}: ${input_dir} seems malformed, could not get directory name ${input_name}")
 endif()
 
-file(READ ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/ref_data.json _refj)
+file(READ ${arc_json_file} _refj)
 string(JSON url GET ${_refj} ${input_type} ${input_name} url)
 string(JSON archive_name GET ${_refj} ${input_type} ${input_name} archive)
 string(JSON hash GET ${_refj} ${input_type} ${input_name} sha256)
@@ -57,4 +57,4 @@ file(WRITE ${input_dir}/sha256sum.txt ${archive_hash})
 endfunction(download_input)
 
 
-download_input(${input_dir} ${name} ${input_type})
+download_input(${input_dir} ${name} ${input_type} ${arc_json_file})

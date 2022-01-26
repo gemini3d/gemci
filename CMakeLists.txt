@@ -124,6 +124,13 @@ if(name MATCHES "hwm14" AND NOT "HWM14" IN_LIST GEMINI_FEATURES)
   set(${name}_DISABLED 1)
 endif()
 
+# --- download reference data JSON file (for previously generated data)
+cmake_path(APPEND arc_json_file ${CMAKE_CURRENT_BINARY_DIR} ref_data.json)
+if(NOT EXISTS ${arc_json_file})
+  string(JSON url GET ${_libj} ref_data url)
+  file(DOWNLOAD ${url} ${arc_json_file} INACTIVITY_TIMEOUT 15)
+endif()
+
 # --- proceed with simulation setup
 
 cmake_path(APPEND out_dir ${GEMINI_CIROOT} ${name})

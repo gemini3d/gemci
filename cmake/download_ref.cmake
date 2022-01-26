@@ -1,11 +1,11 @@
-function(download_ref name ref_root)
+function(download_ref name ref_root arc_json_file)
 
 # sanity check to avoid making mess
 if(NOT IS_DIRECTORY ${ref_root})
   message(FATAL_ERROR "${ref_root} is not a directory.")
 endif()
 
-file(READ ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/ref_data.json _refj)
+file(READ ${arc_json_file} _refj)
 string(JSON url GET ${_refj} tests ${name} url)
 string(JSON archive_name GET ${_refj} tests ${name} archive)
 string(JSON hash GET ${_refj} tests ${name} sha256)
@@ -55,4 +55,4 @@ file(WRITE ${ref_dir}/sha256sum.txt ${archive_hash})
 endfunction(download_ref)
 
 
-download_ref(${name} ${ref_root})
+download_ref(${name} ${ref_root} ${arc_json_file})

@@ -57,12 +57,13 @@ endfunction(compare_input)
 function(compare_download out_dir ref_root name label)
 
 add_test(NAME compare:download:${name}
-COMMAND ${CMAKE_COMMAND} -Dname=${name} -Dref_root:PATH=${ref_root} -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/download_ref.cmake)
+COMMAND ${CMAKE_COMMAND} -Dname=${name} -Dref_root:PATH=${ref_root} -Darc_json_file:FILEPATH=${arc_json_file} -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/download_ref.cmake)
 
 set_tests_properties(compare:download:${name} PROPERTIES
 FIXTURES_SETUP ${name}:download_fxt
 FIXTURES_REQUIRED ${name}:setup_fxt
 # REQUIRED_FILES ${out_dir}/inputs/config.nml
+REQUIRED_FILES ${arc_json_file}
 LABELS "download;${label}"
 RESOURCE_LOCK download_lock
 TIMEOUT 600

@@ -23,7 +23,7 @@ The default Git tag/commit is in the top-level gemci/libraries.json.
 The user may specify a custom Gemini3D Git tag/commit like:
 
 ```sh
-cmake --preset default -Dgemini3d_tag=my_branch
+cmake --preset default -Dgemini3d_tag=my_branch_or_tag_or_commit
 ```
 
 Every time GemCI CMake reconfigures, it checks if there is an update to Gemini3D on gemini3d_tag.
@@ -142,7 +142,7 @@ If neither PyGemini or MatGemini are available, the regeneration will use previo
 It's preferable to have PyGemini working before regenerating the reference data.
 
 1. set environment variable GEMINI_CIROOT to a fresh directory, or erase all the existing files/folders there.
-2. Configure GemCI in a fresh build directory. Make Gemini3D autobuild on the latest Gemini3D code by NOT specifying -DGEMINI_ROOT.
+2. Configure GemCI in a fresh build directory. To serve as a CI, Gemini3D is rebuilt each time if change occurs in Gemini3D repo. To specify a specific Git branch/commit/tag for Gemini3D, add option below: `-Dgemini3d_tag=my_branch_or_tag_or_commit`
 
     ```sh
     cmake --preset regen

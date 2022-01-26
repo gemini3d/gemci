@@ -7,6 +7,8 @@ if(NOT GEMINI_ROOT)
   set(GEMINI_ROOT ${CMAKE_INSTALL_PREFIX})
 endif()
 
+set(CMAKE_VERBOSE_MAKEFILE false)
+
 set(gemini_args
 -DBUILD_TESTING:BOOL=off
 -Dmpi:BOOL=on
@@ -15,7 +17,8 @@ set(gemini_args
 -Dhdf5:BOOL=on
 -Dhwm14:BOOL=on
 -Dnetcdf:BOOL=off
---install-prefix=${GEMINI_ROOT}
+-DCMAKE_INSTALL_PREFIX=${GEMINI_ROOT}
+-DCMAKE_VERBOSE_MAKEFILE:BOOL=${CMAKE_VERBOSE_MAKEFILE}
 )
 
 ExternalProject_Add(GEMINI3D_RELEASE
@@ -27,8 +30,6 @@ INACTIVITY_TIMEOUT 15
 CONFIGURE_HANDLED_BY_BUILD true
 )
 
-ExternalProject_Get_property(GEMINI3D_RELEASE SOURCE_DIR)
-
 ExternalProject_Add(GEMINI3D_DEBUG
 GIT_REPOSITORY ${gemini3d_url}
 GIT_TAG ${gemini3d_tag}
@@ -38,43 +39,23 @@ INACTIVITY_TIMEOUT 15
 CONFIGURE_HANDLED_BY_BUILD true
 )
 
-set(GEMINI_RUN ${GEMINI_ROOT}/bin/gemini3d.run)
-set(GEMINI_RUN_DEBUG ${GEMINI_ROOT}/bin/gemini3d.run.debug)
+set(GEMINI_RUN ${GEMINI_ROOT}/bin/gemini3d.run$<$<BOOL:${WIN32}>:.exe>)
+set(GEMINI_RUN_DEBUG ${GEMINI_ROOT}/bin/gemini3d.run.debug$<$<BOOL:${WIN32}>:.exe>)
 
-set(GEMINI_BIN ${GEMINI_ROOT}/bin/gemini.bin)
-set(GEMINI_BIN_DEBUG ${GEMINI_ROOT}/bin/gemini.bin.debug)
+set(GEMINI_BIN ${GEMINI_ROOT}/bin/gemini.bin$<$<BOOL:${WIN32}>:.exe>)
+set(GEMINI_BIN_DEBUG ${GEMINI_ROOT}/bin/gemini.bin.debug$<$<BOOL:${WIN32}>:.exe>)
 
-set(GEMINI_COMPARE ${GEMINI_ROOT}/bin/gemini3d.compare)
+set(GEMINI_COMPARE ${GEMINI_ROOT}/bin/gemini3d.compare$<$<BOOL:${WIN32}>:.exe>)
 # there doesn't seem to be an easy way to run "gemini3d.run -features" and capture output
 # via ExternalProject without using auxiliary files.
-set(GEMINI_FEATURES "REALBITS:64 MPI GLOW MSIS2 HDF5 HWM14")
+set(GEMINI_FEATURES "REALBITS:64;MPI;GLOW;MSIS2;HDF5;HWM14")
 set(GEMINI_RUN_BOUNDS_CHECK true CACHE BOOL "assume bounds flags OK on self-build")
 
-# --- Git metadata
-set(_max_len 80)
-# so as not to exceed maximum 132 character Fortran line length.
+# get Git revision of Gemini3D via ExternalProject Step and log file
+ExternalProject_Get_property(GEMINI3D_RELEASE STAMP_DIR)
 
-# this is ordinarily compiled into gemini executable, but as above not an easy way to run and capture
-# after externalproject build except by Add_Step() and auxiliary file.
-execute_process(COMMAND ${GIT_EXECUTABLE} describe --tags
-WORKING_DIRECTORY ${SOURCE_DIR}
-OUTPUT_VARIABLE GEMINI_VERSION
-OUTPUT_STRIP_TRAILING_WHITESPACE
-RESULT_VARIABLE _err
-TIMEOUT 10
+ExternalProject_Add_Step(GEMINI3D_RELEASE git_version DEPENDEES build
+COMMAND ${GEMINI_RUN} -git
+LOG true
 )
-if(NOT _err EQUAL 0)
-  # old Git
-  execute_process(COMMAND ${GIT_EXECUTABLE} rev-parse --short HEAD
-  WORKING_DIRECTORY ${SOURCE_DIR}
-  OUTPUT_VARIABLE GEMINI_VERSION
-  OUTPUT_STRIP_TRAILING_WHITESPACE
-  RESULT_VARIABLE _err
-  TIMEOUT 10
-  )
-endif()
-if(_err EQUAL 0)
-  string(SUBSTRING ${GEMINI_VERSION} 0 ${_max_len} GEMINI_VERSION)
-else()
-  set(GEMINI_VERSION)
-endif()
+# logfile name: ${STAMP_DIR}/GEMINI3D_RELEASE-git_version-out.log

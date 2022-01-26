@@ -9,6 +9,16 @@ cmake_path(APPEND data_dir ${GEMINI_CIROOT} ${name})
 
 string(REPLACE ";" "\\;" GEMINI_FEATURES "${GEMINI_FEATURES}")
 
+if(NOT GEMINI_VERSION)
+  # Gemini3D built via ExternalProject, read log file from ExternalProject Step git_version
+  set(vers_fn ${STAMP_DIR}/GEMINI3D_RELEASE-git_version-out.log)
+  if(EXISTS ${vers_fn})
+    file(READ ${vers_fn} GEMINI_VERSION)
+  else()
+    message(STATUS "${name}: omitted Gemini3D version from ${ref_json_file}")
+  endif()
+endif()
+
 add_test(NAME "archive:${name}"
 COMMAND ${CMAKE_COMMAND} -Din:PATH=${data_dir} -Dout:FILEPATH=${archive} -Dref_json_file:FILEPATH=${ref_json_file} -Dgemini_version=${GEMINI_VERSION} -Dgemini_features=${GEMINI_FEATURES} -Dpygemini_version=${PYGEMINI_VERSION} -Dname=${name} -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/archive.cmake
 )

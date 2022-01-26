@@ -94,7 +94,6 @@ if(package)
   message(STATUS "packaging archives in ${upload_root}")
 endif()
 
-
 # --- main loop
 
 foreach(in_dir ${equilibrium_dirs} ${hourly_dirs} ${daily_dirs})

@@ -1,4 +1,4 @@
-! 3D sim at RISR
+! 3D sim at RISR w/HWM14 and Fang ionization
 
 &base
 ymd = 2013,2,20               ! year, month, day

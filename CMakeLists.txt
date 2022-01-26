@@ -111,8 +111,12 @@ if(name MATCHES "msis2" AND NOT "MSIS2" IN_LIST GEMINI_FEATURES)
   set(${name}_DISABLED 1)
 endif()
 
-# --- proceed with simulation setup
+if(name MATCHES "hwm14" AND NOT "HWM14" IN_LIST GEMINI_FEATURES)
+  message(STATUS "HWM14 not enabled, disabling ${name}")
+  set(${name}_DISABLED 1)
+endif()
 
+# --- proceed with simulation setup
 
 cmake_path(APPEND out_dir ${GEMINI_CIROOT} ${name})
 

@@ -1,4 +1,4 @@
-! 3D sim at RISR
+! north-south sim at RISR w/HWM14 and Fang ionization
 
 &base
 ymd = 2013,2,20               ! year, month, day
@@ -16,33 +16,31 @@ flagoutput = 1
 /
 
 &files
-indat_size = 'inputs/simsize.h5'
-indat_grid = 'inputs/simgrid.h5'
-indat_file = 'inputs/initial_conditions.h5'
+indat_size = "inputs/simsize.h5"
+indat_grid = "inputs/simgrid.h5"
+indat_file = "inputs/initial_conditions.h5"
 /
 
 &setup
 glat = 67.11
 glon = 212.95
-xdist = 200e3              ! eastward distance (meters)
-ydist = 200e3               ! northward distance (meters)
+xdist = 200e3               ! eastward distance (meters)
+ydist = 100e3               ! northward distance (meters)
 alt_min = 80e3              ! minimum altitude (meters)
 alt_max = 1000e3            ! maximum altitude (meters)
 alt_scale = 13.75e3, 20e3, 200e3, 200e3  ! altitude grid scales (meters)
-lxp = 12                    ! number of x-cells
-lyp = 16                    ! number of y-cells
+lxp = 1                     ! number of x-cells
+lyp = 20                     ! number of y-cells
 Bincl = 90                  ! geomagnetic inclination
 nmf = 5e11
 nme = 2e11
-precip_latwidth = 0.25
-precip_lonwidth = 0.35
+precip_latwidth = 0.125
 Qprecip = 10
 Qprecip_background = 0.0
 E0precip = 5e3
 Etarg = 50e-3   ! V/m
-Efield_latwidth = 0
-Efield_lonwidth = 0.142857
-eq_dir = '@GEMINI_CIROOT@/mini3d_eq'
+Efield_latwidth = 0.142857
+eq_dir = '@GEMINI_CIROOT@/mini2dns_eq'
 /
 
 &precip

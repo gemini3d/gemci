@@ -13,6 +13,7 @@ set(gemini_args
 -Dmsis2:BOOL=on
 -Dglow:BOOL=on
 -Dhdf5:BOOL=on
+-Dhwm14:BOOL=on
 -Dnetcdf:BOOL=off
 --install-prefix=${GEMINI_ROOT}
 )
@@ -44,5 +45,5 @@ set(GEMINI_BIN_DEBUG ${GEMINI_ROOT}/bin/gemini.bin.debug)
 set(GEMINI_COMPARE ${GEMINI_ROOT}/bin/gemini3d.compare)
 # there doesn't seem to be an easy way to run "gemini3d.run -features" and capture output
 # via ExternalProject without using auxiliary files.
-set(GEMINI_FEATURES "REALBITS:64 MPI GLOW MSIS2 HDF5")
+set(GEMINI_FEATURES "REALBITS:64 MPI GLOW MSIS2 HDF5 HWM14")
 set(GEMINI_RUN_BOUNDS_CHECK true CACHE BOOL "assume bounds flags OK on self-build")

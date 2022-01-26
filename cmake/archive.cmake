@@ -1,3 +1,5 @@
+cmake_minimum_required(VERSION 3.20...3.22)
+
 cmake_path(GET out EXTENSION LAST_ONLY ARC_TYPE)
 cmake_path(GET out FILENAME archive_name)
 
@@ -38,6 +40,19 @@ if(fsize LESS 10000)
 endif()
 
 message(STATUS "Created archive ${out}")
+
+# JSON update
+
+if(NOT gemini_version)
+  if(EXISTS "${vers_fn}")
+    file(READ ${vers_fn} gemini_version)
+  else()
+    message(STATUS "${name}: Missing Gemini3D version log file ${vers_fn}")
+  endif()
+endif()
+if(NOT gemini_version)
+  message(STATUS "${name}: omitted Gemini3D version from ${ref_json_file}")
+endif()
 
 # put hash in JSON
 file(SHA256 ${out} hash)

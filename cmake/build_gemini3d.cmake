@@ -54,7 +54,7 @@ set(GEMINI_RUN_BOUNDS_CHECK true CACHE BOOL "assume bounds flags OK on self-buil
 # get Git revision of Gemini3D via ExternalProject Step and log file
 ExternalProject_Get_property(GEMINI3D_RELEASE STAMP_DIR)
 
-ExternalProject_Add_Step(GEMINI3D_RELEASE git_version DEPENDEES build
+ExternalProject_Add_Step(GEMINI3D_RELEASE git_version DEPENDEES install
 COMMAND ${GEMINI_RUN} -git
 LOG true
 )

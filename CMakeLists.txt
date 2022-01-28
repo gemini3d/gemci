@@ -13,10 +13,14 @@ project(GemCI
 LANGUAGES NONE
 HOMEPAGE_URL https://github.com/gemini3d/gemci
 DESCRIPTION "Long-running Gemini3D test cases"
-VERSION 0.1.0)
+VERSION 1.0.0
+)
 
 include(cmake/options.cmake)
 include(cmake/libraries.cmake)
 
+# Gemini3D ExternalProject
 include(cmake/gemini3d.cmake)
+
+# GemCI ExternalProject
 include(cmake/gemci.cmake)

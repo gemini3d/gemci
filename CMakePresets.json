@@ -65,7 +65,7 @@
 },
 {
   "name": "regen", "inherits": "default",
-  "configurePreset": "regen",
+  "configurePreset": "dummy",
   "displayName": "Regenerates .zst reference data, by disabling compare. Sped up by skipping plots.",
   "filter": {
     "exclude": {"label": "(compare|download|plot)", "fixtures": {"any": "(compare_fxt|inputOK_fxt|plot_fxt)"}}

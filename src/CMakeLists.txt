@@ -26,6 +26,18 @@ include(${PROJECT_SOURCE_DIR}/../cmake/GeminiPackage.cmake)
 
 set(ci_root ${PROJECT_SOURCE_DIR}/../cfg)
 
+# --- measure system physical RAM
+cmake_host_system_information(RESULT host_ramMB QUERY TOTAL_PHYSICAL_MEMORY)
+cmake_host_system_information(RESULT host_cpu QUERY PROCESSOR_DESCRIPTION)
+
+if(NOT DEFINED low_ram)
+  set(low_ram false)
+  if(host_ramMB LESS 18000)
+    # 18 GB: the 3D Matlab plots use 9GB RAM each
+    set(low_ram true)
+  endif()
+endif()
+
 # --- PyGemini
 if(python)
   include(${PROJECT_SOURCE_DIR}/../cmake/python.cmake)

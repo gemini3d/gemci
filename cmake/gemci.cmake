@@ -11,7 +11,6 @@ set(gemci_args
 -Dpython:BOOL=${python}
 -Dmatlab:BOOL=${matlab}
 -DGEMINI_ROOT:PATH=${GEMINI_ROOT}
--Dlow_ram=${low_ram}
 )
 # --debug-find
 

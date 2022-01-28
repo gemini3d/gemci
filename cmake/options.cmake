@@ -8,18 +8,8 @@ option(package "package reference data .zst files")
 option(python "Use python" on)
 option(matlab "Use matlab")
 
-cmake_host_system_information(RESULT host_ramMB QUERY TOTAL_PHYSICAL_MEMORY)
-cmake_host_system_information(RESULT host_cpu QUERY PROCESSOR_DESCRIPTION)
-
 set(CMAKE_TLS_VERIFY true)
 
-if(NOT DEFINED low_ram)
-  set(low_ram false)
-  if(host_ramMB LESS 18000)
-    # 18 GB: the 3D Matlab plots use 9GB RAM each
-    set(low_ram true)
-  endif()
-endif()
 
 if(EXISTS ${PROJECT_SOURCE_DIR}/../mat_gemini/setup.m)
   set(FETCHCONTENT_SOURCE_DIR_MATGEMINI ${PROJECT_SOURCE_DIR}/../mat_gemini CACHE PATH "MatGemini developer path")

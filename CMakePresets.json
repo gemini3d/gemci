@@ -13,6 +13,10 @@
   }
 },
 {
+  "name": "dummy",
+  "binaryDir": "${sourceDir}/build/gemci"
+},
+{
   "name": "matlab", "inherits": "default",
   "cacheVariables": {
     "python": false,
@@ -37,7 +41,7 @@
 "testPresets": [
 {
   "name": "default",
-  "configurePreset": "default",
+  "configurePreset": "dummy",
   "output": {
     "outputOnFailure": true,
     "verbosity": "default"

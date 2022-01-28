@@ -7,7 +7,7 @@ include(ExternalProject)
 set(GEMINI_ROOT ${PROJECT_BINARY_DIR})
 
 set(gemini_args
--DBUILD_TESTING:BOOL=on
+-DBUILD_TESTING:BOOL=off
 -Dmpi:BOOL=on
 -Dmsis2:BOOL=on
 -Dglow:BOOL=on

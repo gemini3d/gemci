@@ -13,11 +13,12 @@
   }
 },
 {
-  "name": "dummy",
+  "name": "dummy", "hidden": true,
   "binaryDir": "${sourceDir}/build/gemci"
 },
 {
   "name": "matlab", "inherits": "default",
+  "displayName": "Prepare Gemini3D CI suite, using MatGemini if available",
   "cacheVariables": {
     "python": false,
     "matlab": true
@@ -25,6 +26,7 @@
 },
 {
   "name": "regen", "inherits": "default",
+  "displayName": "Create .zst reference data, using Python if available",
   "cacheVariables": {
     "equil": true,
     "package": true
@@ -32,6 +34,7 @@
 },
 {
   "name": "regen-matlab", "inherits": "regen",
+  "displayName": "Create .zst reference data, using Matlab if available",
   "cacheVariables": {
     "python": false,
     "matlab": true
@@ -39,9 +42,9 @@
 }
 ],
 "buildPresets": [
-{ "name": "default", "inherits": "default"},
-{ "name": "regen", "inherits": "regen" },
-{ "name": "regen-matlab", "inherits": "regen-matlab" }
+{ "name": "default", "configurePreset": "default"},
+{ "name": "regen", "configurePreset": "regen" },
+{ "name": "regen-matlab", "configurePreset": "regen-matlab" }
 ],
 "testPresets": [
 {
@@ -63,7 +66,7 @@
 {
   "name": "regen", "inherits": "default",
   "configurePreset": "regen",
-  "description": "Regenerates .zst reference data, by disabling compare. Sped up by skipping plots.",
+  "displayName": "Regenerates .zst reference data, by disabling compare. Sped up by skipping plots.",
   "filter": {
     "exclude": {"label": "(compare|download|plot)", "fixtures": {"any": "(compare_fxt|inputOK_fxt|plot_fxt)"}}
   }

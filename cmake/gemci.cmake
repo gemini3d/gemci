@@ -10,7 +10,7 @@ set(gemci_args
 -Dpackage:BOOL=${package}
 -Dpython:BOOL=${python}
 -Dmatlab:BOOL=${matlab}
--DGEMINI_ROOT:PATH=${GEMINI_ROOT}
+-DGEMINI_ROOT:PATH=${PROJECT_BINARY_DIR}/bin
 )
 # --debug-find
 

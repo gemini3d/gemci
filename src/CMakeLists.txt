@@ -63,26 +63,6 @@ if(package)
   cmake_path(APPEND upload_root ${GEMINI_CIROOT} upload-${package_date})
   cmake_path(APPEND ref_json_file ${upload_root} ref_data.json)
 
-  if(EXISTS GEMINI_RUN)
-    if(NOT GEMINI_VERSION)
-      execute_process(COMMAND ${GEMINI_RUN} -git
-      OUTPUT_VARIABLE GEMINI_VERSION
-      OUTPUT_STRIP_TRAILING_WHITESPACE
-      TIMEOUT 5
-      COMMAND_ERROR_IS_FATAL ANY
-      )
-    endif()
-
-    if(NOT DEFINED fortran_compiler_info)
-      execute_process(COMMAND ${GEMINI_RUN} -compiler_version
-      OUTPUT_VARIABLE fortran_compiler_info
-      OUTPUT_STRIP_TRAILING_WHITESPACE
-      TIMEOUT 5
-      COMMAND_ERROR_IS_FATAL ANY
-      )
-    endif()
-  endif()
-
   include(${PROJECT_SOURCE_DIR}/../cmake/system_meta.cmake)
 
   message(STATUS "packaging archives in ${upload_root}")

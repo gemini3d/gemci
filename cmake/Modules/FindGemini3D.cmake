@@ -95,7 +95,7 @@ DOC "Gemini3d.run Fortran front-end: debug enabled"
 )
 
 find_program(GEMINI_BIN_DEBUG
-NAMES gemini3d.bin.debug
+NAMES gemini.bin.debug
 HINTS ${GEMINI_ROOT}
 PATH_SUFFIXES build/RelWithDebInfo build/Debug build bin
 NO_DEFAULT_PATH

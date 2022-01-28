@@ -12,7 +12,6 @@ string(REPLACE ";" "\\;" GEMINI_FEATURES "${GEMINI_FEATURES}")
 add_test(NAME "archive:${name}"
 COMMAND ${CMAKE_COMMAND} -Din:PATH=${data_dir} -Dout:FILEPATH=${archive}
 -Dref_json_file:FILEPATH=${ref_json_file}
--Dvers_fn:FILEPATH=${STAMP_DIR}/GEMINI3D_RELEASE-git_version-out.log
 -Dgemini_version=${GEMINI_VERSION}
 -Dgemini_features=${GEMINI_FEATURES}
 -Dpygemini_version=${PYGEMINI_VERSION}

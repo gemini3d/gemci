@@ -5,6 +5,8 @@ option(dev "dev mode" on)
 
 option(equil "run equilibrium (takes 10+ hours)")
 option(package "package reference data .zst files")
+option(python "Use python" on)
+option(matlab "Use matlab")
 
 cmake_host_system_information(RESULT host_ramMB QUERY TOTAL_PHYSICAL_MEMORY)
 cmake_host_system_information(RESULT host_cpu QUERY PROCESSOR_DESCRIPTION)
@@ -23,11 +25,12 @@ if(EXISTS ${PROJECT_SOURCE_DIR}/../mat_gemini/setup.m)
   set(FETCHCONTENT_SOURCE_DIR_MATGEMINI ${PROJECT_SOURCE_DIR}/../mat_gemini CACHE PATH "MatGemini developer path")
 endif()
 
-set_directory_properties(PROPERTIES EP_UPDATE_DISCONNECTED false)
+
 
 if(dev)
-
+  set_directory_properties(PROPERTIES EP_UPDATE_DISCONNECTED true)
 else()
+  set_directory_properties(PROPERTIES EP_UPDATE_DISCONNECTED false)
   set(FETCHCONTENT_UPDATES_DISCONNECTED_MATGEMINI true)
 endif()
 
@@ -36,13 +39,6 @@ if(CMAKE_GENERATOR STREQUAL "Ninja Multi-Config")
   set(EXTPROJ_GENERATOR "Ninja")
 else()
   set(EXTPROJ_GENERATOR ${CMAKE_GENERATOR})
-endif()
-
-# --- default install directory
-# users can specify like "cmake -B build -DCMAKE_INSTALL_PREFIX=~/mydir"
-if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-  # will not take effect without FORCE
-  set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR} CACHE PATH "Install top-level directory" FORCE)
 endif()
 
 # --- auto-ignore build directory

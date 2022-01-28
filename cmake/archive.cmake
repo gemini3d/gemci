@@ -43,18 +43,6 @@ message(STATUS "Created archive ${out}")
 
 # JSON update
 
-if(NOT gemini_version)
-  if(EXISTS "${vers_fn}")
-    file(READ ${vers_fn} gemini_version)
-    string(STRIP ${gemini_version} gemini_version)
-  else()
-    message(STATUS "${name}: Missing Gemini3D version log file ${vers_fn}")
-  endif()
-endif()
-if(NOT gemini_version)
-  message(STATUS "${name}: omitted Gemini3D version from ${ref_json_file}")
-endif()
-
 # put hash in JSON
 file(SHA256 ${out} hash)
 file(READ ${ref_json_file} ref_json)
@@ -66,10 +54,17 @@ endif()
 string(JSON ref_json SET ${ref_json} tests ${name} "{}")
 string(JSON ref_json SET ${ref_json} tests ${name} archive \"${archive_name}\")
 string(JSON ref_json SET ${ref_json} tests ${name} sha256 \"${hash}\")
-string(JSON ref_json SET ${ref_json} tests ${name} gemini3d_version \"${gemini_version}\")
+
+if(gemini_version)
+  string(JSON ref_json SET ${ref_json} tests ${name} gemini3d_version \"${gemini_version}\")
+else()
+  message(STATUS "${name}: omitted Gemini3D version from ${ref_json_file}")
+endif()
+
 if(pygemini_version)
   string(JSON ref_json SET ${ref_json} tests ${name} pygemini_version \"${pygemini_version}\")
 endif()
+
 if(gemini_features)
   string(JSON ref_json SET ${ref_json} tests ${name} gemini_features [])
   list(LENGTH gemini_features n)
@@ -78,6 +73,8 @@ if(gemini_features)
     list(GET gemini_features ${i} f)
     string(JSON ref_json SET ${ref_json} tests ${name} gemini_features ${i} \"${f}\")
   endforeach()
+else()
+  message(STATUS "${name}: omitted Gemini3D features from ${ref_json_file}")
 endif()
 
 file(WRITE ${ref_json_file} ${ref_json})

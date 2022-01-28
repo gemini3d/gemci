@@ -1,6 +1,6 @@
 set(_names gemini3d matgemini)
 
-file(READ ${PROJECT_SOURCE_DIR}/libraries.json _libj)
+file(READ ${CMAKE_CURRENT_LIST_DIR}/libraries.json _libj)
 
 foreach(n ${_names})
   foreach(t url tag)

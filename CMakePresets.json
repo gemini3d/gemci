@@ -38,6 +38,11 @@
   }
 }
 ],
+"buildPresets": [
+{ "name": "default", "inherits": "default"},
+{ "name": "regen", "inherits": "regen" },
+{ "name": "regen-matlab", "inherits": "regen-matlab" }
+],
 "testPresets": [
 {
   "name": "default",

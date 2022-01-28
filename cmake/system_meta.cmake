@@ -1,14 +1,12 @@
-if(NOT EXISTS ${ref_json_file})
+if(EXISTS ${ref_json_file})
+  file(READ ${ref_json_file} ref_json)
+else()
   cmake_path(GET ref_json_file PARENT_PATH _p)
   file(MAKE_DIRECTORY ${_p})
-  # make a blank JSON file
-  file(WRITE ${ref_json_file} "{}")
+  set(ref_json "{}")
 endif()
 
-# record system metadata
-file(READ ${ref_json_file} ref_json)
-
-# check if tag exists, create if not
+# check if tag exists, create new file if not (must be bad JSON file)
 string(JSON m ERROR_VARIABLE e GET ${ref_json} system)
 if(NOT m)
   string(JSON ref_json SET ${ref_json} system "{}")

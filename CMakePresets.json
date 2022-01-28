@@ -4,6 +4,7 @@
 "configurePresets": [
 {
   "name": "default",
+  "displayName": "tests existing simulations, for general CI runs to check Gemini3D code changes",
   "binaryDir": "${sourceDir}/build",
   "cacheVariables": {
     "python": true,
@@ -13,7 +14,8 @@
   }
 },
 {
-  "name": "dummy", "hidden": true,
+  "name": "dummy",
+  "displayName": "for ctest use only, not for direct use",
   "binaryDir": "${sourceDir}/build/gemci"
 },
 {

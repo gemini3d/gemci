@@ -67,32 +67,22 @@ endif()
 
 find_program(GIT_EXECUTABLE NAMES git REQUIRED)
 
-if(NOT DEFINED CTEST_BUILD_NAME)
+if(NOT CTEST_BUILD_NAME)
   if(DEFINED ENV{CTEST_BUILD_NAME})
     set(CTEST_BUILD_NAME $ENV{CTEST_BUILD_NAME})
   else()
-    find_program(run_exe
-      NAMES gemini3d.run
-      HINTS ${GEMINI_ROOT} ENV GEMINI_ROOT
-      PATHS ${CTEST_SOURCE_DIRECTORY}/../gemini3d
-      PATH_SUFFIXES build bin build/Release build/RelWithDebInfo build/Debug
-      DOC "Gemini3d.run Fortran front-end"
-      REQUIRED)
+    execute_process(COMMAND ${GIT_EXECUTABLE} ls-remote https://github.com/gemini3d/gemini3d.git main
+    OUTPUT_VARIABLE raw OUTPUT_STRIP_TRAILING_WHITESPACE
+    RESULT_VARIABLE err
+    TIMEOUT 15
+    )
 
-    # execute_process(COMMAND ${run_exe} -compiler_version
-    #   OUTPUT_VARIABLE _compiler_version OUTPUT_STRIP_TRAILING_WHITESPACE
-    #   TIMEOUT 5
-    #   COMMAND_ERROR_IS_FATAL ANY)
-
-    execute_process(COMMAND ${run_exe} -git
-      OUTPUT_VARIABLE _git_version OUTPUT_STRIP_TRAILING_WHITESPACE
-      TIMEOUT 5
-      COMMAND_ERROR_IS_FATAL ANY)
-
-    set(CTEST_BUILD_NAME ${_git_version})
+    if(err EQUAL 0)
+      string(REGEX MATCH "([a-f]|[0-9])+" git_version ${raw})
+      set(CTEST_BUILD_NAME ${git_version})
+    endif()
   endif()
 endif()
-
 
 set(CTEST_USE_LAUNCHERS 1)
 
@@ -103,9 +93,10 @@ find_program(ninja NAMES ninja ninja-build samu)
 
 if(ninja)
   execute_process(COMMAND ${ninja} --version
-    OUTPUT_VARIABLE ninja_version OUTPUT_STRIP_TRAILING_WHITESPACE
-    RESULT_VARIABLE err
-    TIMEOUT 5)
+  OUTPUT_VARIABLE ninja_version OUTPUT_STRIP_TRAILING_WHITESPACE
+  RESULT_VARIABLE err
+  TIMEOUT 5
+  )
   if(err EQUAL 0 AND ninja_version VERSION_GREATER_EQUAL 1.10)
     set(CTEST_CMAKE_GENERATOR Ninja)
   endif()
@@ -132,24 +123,6 @@ if(NOT DEFINED CTEST_CMAKE_GENERATOR)
   endif()
 endif()
 
-# --- test parallelism
-cmake_host_system_information(RESULT Ncpu QUERY NUMBER_OF_PHYSICAL_CORES)
-
-# limit RAM use as Matlab/Python in parallel can use a lot of RAM with 3D grids
-cmake_host_system_information(RESULT ram QUERY TOTAL_PHYSICAL_MEMORY)
-set(low_ram false)
-if(ram LESS 18000)
-  # 18 GB: the 3D Matlab plots use 9GB RAM each
-  set(low_ram true)
-  if(Ncpu GREATER 2)
-    set(Ncpu 2)
-  endif()
-endif()
-list(APPEND opts -Dlow_ram:BOOL=${low_ram})
-
-
-message(STATUS "using Ncpu = ${Ncpu}")
-
 # --- CTest Dashboard
 
 set(CTEST_SUBMIT_RETRY_COUNT 2)
@@ -166,10 +139,11 @@ if(CTEST_MODEL STREQUAL Nightly OR CTEST_MODEL STREQUAL Continuous)
   # this erases local code changes i.e. anything not "git push" already is lost forever!
   # we try to avoid that by guarding with a Git porcelain check
   execute_process(COMMAND ${GIT_EXECUTABLE} status --porcelain
-    WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY}
-    TIMEOUT 5
-    OUTPUT_VARIABLE _ret OUTPUT_STRIP_TRAILING_WHITESPACE
-    COMMAND_ERROR_IS_FATAL ANY)
+  WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY}
+  TIMEOUT 5
+  OUTPUT_VARIABLE _ret OUTPUT_STRIP_TRAILING_WHITESPACE
+  COMMAND_ERROR_IS_FATAL ANY
+  )
   if(_ret)
     message(WARNING "CTest would have erased the non-Git Push'd changes, NOT updating.")
   else()
@@ -182,9 +156,10 @@ if(CTEST_MODEL STREQUAL Nightly OR CTEST_MODEL STREQUAL Continuous)
 endif()
 
 ctest_configure(
-  OPTIONS "${opts}"
-  RETURN_VALUE _ret
-  CAPTURE_CMAKE_ERROR _err)
+OPTIONS "${opts}"
+RETURN_VALUE _ret
+CAPTURE_CMAKE_ERROR _err
+)
 if(NOT (_ret EQUAL 0 AND _err EQUAL 0))
   ctest_submit(BUILD_ID build_id)
   message(FATAL_ERROR "Configure ${build_id} failed: return ${_ret} cmake return ${_err}")
@@ -193,11 +168,10 @@ endif()
 # there is no ctest_build as we're testing already built external packages
 
 ctest_test(
-  # set PARALLEL_LEVEL here as the global option seems to be ignored
-  PARALLEL_LEVEL ${Ncpu}
-  SCHEDULE_RANDOM ON
-  RETURN_VALUE _ret
-  CAPTURE_CMAKE_ERROR _err)
+SCHEDULE_RANDOM ON
+RETURN_VALUE _ret
+CAPTURE_CMAKE_ERROR _err
+)
 
 ctest_submit(BUILD_ID build_id)
 

@@ -9,14 +9,15 @@ cmake_path(APPEND data_dir ${GEMINI_CIROOT} ${name})
 
 string(REPLACE ";" "\\;" GEMINI_FEATURES "${GEMINI_FEATURES}")
 
-set(vers_fn)
-if(NOT GEMINI_VERSION)
-  # Gemini3D built via ExternalProject, read log file from ExternalProject Step git_version
-  set(vers_fn ${STAMP_DIR}/GEMINI3D_RELEASE-git_version-out.log)
-endif()
-
 add_test(NAME "archive:${name}"
-COMMAND ${CMAKE_COMMAND} -Din:PATH=${data_dir} -Dout:FILEPATH=${archive} -Dref_json_file:FILEPATH=${ref_json_file} -Dvers_fn:FILEPATH=${vers_fn} -Dgemini_version=${GEMINI_VERSION} -Dgemini_features=${GEMINI_FEATURES} -Dpygemini_version=${PYGEMINI_VERSION} -Dname=${name} -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/archive.cmake
+COMMAND ${CMAKE_COMMAND} -Din:PATH=${data_dir} -Dout:FILEPATH=${archive}
+-Dref_json_file:FILEPATH=${ref_json_file}
+-Dvers_fn:FILEPATH=${STAMP_DIR}/GEMINI3D_RELEASE-git_version-out.log
+-Dgemini_version=${GEMINI_VERSION}
+-Dgemini_features=${GEMINI_FEATURES}
+-Dpygemini_version=${PYGEMINI_VERSION}
+-Dname=${name}
+-P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/archive.cmake
 )
 
 set_tests_properties("archive:${name}" PROPERTIES
@@ -32,7 +33,11 @@ TIMEOUT 120
 find_program(rclone NAMES rclone)
 
 add_test(NAME "upload:${name}"
-COMMAND ${CMAKE_COMMAND} -Darchive:FILEPATH=${archive} -Dout_dir:PATH=${out_dir} -Dref_json_file:FILEPATH=${ref_json_file} -Dname=${name} -Dupload_root:PATH=gemini_upload-${package_date} -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/upload.cmake
+COMMAND ${CMAKE_COMMAND} -Darchive:FILEPATH=${archive} -Dout_dir:PATH=${out_dir}
+-Dref_json_file:FILEPATH=${ref_json_file}
+-Dname=${name}
+-Dupload_root:PATH=gemini_upload-${package_date}
+-P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/upload.cmake
 )
 
 set_tests_properties("upload:${name}" PROPERTIES

@@ -1,6 +1,6 @@
 function(compare_output compare_exe out_dir ref_root name label)
 
-cmake_path(APPEND ref_dir ${ref_root} ${name})
+cmake_path(SET ref_dir ${ref_root}/${name})
 
 set(cmd ${compare_exe} ${out_dir} ${ref_dir} -which out)
 if(matlab AND MATGEMINI_DIR)
@@ -35,7 +35,7 @@ endfunction(compare_output)
 
 function(compare_input compare_exe out_dir ref_root name label)
 
-cmake_path(APPEND ref_dir ${ref_root} ${name})
+cmake_path(SET ref_dir ${ref_root}/${name})
 
 set(cmd ${compare_exe} ${out_dir} ${ref_dir} -which in)
 if(matlab AND MATGEMINI_DIR)

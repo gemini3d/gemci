@@ -12,7 +12,7 @@ string(JSON archive_name GET ${_refj} ${input_type} ${input_name} archive)
 string(JSON hash GET ${_refj} ${input_type} ${input_name} sha256)
 
 cmake_path(GET input_dir PARENT_PATH input_root)
-cmake_path(APPEND archive ${input_root} ${archive_name})
+cmake_path(SET archive ${input_root}/${archive_name})
 
 # check if extracted data exists
 if(IS_DIRECTORY ${input_dir})

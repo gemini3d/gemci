@@ -15,7 +15,7 @@ COMMAND_ERROR_IS_FATAL ANY
 
 cmake_path(GET archive FILENAME arc_name)
 
-set(archive_path ${upload_root}/${arc_name})
+cmake_path(SET archive_path ${upload_root}/${arc_name})
 
 # retrieve remote URL for this archive
 execute_process(

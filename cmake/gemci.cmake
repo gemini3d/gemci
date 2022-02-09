@@ -3,7 +3,7 @@
 # with the same install directory.
 include(ExternalProject)
 
-set(GEMCI_ROOT ${PROJECT_BINARY_DIR})
+cmake_path(SET GEMCI_ROOT ${PROJECT_BINARY_DIR})
 
 set(gemci_args
 -Dequil:BOOL=${equil}

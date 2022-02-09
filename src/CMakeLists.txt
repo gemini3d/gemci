@@ -24,7 +24,7 @@ include(${PROJECT_SOURCE_DIR}/../cmake/GeminiCompare.cmake)
 include(${PROJECT_SOURCE_DIR}/../cmake/GeminiPlot.cmake)
 include(${PROJECT_SOURCE_DIR}/../cmake/GeminiPackage.cmake)
 
-set(ci_root ${PROJECT_SOURCE_DIR}/../cfg)
+cmake_path(SET ci_root NORMALIZE ${PROJECT_SOURCE_DIR}/../cfg)
 
 # --- measure system physical RAM
 cmake_host_system_information(RESULT host_ramMB QUERY TOTAL_PHYSICAL_MEMORY)
@@ -60,8 +60,8 @@ file(GLOB daily_dirs LIST_DIRECTORIES true "${ci_root}/daily/*")
 # --- init package directory and ref json
 if(package)
   string(TIMESTAMP package_date "%Y-%m-%d" UTC)
-  cmake_path(APPEND upload_root ${GEMINI_CIROOT} upload-${package_date})
-  cmake_path(APPEND ref_json_file ${upload_root} ref_data.json)
+  cmake_path(SET upload_root ${GEMINI_CIROOT}/upload-${package_date})
+  cmake_path(SET ref_json_file ${upload_root}/ref_data.json)
 
   include(${PROJECT_SOURCE_DIR}/../cmake/system_meta.cmake)
 
@@ -101,7 +101,7 @@ endif()
 # message(STATUS "FEATURES: ${GEMINI_FEATURES}   ${name}: ${${name}_DISABLED}")
 
 # --- download reference data JSON file (for previously generated data)
-cmake_path(APPEND arc_json_file ${CMAKE_CURRENT_BINARY_DIR} ref_data.json)
+cmake_path(SET arc_json_file ${CMAKE_CURRENT_BINARY_DIR}/ref_data.json)
 if(NOT EXISTS ${arc_json_file})
   file(READ ${PROJECT_SOURCE_DIR}/../cmake/libraries.json _libj)
   string(JSON url GET ${_libj} ref_data url)
@@ -109,8 +109,7 @@ if(NOT EXISTS ${arc_json_file})
 endif()
 
 # --- proceed with simulation setup
-
-cmake_path(APPEND out_dir ${GEMINI_CIROOT} ${name})
+cmake_path(SET out_dir ${GEMINI_CIROOT}/${name})
 
 # input data download (if not an equilibrium itself)
 if(NOT type_label STREQUAL equilibrium)

@@ -42,7 +42,7 @@ elseif(matlab)
   endif()
 else()
   # Copy reference input files to output directory
-  cmake_path(APPEND ref_dir ${ref_root} ${name})
+  cmake_path(SET ref_dir ${ref_root}/${name})
 
   add_test(NAME "setup:copy:${name}"
   COMMAND ${CMAKE_COMMAND} -E copy_directory ${ref_dir}/inputs ${out_dir}/inputs

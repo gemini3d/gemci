@@ -4,7 +4,7 @@
 include(ExternalProject)
 
 
-set(GEMINI_ROOT ${PROJECT_BINARY_DIR})
+cmake_path(SET GEMINI_ROOT ${PROJECT_BINARY_DIR})
 
 set(gemini_args
 -DBUILD_TESTING:BOOL=off

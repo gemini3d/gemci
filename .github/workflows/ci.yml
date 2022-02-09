@@ -27,7 +27,7 @@ jobs:
         sudo apt update -yq
         sudo apt install -yq --no-install-recommends ninja-build libhdf5-dev liblapack-dev libmumps-dev libopenmpi-dev openmpi-bin
 
-    - name: no python
+    - name: Configure without python
       run: cmake -B build -Dpython:BOOL=no
 
     - name: build
@@ -52,8 +52,33 @@ jobs:
         sudo apt update -yq
         sudo apt install -yq --no-install-recommends ninja-build libhdf5-dev liblapack-dev libmumps-dev libopenmpi-dev openmpi-bin
 
-    - name: no python
-      run: cmake -B build -Dpython:BOOL=yes
+    - name: Configure with python
+      run: cmake --preset default
+
+    - name: build
+      run: cmake --build build
+
+    - name: Run Bounds check
+      run: ctest --preset default -R run_bounds_check -E 3D
+
+
+  linux-matlab:
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install MATLAB
+      uses: matlab-actions/setup-matlab@v1
+
+    - name: Install Prereqs
+      run: |
+        sudo apt update -yq
+        sudo apt install -yq --no-install-recommends ninja-build libhdf5-dev liblapack-dev libmumps-dev libopenmpi-dev openmpi-bin
+
+    - name: Configure with Matlab
+      run: cmake --preset matlab
 
     - name: build
       run: cmake --build build

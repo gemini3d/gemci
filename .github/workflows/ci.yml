@@ -2,8 +2,6 @@ name: ci
 
 env:
   CMAKE_GENERATOR: Ninja
-  CTEST_PARALLEL_LEVEL: 1
-  GEMINI_CIROOT: ~/gemci
 
 on:
   push:
@@ -17,7 +15,29 @@ on:
 
 jobs:
 
-  linux:
+  linux-no-python:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install Prereqs
+      run: |
+        sudo apt update -yq
+        sudo apt install -yq --no-install-recommends ninja-build libhdf5-dev liblapack-dev libmumps-dev libopenmpi-dev openmpi-bin
+
+    - name: no python
+      run: cmake -B build -Dpython:BOOL=no
+
+    - name: build
+      run: cmake --build build
+
+    - name: Run Bounds check
+      run: ctest --preset default -R run_bounds_check -E 3D
+
+
+  linux-python:
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -33,7 +53,7 @@ jobs:
         sudo apt install -yq --no-install-recommends ninja-build libhdf5-dev liblapack-dev libmumps-dev libopenmpi-dev openmpi-bin
 
     - name: no python
-      run: cmake -B build -Dpython:BOOL=no
+      run: cmake -B build -Dpython:BOOL=yes
 
     - name: build
       run: cmake --build build

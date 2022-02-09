@@ -5,7 +5,7 @@
   },
   "matgemini": {
     "url": "https://github.com/gemini3d/mat_gemini.git",
-    "tag": "v5.0.1"
+    "tag": "main"
   },
   "ref_data": {
     "url": "https://www.dropbox.com/s/tzwho5199ede15v/ref_data.json?dl=1"

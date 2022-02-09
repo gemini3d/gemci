@@ -16,7 +16,7 @@ LABELS "compare;${label}"
 FIXTURES_REQUIRED "${name}:run_fxt;${name}:download_fxt"
 FIXTURES_SETUP ${name}:plotdiff_fxt
 TIMEOUT 300
-ENVIRONMENT "${MATLABPATH};GEMINI_CIROOT=${GEMINI_CIROOT}")
+ENVIRONMENT "MATLABPATH=${MATLABPATH};GEMINI_CIROOT=${GEMINI_CIROOT}")
 
 add_test(NAME plotdiff:output:${name}
 COMMAND ${CMAKE_COMMAND} -Din:PATH=${out_dir}/plot_diff -Dout:FILEPATH=${out_dir}/plot_diff.zip
@@ -51,7 +51,7 @@ LABELS "compare;${label}"
 FIXTURES_REQUIRED ${name}:download_fxt
 FIXTURES_SETUP ${name}:inputOK_fxt
 TIMEOUT 600
-ENVIRONMENT "${MATLABPATH};GEMINI_CIROOT=${GEMINI_CIROOT}")
+ENVIRONMENT "MATLABPATH=${MATLABPATH};GEMINI_CIROOT=${GEMINI_CIROOT}")
 
 endfunction(compare_input)
 

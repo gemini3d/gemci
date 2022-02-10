@@ -29,7 +29,7 @@ file(GLOB daily_dirs LIST_DIRECTORIES true "${ci_root}/daily/*")
 
 # --- main loop
 
-foreach(in_dir ${equilibrium_dirs} ${hourly_dirs} ${daily_dirs})
+foreach(in_dir IN LISTS equilibrium_dirs hourly_dirs daily_dirs)
 
 if(NOT IS_DIRECTORY ${in_dir})
   continue()  # stray file
@@ -46,11 +46,17 @@ message(DEBUG "${name}: ${type_label}")
 
 cmake_path(SET out_dir ${GEMINI_CIROOT}/${name})
 
-# input data download (if not an equilibrium itself)
+# --- input data download (if not an equilibrium itself)
 if(NOT type_label STREQUAL equilibrium)
   get_equil(${in_dir} ${name})
 
   download_input(${eq_dir} ${name} tests ${arc_json_file})
+endif()
+
+# --- get neutral input directory, if specified in config.nml
+parse_nml(${in_dir}/config.nml "source_dir" "path")
+if(source_dir)
+  download_input(${source_dir} ${name} neutrals ${arc_json_file})
 endif()
 
 endforeach()

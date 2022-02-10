@@ -49,6 +49,14 @@ if(matlab)
 endif()
 include(${PROJECT_SOURCE_DIR}/../cmake/MatlabTest.cmake)
 
+# --- download reference data JSON file (for previously generated data)
+cmake_path(SET arc_json_file ${CMAKE_CURRENT_BINARY_DIR}/ref_data.json)
+if(NOT EXISTS ${arc_json_file})
+  file(READ ${PROJECT_SOURCE_DIR}/../cmake/libraries.json _libj)
+  string(JSON url GET ${_libj} ref_data url)
+  file(DOWNLOAD ${url} ${arc_json_file} INACTIVITY_TIMEOUT 15)
+endif()
+
 # --- discover tests
 
 if(equil)
@@ -98,15 +106,7 @@ if(name MATCHES "hwm14" AND NOT "HWM14" IN_LIST GEMINI_FEATURES)
   set(${name}_DISABLED 1)
 endif()
 
-# message(STATUS "FEATURES: ${GEMINI_FEATURES}   ${name}: ${${name}_DISABLED}")
-
-# --- download reference data JSON file (for previously generated data)
-cmake_path(SET arc_json_file ${CMAKE_CURRENT_BINARY_DIR}/ref_data.json)
-if(NOT EXISTS ${arc_json_file})
-  file(READ ${PROJECT_SOURCE_DIR}/../cmake/libraries.json _libj)
-  string(JSON url GET ${_libj} ref_data url)
-  file(DOWNLOAD ${url} ${arc_json_file} INACTIVITY_TIMEOUT 15)
-endif()
+message(DEBUG "FEATURES: ${GEMINI_FEATURES}   ${name}: ${${name}_DISABLED}")
 
 # --- proceed with simulation setup
 cmake_path(SET out_dir ${GEMINI_CIROOT}/${name})

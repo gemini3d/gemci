@@ -16,6 +16,8 @@ DESCRIPTION "Long-running Gemini3D test cases"
 VERSION 1.0.0
 )
 
+include(CTest)
+
 include(cmake/options.cmake)
 include(cmake/libraries.cmake)
 

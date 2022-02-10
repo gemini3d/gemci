@@ -1,10 +1,10 @@
-cmake_minimum_required(VERSION 3.20...3.21)
+cmake_minimum_required(VERSION 3.20...3.22)
 
-set(CTEST_PROJECT_NAME "Gemini3Dproject")
+set(CTEST_PROJECT_NAME "GemCI")
 
 set(CTEST_LABELS_FOR_SUBPROJECTS "python;matlab")
 
-set(opts -Dmatlab:BOOL=yes -Dpython:BOOL=no)
+set(opts -Dmatlab:BOOL=no -Dpython:BOOL=yes)
 
 # --- boilerplate follows
 
@@ -17,8 +17,6 @@ set(CTEST_NIGHTLY_START_TIME "01:00:00 UTC")
 set(CTEST_SUBMIT_URL "https://my.cdash.org/submit.php?project=${CTEST_PROJECT_NAME}")
 
 # ctest -S doesn't have a way to pass -Dvar:type=value, so do this via env var
-# cannot pass in lists--use CMakePresets.json for list variables. Example:
-# ctest --preset=my1 -S setup.cmake
 list(APPEND opts $ENV{CTEST_${CTEST_PROJECT_NAME}_ARGS})
 
 # --- Experimental, Nightly, Continuous
@@ -95,7 +93,7 @@ if(ninja)
   endif()
 endif(ninja)
 
-if(NOT DEFINED CTEST_CMAKE_GENERATOR)
+if(NOT CTEST_CMAKE_GENERATOR)
   set(CTEST_BUILD_FLAGS -j)  # not --parallel as this goes to generator directly
   if(WIN32)
     set(CTEST_CMAKE_GENERATOR "MinGW Makefiles")
@@ -108,12 +106,11 @@ set(CTEST_CMAKE_GENERATOR ${CTEST_CMAKE_GENERATOR} PARENT_SCOPE)
 
 endfunction(find_generator)
 
-if(NOT DEFINED CTEST_CMAKE_GENERATOR)
-  if(DEFINED ENV{CMAKE_GENERATOR})
-    set(CTEST_CMAKE_GENERATOR $ENV{CMAKE_GENERATOR})
-  else()
-    find_generator()
-  endif()
+if(NOT CTEST_CMAKE_GENERATOR AND DEFINED ENV{CMAKE_GENERATOR})
+  set(CTEST_CMAKE_GENERATOR $ENV{CMAKE_GENERATOR})
+endif()
+if(NOT CTEST_CMAKE_GENERATOR)
+  find_generator()
 endif()
 
 # --- CTest Dashboard
@@ -158,7 +155,14 @@ if(NOT (_ret EQUAL 0 AND _err EQUAL 0))
   message(FATAL_ERROR "Configure ${build_id} failed: return ${_ret} cmake return ${_err}")
 endif()
 
-# there is no ctest_build as we're testing already built external packages
+ctest_build(
+RETURN_VALUE _ret
+CAPTURE_CMAKE_ERROR _err
+)
+if(NOT (_ret EQUAL 0 AND _err EQUAL 0))
+  ctest_submit(BUILD_ID build_id)
+  message(FATAL_ERROR "Build ${build_id} failed: return ${_ret} cmake return ${_err}")
+endif()
 
 ctest_test(
 SCHEDULE_RANDOM ON
@@ -169,7 +173,7 @@ CAPTURE_CMAKE_ERROR _err
 ctest_submit(BUILD_ID build_id)
 
 if(NOT (_ret EQUAL 0 AND _err EQUAL 0))
-  message(FATAL_ERROR "Build ${build_id} failed: CTest code ${_ret}, CMake code ${_err}.")
+  message(FATAL_ERROR "Test ${build_id} failed: CTest code ${_ret}, CMake code ${_err}.")
 endif()
 
 message(STATUS "OK: CTest build ${build_id}")

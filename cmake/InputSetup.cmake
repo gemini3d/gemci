@@ -7,6 +7,7 @@ if(NOT equil)
   COMMAND ${CMAKE_COMMAND} -Dinput_dir:PATH=${eq_dir} -Dname=${name}
   -Dinput_type=tests
   -Darc_json_file:FILEPATH=${arc_json_file}
+  -Dctest_run:BOOL=true
   -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/download_input.cmake
   )
 
@@ -29,6 +30,7 @@ COMMAND ${CMAKE_COMMAND} -Dinput_dir:PATH=${source_dir}
 -Dname=${name}
 -Dinput_type=neutrals
 -Darc_json_file:FILEPATH=${arc_json_file}
+-Dctest_run:BOOL=true
 -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/download_input.cmake
 )
 

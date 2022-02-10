@@ -1,3 +1,6 @@
+cmake_minimum_required(VERSION 3.20...3.22)
+# must have this for use from arbitrary scripts
+
 function(parse_nml nml_file var type)
 # get variable from Fortran namelist .nml file
 # only looks for variable name, assumes unique variable names

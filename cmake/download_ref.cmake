@@ -54,5 +54,6 @@ file(WRITE ${ref_dir}/sha256sum.txt ${archive_hash})
 
 endfunction(download_ref)
 
-
-download_ref(${name} ${ref_root} ${arc_json_file})
+if(ctest_run)
+  download_ref(${name} ${ref_root} ${arc_json_file})
+endif()

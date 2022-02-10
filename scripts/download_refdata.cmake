@@ -1,7 +1,10 @@
 # download all reference data
+cmake_minimum_required(VERSION 3.21...3.23)
+
 include(${CMAKE_CURRENT_LIST_DIR}/../cmake/ParseNml.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/../cmake/GetEquil.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/../cmake/download_input.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/../cmake/download_ref.cmake)
 
 set(ctest_run false)
 
@@ -9,6 +12,10 @@ if(NOT GEMINI_CIROOT)
   message(FATAL_ERROR "Please set GEMINI_CIROOT to the desired top-level data directory. Example:
 cmake -DGEMINI_CIROOT=~/gemci -P scripts/download_refdata.cmake")
 endif()
+
+file(REAL_PATH ${GEMINI_CIROOT} GEMINI_CIROOT EXPAND_TILDE)
+cmake_path(SET ref_root ${GEMINI_CIROOT}/test_ref)
+file(MAKE_DIRECTORY ${ref_root})
 
 cmake_path(SET ci_root NORMALIZE ${CMAKE_CURRENT_LIST_DIR}/../cfg)
 
@@ -58,5 +65,9 @@ parse_nml(${in_dir}/config.nml "source_dir" "path")
 if(source_dir)
   download_input(${source_dir} ${name} neutrals ${arc_json_file})
 endif()
+
+# --- download output comparison data
+
+download_ref(${name} ${ref_root} ${arc_json_file})
 
 endforeach()

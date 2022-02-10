@@ -59,8 +59,11 @@ endfunction(compare_input)
 function(compare_download out_dir ref_root name label)
 
 add_test(NAME compare:download:${name}
-COMMAND ${CMAKE_COMMAND} -Dname=${name} -Dref_root:PATH=${ref_root}
+COMMAND ${CMAKE_COMMAND}
+-Dname=${name}
+-Dref_root:PATH=${ref_root}
 -Darc_json_file:FILEPATH=${arc_json_file}
+-Dctest_run:BOOL=true
 -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/download_ref.cmake
 )
 

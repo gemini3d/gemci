@@ -1,10 +1,8 @@
-# for robustness, uses CMake superproject layout, where:
+# for robustness, uses CMake superproject layout.
+# To run tests:
 #
-# 1. ExternalProject(Gemini3D)  # Gemini3D program build
-# 2. ExternalProject(CI)  # CI program
-#
-# To run tests, command like:
-#
+#   ctest --preset default
+# or
 #   ctest --test-dir build/gemci
 
 cmake_minimum_required(VERSION 3.20...3.22)

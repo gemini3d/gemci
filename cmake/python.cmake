@@ -1,4 +1,4 @@
-find_package(Python COMPONENTS Interpreter REQUIRED)
+find_package(Python 3.8...4 COMPONENTS Interpreter REQUIRED)
 
 if(py_ok)
   return()

@@ -18,7 +18,7 @@ if(python)
   TIMEOUT 900
   ENVIRONMENT GEMINI_CIROOT=${GEMINI_CIROOT}
   FIXTURES_REQUIRED "${name}:eq_fxt;${eq_name}:run_fxt"
-  DISABLED $<OR:$<NOT:$<BOOL:${py_ok}>>,${${name}_DISABLED}>
+  DISABLED ${${name}_DISABLED}
   )
 
   if(low_ram)

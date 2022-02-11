@@ -121,20 +121,22 @@ model_setup(${in_dir} ${out_dir} ${ref_root} ${name} ${type_label} ${low_ram})
 
 # --- compare sim input
 compare_download(${out_dir} ${ref_root} ${name} ${type_label})
-if(py_ok OR MATGEMINI_DIR)
+if(python OR MATGEMINI_DIR)
   compare_input(${GEMINI_COMPARE} ${out_dir} ${ref_root} ${name} ${type_label})
 endif()
 
 # check that scripts can read grid
 if(python)
   add_test(NAME "read_grid:python:${name}"
-    COMMAND ${Python_EXECUTABLE} -c "import gemini3d.read; xg = gemini3d.read.grid('${out_dir}'); print(xg['lx'])")
+  COMMAND ${Python_EXECUTABLE} -c "import gemini3d.read; xg = gemini3d.read.grid('${out_dir}'); print(xg['lx'])"
+  )
   set_tests_properties("read_grid:python:${name}" PROPERTIES
-    REQUIRED_FILES ${out_dir}/inputs/simgrid.h5
-    FIXTURES_REQUIRED ${name}:setup_fxt
-    LABELS python
-    DISABLED $<OR:$<NOT:$<BOOL:${py_ok}>>,${${name}_DISABLED}>
-    TIMEOUT 30)
+  REQUIRED_FILES ${out_dir}/inputs/simgrid.h5
+  FIXTURES_REQUIRED ${name}:setup_fxt
+  LABELS python
+  DISABLED ${${name}_DISABLED}
+  TIMEOUT 30
+  )
 endif(python)
 
 # --- run
@@ -157,7 +159,7 @@ endforeach()
 include(FeatureSummary)
 
 add_feature_info(compare compare "compare gemini3d output")
-add_feature_info(PyGemini py_ok "PyGemini setup and plot")
+add_feature_info(PyGemini python "PyGemini setup and plot")
 add_feature_info(MatGemini MATGEMINI_DIR "MatGemini setup and plot")
 
 feature_summary(WHAT ENABLED_FEATURES)

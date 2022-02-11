@@ -34,7 +34,7 @@ elseif(matlab)
   FIXTURES_SETUP ${name}:setup_fxt
   TIMEOUT 900
   FIXTURES_REQUIRED "${name}:eq_fxt;${eq_name}:run_fxt"
-  DISABLED $<NOT:$<BOOL:${MATGEMINI_DIR}>>
+  DISABLED ${${name}_DISABLED}
   )
 
   if(low_ram)

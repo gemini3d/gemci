@@ -1,6 +1,6 @@
-find_package(Python 3.8...4 COMPONENTS Interpreter REQUIRED)
+find_package(Python 3.8 COMPONENTS Interpreter REQUIRED)
 
-if(PYGEMINI_VERSION)
+if(PYGEMINI_FOUND)
   return()
 endif()
 
@@ -33,4 +33,5 @@ if(NOT ret EQUAL 0)
   )
 endif()
 
+set(PYGEMINI_FOUND true CACHE BOOL "PyGemini Found")
 set(PYGEMINI_VERSION ${out} CACHE STRING "PyGemini version")

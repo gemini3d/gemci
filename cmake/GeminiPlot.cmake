@@ -30,7 +30,7 @@ elseif(matlab)
   FIXTURES_SETUP ${name}:plot_fxt
   TIMEOUT 7200
   REQUIRED_FILES "${out_dir}/inputs/config.nml;${out_dir}/output.nml"
-  DISABLED $<NOT:$<BOOL:${MATGEMINI_DIR}>>
+  DISABLED ${${name}_DISABLED}
   )
 
   if(low_ram)

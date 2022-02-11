@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20...3.22)
+cmake_minimum_required(VERSION 3.20...3.23)
 
 project(Gemini3D_CI LANGUAGES NONE)
 
@@ -121,7 +121,7 @@ model_setup(${in_dir} ${out_dir} ${ref_root} ${name} ${type_label} ${low_ram})
 
 # --- compare sim input
 compare_download(${out_dir} ${ref_root} ${name} ${type_label})
-if(python OR MATGEMINI_DIR)
+if(python OR matlab)
   compare_input(${GEMINI_COMPARE} ${out_dir} ${ref_root} ${name} ${type_label})
 endif()
 
@@ -160,6 +160,6 @@ include(FeatureSummary)
 
 add_feature_info(compare compare "compare gemini3d output")
 add_feature_info(PyGemini python "PyGemini setup and plot")
-add_feature_info(MatGemini MATGEMINI_DIR "MatGemini setup and plot")
+add_feature_info(MatGemini matlab "MatGemini setup and plot")
 
 feature_summary(WHAT ENABLED_FEATURES)

@@ -1,3 +1,5 @@
+cmake_minimum_required(VERSION 3.22)
+
 include(FetchContent)
 
 find_package(Matlab 9.9 COMPONENTS MAIN_PROGRAM REQUIRED)
@@ -8,9 +10,9 @@ GIT_TAG ${matgemini_tag}
 INACTIVITY_TIMEOUT 15
 )
 
-FetchContent_MakeAvailable(MATGEMINI)
+FetchContent_Populate(MATGEMINI)
 
-cmake_path(CONVERT "${matgemini_SOURCE_DIR};${matgemini_SOURCE_DIR}/matlab-stdlib/" TO_NATIVE_PATH_LIST MATLABPATH)
+cmake_path(CONVERT "${matgemini_SOURCE_DIR};${matgemini_SOURCE_DIR}/matlab-stdlib/" TO_NATIVE_PATH_LIST MATLABPATH NORMALIZE)
 
 if(MATGEMINI_FOUND)
   return()

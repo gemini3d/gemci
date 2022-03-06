@@ -3,13 +3,15 @@
 # with the same install directory.
 include(ExternalProject)
 
-cmake_path(SET GEMCI_ROOT ${PROJECT_BINARY_DIR})
+cmake_path(SET GEMINI_CIROOT ${PROJECT_BINARY_DIR})
+# we use PROJECT_BINARY_DIR so that we have a fresh set of data each GeminiCI "build"
 
 set(gemci_args
 -Dequil:BOOL=${equil}
 -Dpackage:BOOL=${package}
 -Dpython:BOOL=${python}
 -Dmatlab:BOOL=${matlab}
+-DCMAKE_PREFIX_PATH:PATH=${CMAKE_PREFIX_PATH}
 -DGEMINI_ROOT:PATH=${PROJECT_BINARY_DIR}/bin
 -DGEMINI_CIROOT:PATH=${GEMINI_CIROOT}
 )
@@ -24,5 +26,5 @@ BUILD_COMMAND ""
 INSTALL_COMMAND ""
 TEST_COMMAND ""
 CONFIGURE_HANDLED_BY_BUILD true
-DEPENDS GEMINI3D_RELEASE GEMINI3D_DEBUG
+DEPENDS "GEMINI3D_RELEASE;GEMINI3D_DEBUG"
 )

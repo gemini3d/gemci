@@ -99,6 +99,21 @@ NO_DEFAULT_PATH
 DOC "Gemini3d.run Fortran front-end"
 )
 
+if(NOT GEMINI_RUN_OK)
+  execute_process(COMMAND ${GEMINI_RUN}
+  TIMEOUT 5
+  RESULT_VARIABLE ret
+  OUTPUT_VARIABLE _out
+  ERROR_VARIABLE _err
+  )
+  if(ret EQUAL 0)
+    set(GEMINI_RUN_OK true CACHE BOOL "gemini3d.run basic check OK")
+  else()
+    set(GEMINI_RUN_OK false)
+    message(STATUS "gemini3d.run basic check failed: ${_err}")
+  endif()
+endif()
+
 find_program(GEMINI_BIN
 NAMES gemini.bin
 HINTS ${GEMINI_ROOT}
@@ -126,7 +141,7 @@ DOC "Gemini.bin Fortran main program: debug enabled"
 
 # determine if exe has Fortran bounds checking.
 # currently, we handle GCC and Intel/IntelLLVM.
-if(GEMINI_RUN AND NOT DEFINED GEMINI_RUN_BOUNDS_CHECK)
+if(GEMINI_RUN_OK AND NOT DEFINED GEMINI_RUN_BOUNDS_CHECK)
   check_gemini_feature()
 endif()
 
@@ -141,5 +156,5 @@ DOC "Gemini3d.compare data"
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(Gemini3D
-REQUIRED_VARS GEMINI_RUN GEMINI_COMPARE
+REQUIRED_VARS GEMINI_RUN GEMINI_COMPARE GEMINI_RUN_OK
 )

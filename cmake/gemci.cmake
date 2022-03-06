@@ -11,11 +11,13 @@ set(gemci_args
 -Dpackage:BOOL=${package}
 -Dpython:BOOL=${python}
 -Dmatlab:BOOL=${matlab}
--DCMAKE_PREFIX_PATH:PATH=${CMAKE_PREFIX_PATH}
 -DGEMINI_ROOT:PATH=${PROJECT_BINARY_DIR}/bin
 -DGEMINI_CIROOT:PATH=${GEMINI_CIROOT}
 )
-# --debug-find
+if(CMAKE_PREFIX_PATH)
+  list(APPEND gemci_args -DCMAKE_PREFIX_PATH:PATH=${CMAKE_PREFIX_PATH})
+endif()
+
 
 ExternalProject_Add(GEMCI
 SOURCE_DIR ${PROJECT_SOURCE_DIR}/src

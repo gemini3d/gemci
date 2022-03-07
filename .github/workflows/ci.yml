@@ -47,7 +47,17 @@ jobs:
         cmake --build $GITHUB_WORKSPACE/gemext/build --target ffilesystem glow hwm14 msis mumps
         cmake --install $GITHUB_WORKSPACE/gemext/build
 
-    - name: Configure
+    - name: Checkout PyGemini
+      uses: actions/checkout@v2
+      with:
+        repository: gemini3d/pygemini
+        path: PyGemini
+
+    - name: install PyGemini
+      if: ${{ matrix.python }}
+      run: python -m pip install -e $GITHUB_WORKSPACE/pygemini
+
+    - name: Configure Python=${{ matrix.python }}
       run: cmake --preset default -Dpython:BOOL=${{ matrix.python }} -DCMAKE_PREFIX_PATH:PATH=${HOME}/gemlibs
 
     - name: build

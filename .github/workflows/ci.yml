@@ -15,31 +15,13 @@ on:
 
 jobs:
 
-  linux-no-python:
+  linux:
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Install Prereqs
-      run: |
-        sudo apt update -yq
-        sudo apt install -yq --no-install-recommends ninja-build libhdf5-dev liblapack-dev libmumps-dev libopenmpi-dev openmpi-bin
-
-    - name: Configure without python
-      run: cmake -B build -Dpython:BOOL=no
-
-    - name: build
-      run: cmake --build build
-
-    - name: Run Bounds check
-      run: ctest --preset default -R run_bounds_check -E 3D
-
-
-  linux-python:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
+    strategy:
+      matrix:
+        python: [true, false]
 
     steps:
     - uses: actions/checkout@v2
@@ -52,8 +34,21 @@ jobs:
         sudo apt update -yq
         sudo apt install -yq --no-install-recommends ninja-build libhdf5-dev liblapack-dev libmumps-dev libopenmpi-dev openmpi-bin
 
-    - name: Configure with python
-      run: cmake --preset default
+    - name: Checkout Gemini3D-External
+      uses: actions/checkout@v2
+      with:
+        repository: gemini3d/external
+        path: gemext
+
+    - name: Install model libraries
+      timeout-minutes: 15
+      run: |
+        cmake -S $GITHUB_WORKSPACE/gemext -B $GITHUB_WORKSPACE/gemext/build -Dfind:BOOL=true -Dmsis2:BOOL=true --install-prefix=${HOME}/gemlibs
+        cmake --build $GITHUB_WORKSPACE/gemext/build --target ffilesystem glow hwm14 msis mumps
+        cmake --install $GITHUB_WORKSPACE/gemext/build
+
+    - name: Configure
+      run: cmake --preset default -Dpython:BOOL=${{ matrix.python }}
 
     - name: build
       run: cmake --build build
@@ -76,6 +71,19 @@ jobs:
       run: |
         sudo apt update -yq
         sudo apt install -yq --no-install-recommends ninja-build libhdf5-dev liblapack-dev libmumps-dev libopenmpi-dev openmpi-bin
+
+    - name: Checkout Gemini3D-External
+      uses: actions/checkout@v2
+      with:
+        repository: gemini3d/external
+        path: gemext
+
+    - name: Install model libraries
+      timeout-minutes: 15
+      run: |
+        cmake -S $GITHUB_WORKSPACE/gemext -B $GITHUB_WORKSPACE/gemext/build -Dfind:BOOL=true -Dmsis2:BOOL=true --install-prefix=${HOME}/gemlibs
+        cmake --build $GITHUB_WORKSPACE/gemext/build --target ffilesystem glow hwm14 msis mumps
+        cmake --install $GITHUB_WORKSPACE/gemext/build
 
     - name: Configure with Matlab
       run: cmake --preset matlab

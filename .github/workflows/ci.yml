@@ -2,6 +2,7 @@ name: ci
 
 env:
   CMAKE_GENERATOR: Ninja
+  CMAKE_PREFIX_PATH: ~/gemlibs
 
 on:
   push:
@@ -43,9 +44,9 @@ jobs:
     - name: Install model libraries
       timeout-minutes: 15
       run: |
-        cmake -S $GITHUB_WORKSPACE/gemext -B $GITHUB_WORKSPACE/gemext/build -Dfind:BOOL=true -Dmsis2:BOOL=true --install-prefix=${HOME}/gemlibs
-        cmake --build $GITHUB_WORKSPACE/gemext/build --target ffilesystem glow hwm14 msis mumps
-        cmake --install $GITHUB_WORKSPACE/gemext/build
+        cmake -S gemext -B gemext/build -Dfind:BOOL=true -Dmsis2:BOOL=true -DCMAKE_INSTALL_PREFIX:PATH=${{ env.CMAKE_PREFIX_PATH }}
+        cmake --build gemext/build --target ffilesystem glow hwm14 msis mumps
+        cmake --install gemext/build
 
     - name: Checkout PyGemini
       if: ${{ matrix.python }}
@@ -56,12 +57,12 @@ jobs:
 
     - name: install PyGemini
       if: ${{ matrix.python }}
-      run: python -m pip install -e $GITHUB_WORKSPACE/pygemini
+      run: python -m pip install -e ${{ github.workspace }}/pygemini
 
     - name: Configure Python=${{ matrix.python }}
-      run: cmake --preset default -Dpython:BOOL=${{ matrix.python }} -DCMAKE_PREFIX_PATH:PATH=${HOME}/gemlibs
+      run: cmake --preset default -Dpython:BOOL=${{ matrix.python }}
 
-    - name: build
+    - name: build Gemini3D
       run: cmake --build build
 
     - name: Run Bounds check
@@ -69,15 +70,11 @@ jobs:
 
 
   linux-matlab:
-    needs: linux
     timeout-minutes: 15
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
-
-    - name: Install MATLAB
-      uses: matlab-actions/setup-matlab@v1
 
     - name: Install Prereqs
       run: |
@@ -93,14 +90,17 @@ jobs:
     - name: Install model libraries
       timeout-minutes: 15
       run: |
-        cmake -S $GITHUB_WORKSPACE/gemext -B $GITHUB_WORKSPACE/gemext/build -Dfind:BOOL=true -Dmsis2:BOOL=true --install-prefix=${HOME}/gemlibs
-        cmake --build $GITHUB_WORKSPACE/gemext/build --target ffilesystem glow hwm14 msis mumps
-        cmake --install $GITHUB_WORKSPACE/gemext/build
+        cmake -S gemext -B gemext/build -Dfind:BOOL=true -Dmsis2:BOOL=true -DCMAKE_INSTALL_PREFIX:PATH=${{ env.CMAKE_PREFIX_PATH }}
+        cmake --build gemext/build --target ffilesystem glow hwm14 msis mumps
+        cmake --install gemext/build
+
+    - name: Install MATLAB
+      uses: matlab-actions/setup-matlab@v1
 
     - name: Configure with Matlab
-      run: cmake --preset matlab -DCMAKE_PREFIX_PATH:PATH=${HOME}/gemlibs
+      run: cmake --preset matlab
 
-    - name: build
+    - name: build Gemini3D
       run: cmake --build build
 
     - name: Run Bounds check

@@ -48,7 +48,7 @@ jobs:
         cmake --install $GITHUB_WORKSPACE/gemext/build
 
     - name: Configure
-      run: cmake --preset default -Dpython:BOOL=${{ matrix.python }}
+      run: cmake --preset default -Dpython:BOOL=${{ matrix.python }} -DCMAKE_PREFIX_PATH:PATH=${HOME}/gemlibs
 
     - name: build
       run: cmake --build build
@@ -86,7 +86,7 @@ jobs:
         cmake --install $GITHUB_WORKSPACE/gemext/build
 
     - name: Configure with Matlab
-      run: cmake --preset matlab
+      run: cmake --preset matlab -DCMAKE_PREFIX_PATH:PATH=${HOME}/gemlibs
 
     - name: build
       run: cmake --build build

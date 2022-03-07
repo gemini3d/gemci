@@ -1,11 +1,15 @@
 function Efield(cfg, xg)
 
-narginchk(2, 2)
-validateattributes(cfg, {'struct'}, {'scalar'}, mfilename, 'sim parameters', 1)
-validateattributes(xg, {'struct'}, {'scalar'})
+arguments
+  cfg (1,1) struct
+  xg (1,1) struct
+end
 
-dir_out = gemini3d.fileio.absolute_path(cfg.E0_dir);
-gemini3d.fileio.makedir(dir_out);
+import stdlib.fileio.makedir
+import stdlib.fileio.absolute_path
+
+dir_out = absolute_path(cfg.E0_dir);
+makedir(dir_out);
 
 lx1 = xg.lx(1);
 lx2 = xg.lx(2);

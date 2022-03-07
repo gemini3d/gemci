@@ -5,8 +5,10 @@ arguments
   xg (1,1) struct
 end
 
+import stdlib.fileio.makedir
+
 outdir = p.prec_dir;
-gemini3d.fileio.makedir(outdir)
+makedir(outdir)
 
 %% CREATE PRECIPITATION CHARACTERISTICS data
 % number of grid cells.

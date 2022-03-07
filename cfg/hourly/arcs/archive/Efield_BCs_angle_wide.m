@@ -4,12 +4,15 @@ arguments
   xg (1,1) struct
 end
 
+import stdlib.fileio.makedir
+
 % Set input potential/FAC boundary conditions and write these to a set of
 % files that can be used an input to GEMINI.  This ia a basic examples that
 % can make Gaussian shaped potential or FAC inputs using an input width.
 
 dir_out = p.E0_dir;
-gemini3d.fileio.makedir(dir_out);
+
+makedir(dir_out);
 
 lx1 = xg.lx(1);
 lx2 = xg.lx(2);

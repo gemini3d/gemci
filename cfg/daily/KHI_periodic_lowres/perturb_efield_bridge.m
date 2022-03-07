@@ -1,10 +1,11 @@
 function perturb_efield_bridge(cfg,xg)
 %Electric field boundary conditions and initial condition for KHI case
+arguments
+  cfg (1,1) struct
+  xg (1,1) struct
+end
 
-%% Error checking
-narginchk(2,2)
-validateattributes(cfg, {'struct'}, {'scalar'})
-validateattributes(xg, {'struct'}, {'scalar'})
+import stdlib.fileio.makedir
 
 %% Sizes
 x1=xg.x1(3:end-2);
@@ -83,7 +84,7 @@ DX2=repmat(DX2(:),[1,lx3]);
 Phitop=cumsum(E2top.*DX2,1);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-gemini3d.fileio.makedir(cfg.E0_dir);
+makedir(cfg.E0_dir);
 
 
 %% CREATE ELECTRIC FIELD DATASET

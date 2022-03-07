@@ -142,8 +142,15 @@ end % function potential_bg
 
 
 function create_Efield(cfg, xg, params)
+arguments
+  cfg (1,1) struct
+  xg (1,1) struct
+  params (1,1) struct
+end
 
-gemini3d.fileio.makedir(cfg.E0_dir)
+import stdlib.fileio.makedir
+
+makedir(cfg.E0_dir)
 
 %% CREATE ELECTRIC FIELD DATASET
 E.llon=100;

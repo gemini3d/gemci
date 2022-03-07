@@ -1,11 +1,13 @@
 function efield(cfg, xg)
 % this is possibly identical to mat_gemini/matlab/setup/Efield_BCs.m
+arguments
+  cfg (1,1) struct
+  xg (1,1) struct
+end
 
-narginchk(2, 2)
-validateattributes(cfg, {'struct'}, {'scalar'}, mfilename, 'sim parameters', 1)
-validateattributes(xg, {'struct'}, {'scalar'})
+import stdlib.fileio.makedir
 
-gemini3d.fileio.makedir(cfg.E0_dir);
+makedir(cfg.E0_dir)
 
 % lx1 = xg.lx(1);
 lx2 = xg.lx(2);

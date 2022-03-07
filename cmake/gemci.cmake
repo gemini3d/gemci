@@ -3,9 +3,6 @@
 # with the same install directory.
 include(ExternalProject)
 
-cmake_path(SET GEMINI_CIROOT ${PROJECT_BINARY_DIR})
-# we use PROJECT_BINARY_DIR so that we have a fresh set of data each GeminiCI "build"
-
 set(gemci_args
 -Dequil:BOOL=${equil}
 -Dpackage:BOOL=${package}

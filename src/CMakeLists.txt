@@ -8,9 +8,6 @@ list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/../cmake/Modules)
 
 include(${PROJECT_SOURCE_DIR}/../cmake/libraries.cmake)
 
-include(${PROJECT_SOURCE_DIR}/../cmake/get_simroot.cmake)
-message(STATUS "simulation root directory ${GEMINI_CIROOT}")
-
 include(${PROJECT_SOURCE_DIR}/../cmake/ParseNml.cmake)
 
 find_package(Gemini3D REQUIRED)

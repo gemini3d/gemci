@@ -23,4 +23,9 @@ include(cmake/libraries.cmake)
 include(cmake/gemini3d.cmake)
 
 # GemCI ExternalProject
+
+# GEMINI_CIROOT at initial superproject configure for better UX (it's orthogonal to Gemini3D)
+include(${PROJECT_SOURCE_DIR}/cmake/get_simroot.cmake)
+message(STATUS "simulation root directory ${GEMINI_CIROOT}")
+
 include(cmake/gemci.cmake)

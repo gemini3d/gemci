@@ -52,7 +52,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         repository: gemini3d/pygemini
-        path: PyGemini
+        path: pygemini
 
     - name: install PyGemini
       if: ${{ matrix.python }}

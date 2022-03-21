@@ -12,7 +12,7 @@ include(${PROJECT_SOURCE_DIR}/../cmake/ParseNml.cmake)
 
 find_package(Gemini3D REQUIRED)
 
-# helper functions
+# --- helper functions
 include(${PROJECT_SOURCE_DIR}/../cmake/GetEquil.cmake)
 include(${PROJECT_SOURCE_DIR}/../cmake/InputSetup.cmake)
 include(${PROJECT_SOURCE_DIR}/../cmake/ModelSetup.cmake)
@@ -21,7 +21,11 @@ include(${PROJECT_SOURCE_DIR}/../cmake/GeminiCompare.cmake)
 include(${PROJECT_SOURCE_DIR}/../cmake/GeminiPlot.cmake)
 include(${PROJECT_SOURCE_DIR}/../cmake/GeminiPackage.cmake)
 
+# --- top level directories
 cmake_path(SET ci_root NORMALIZE ${PROJECT_SOURCE_DIR}/../cfg)
+cmake_path(SET ref_root ${GEMINI_CIROOT}/test_ref)
+
+file(MAKE_DIRECTORY ${ref_root})
 
 # --- measure system physical RAM
 cmake_host_system_information(RESULT host_ramMB QUERY TOTAL_PHYSICAL_MEMORY)

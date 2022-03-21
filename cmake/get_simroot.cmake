@@ -20,7 +20,3 @@ if(CMAKE_VERSION VERSION_LESS 3.21)
 else()
   file(REAL_PATH ${GEMINI_CIROOT} GEMINI_CIROOT EXPAND_TILDE)
 endif()
-
-cmake_path(SET ref_root ${GEMINI_CIROOT}/test_ref)
-
-file(MAKE_DIRECTORY ${ref_root})

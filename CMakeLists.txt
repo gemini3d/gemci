@@ -17,7 +17,6 @@ VERSION 1.0.0
 include(CTest)
 
 include(cmake/options.cmake)
-include(cmake/libraries.cmake)
 
 # Gemini3D ExternalProject
 include(cmake/gemini3d.cmake)

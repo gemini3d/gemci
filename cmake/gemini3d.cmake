@@ -22,6 +22,10 @@ if(CMAKE_PREFIX_PATH)
 endif()
 # -DCMAKE_VERBOSE_MAKEFILE:BOOL=true
 
+file(READ ${CMAKE_CURRENT_LIST_DIR}/libraries.json lib_json)
+string(JSON gemini3d_url GET ${lib_json} gemini3d url)
+string(JSON gemini3d_tag GET ${lib_json} gemini3d tag)
+
 ExternalProject_Add(GEMINI3D_DEBUG
 GIT_REPOSITORY ${gemini3d_url}
 GIT_TAG ${gemini3d_tag}

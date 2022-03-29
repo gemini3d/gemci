@@ -97,8 +97,16 @@ jobs:
     - name: Install MATLAB
       uses: matlab-actions/setup-matlab@v1
 
+    - name: Checkout MatGemini
+      uses: actions/checkout@v2
+      with:
+        repository: gemini3d/mat_gemini
+        path: mat_gemini
+
     - name: Configure with Matlab
       run: cmake --preset matlab
+      env:
+        MATGEMINI: ${{ github.workspace }}/mat_gemini
 
     - name: build Gemini3D
       run: cmake --build build

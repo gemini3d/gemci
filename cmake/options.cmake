@@ -6,7 +6,7 @@ option(dev "dev mode" on)
 option(equil "run equilibrium (takes 10+ hours)")
 option(package "package reference data .zst files")
 
-option(plotdiff "plot difference between reference and computed")
+option(plot "plot difference between reference and computed")
 option(python "Use python" on)
 option(matlab "Use matlab")
 

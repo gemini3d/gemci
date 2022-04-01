@@ -150,7 +150,9 @@ gemini_run(${out_dir} ${name} ${type_label})
 compare_output(${GEMINI_COMPARE} ${out_dir} ${ref_root} ${name} ${type_label})
 
 # --- plot
-gemini_plot(${out_dir} ${name} ${type_label})
+if(plot)
+  gemini_plot(${out_dir} ${name} ${type_label})
+endif()
 
 # --- package upload
 if(package)
@@ -165,5 +167,6 @@ include(FeatureSummary)
 add_feature_info(compare compare "compare gemini3d output")
 add_feature_info(PyGemini python "PyGemini setup and plot")
 add_feature_info(MatGemini matlab "MatGemini setup and plot")
+add_feature_info(plotting plot "plotting of in/out and compare diffs")
 
 feature_summary(WHAT ENABLED_FEATURES)

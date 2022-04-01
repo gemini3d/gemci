@@ -17,6 +17,7 @@ set_tests_properties(compare:output:${name} PROPERTIES
 LABELS "compare;${label}"
 FIXTURES_REQUIRED "${name}:run_fxt;${name}:download_fxt"
 FIXTURES_SETUP ${name}:plotdiff_fxt
+DISABLED ${${name}_DISABLED}
 TIMEOUT 300
 ENVIRONMENT "GEMINI_CIROOT=${GEMINI_CIROOT}"
 )
@@ -40,6 +41,7 @@ TIMEOUT 30
 FIXTURES_CLEANUP ${name}:plotdiff_fxt
 LABELS "compare;plot;${label}"
 REQUIRED_FILES ${out_dir}/output.nml
+DISABLED ${${name}_DISABLED}
 )
 
 endfunction(compare_output)
@@ -64,6 +66,7 @@ set_tests_properties(compare:input:${name} PROPERTIES
 LABELS "compare;${label}"
 FIXTURES_REQUIRED ${name}:download_fxt
 FIXTURES_SETUP ${name}:inputOK_fxt
+DISABLED ${${name}_DISABLED}
 TIMEOUT 600
 ENVIRONMENT "GEMINI_CIROOT=${GEMINI_CIROOT}"
 )
@@ -90,7 +93,7 @@ COMMAND ${CMAKE_COMMAND}
 set_tests_properties(compare:download:${name} PROPERTIES
 FIXTURES_SETUP ${name}:download_fxt
 FIXTURES_REQUIRED ${name}:setup_fxt
-# REQUIRED_FILES ${out_dir}/inputs/config.nml
+DISABLED ${${name}_DISABLED}
 REQUIRED_FILES ${arc_json_file}
 LABELS "download;${label}"
 RESOURCE_LOCK download_lock

@@ -1,14 +1,11 @@
-option(python "use Python for tests" on)
+option(python "use Python for tests")
 option(matlab "use Matlab (slower than Python)")
+option(plot "plot difference between reference and computed")
 
-option(dev "dev mode" on)
+option(dev "dev mode")
 
 option(equil "run equilibrium (takes 10+ hours)")
 option(package "package reference data .zst files")
-
-option(plot "plot difference between reference and computed")
-option(python "Use python" on)
-option(matlab "Use matlab")
 
 set(CMAKE_TLS_VERIFY true)
 

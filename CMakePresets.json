@@ -10,7 +10,8 @@
     "python": true,
     "matlab": false,
     "package": false,
-    "equil": false
+    "equil": false,
+    "plotdiff": false
   }
 },
 {

@@ -3,10 +3,12 @@ function(compare_output compare_exe out_dir ref_root name label)
 cmake_path(SET ref_dir ${ref_root}/${name})
 
 set(cmd ${compare_exe} ${out_dir} ${ref_dir} -which out)
-if(matlab)
-  list(APPEND cmd -matlab)
-elseif(python)
-  list(APPEND cmd -python)
+if(plotdiff)
+  if(matlab)
+    list(APPEND cmd -matlab)
+  elseif(python)
+    list(APPEND cmd -python)
+  endif()
 endif()
 
 add_test(NAME compare:output:${name} COMMAND ${cmd})
@@ -22,6 +24,10 @@ if(matlab)
   set_tests_properties(compare:output:${name} PROPERTIES
   ENVIRONMENT_MODIFICATION "MATLABPATH=set:${MATLABPATH}"
   )
+endif()
+
+if(NOT plotdiff)
+  return()
 endif()
 
 add_test(NAME plotdiff:output:${name}
@@ -44,10 +50,12 @@ function(compare_input compare_exe out_dir ref_root name label)
 cmake_path(SET ref_dir ${ref_root}/${name})
 
 set(cmd ${compare_exe} ${out_dir} ${ref_dir} -which in)
-if(matlab)
-  list(APPEND cmd -matlab)
-elseif(python)
-  list(APPEND cmd -python)
+if(plotdiff)
+  if(matlab)
+    list(APPEND cmd -matlab)
+  elseif(python)
+    list(APPEND cmd -python)
+  endif()
 endif()
 
 add_test(NAME compare:input:${name} COMMAND ${cmd})

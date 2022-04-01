@@ -106,6 +106,8 @@ if(name MATCHES "msis2" AND NOT "MSIS2" IN_LIST GEMINI_FEATURES)
 endif()
 
 if(name MATCHES "hwm14" AND NOT "HWM14" IN_LIST GEMINI_FEATURES)
+  # TODO: when hwm14 enabled, need to disable non-hwm14 tests
+  # maybe we should have a config.nml flag for hwm14?
   message(STATUS "HWM14 not enabled, disabling ${name}")
   set(${name}_DISABLED 1)
 endif()

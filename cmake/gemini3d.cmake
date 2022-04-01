@@ -9,10 +9,10 @@ cmake_path(SET GEMINI_ROOT ${PROJECT_BINARY_DIR})
 set(gemini_args
 -DBUILD_TESTING:BOOL=off
 -Dmpi:BOOL=on
--Dmsis2:BOOL=on
+-Dmsis2:BOOL=off
 -Dglow:BOOL=on
 -Dhdf5:BOOL=on
--Dhwm14:BOOL=on
+-Dhwm14:BOOL=off
 -Dnetcdf:BOOL=off
 -DCMAKE_INSTALL_PREFIX:PATH=${GEMINI_ROOT}
 -DGEMINI_ROOT:PATH=${GEMINI_ROOT}

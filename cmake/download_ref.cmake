@@ -42,7 +42,16 @@ endif()
 
 if(NOT hash_ok)
   message(STATUS "${name}:DOWNLOAD: ${url} => ${archive}   ${hash}")
-  file(DOWNLOAD ${url} ${archive} SHOW_PROGRESS EXPECTED_HASH SHA256=${hash} INACTIVITY_TIMEOUT 15)
+  file(DOWNLOAD ${url} ${archive} SHOW_PROGRESS
+  EXPECTED_HASH SHA256=${hash}
+  INACTIVITY_TIMEOUT 15
+  STATUS ret
+  )
+  list(GET ret 0 stat)
+  if(NOT stat EQUAL 0)
+    list(GET ret 1 err)
+    message(FATAL_ERROR "${url} download failed: ${err}")
+  endif()
 endif()
 
 message(STATUS "${name}:EXTRACT: ${archive} => ${ref_dir}")

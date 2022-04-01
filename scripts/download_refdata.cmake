@@ -21,11 +21,16 @@ cmake_path(SET ci_root NORMALIZE ${CMAKE_CURRENT_LIST_DIR}/../cfg)
 
 # --- download reference data JSON file (for previously generated data)
 
-cmake_path(SET arc_json_file ${CMAKE_CURRENT_BINARY_DIR}/ref_data.json)
+cmake_path(SET arc_json_file ${PROJECT_BINARY_DIR}/ref_data.json)
 if(NOT EXISTS ${arc_json_file})
   file(READ ${CMAKE_CURRENT_LIST_DIR}/../cmake/libraries.json _libj)
   string(JSON url GET ${_libj} ref_data url)
-  file(DOWNLOAD ${url} ${arc_json_file} INACTIVITY_TIMEOUT 15)
+  file(DOWNLOAD ${url} ${arc_json_file} INACTIVITY_TIMEOUT 15 STATUS ret)
+  list(GET ret 0 stat)
+  if(NOT stat EQUAL 0)
+    list(GET ret 1 err)
+    message(FATAL_ERROR "${url} download failed: ${err}")
+  endif()
 endif()
 
 # --- discover tests

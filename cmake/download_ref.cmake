@@ -46,6 +46,7 @@ if(NOT hash_ok)
   EXPECTED_HASH SHA256=${hash}
   INACTIVITY_TIMEOUT 15
   STATUS ret
+  TLS_VERIFY ON
   )
   list(GET ret 0 stat)
   if(NOT stat EQUAL 0)

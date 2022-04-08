@@ -92,7 +92,7 @@ COMMAND ${CMAKE_COMMAND}
 
 set_tests_properties(compare:download:${name} PROPERTIES
 FIXTURES_SETUP ${name}:download_fxt
-FIXTURES_REQUIRED ${name}:setup_fxt
+FIXTURES_REQUIRED "internet_fxt;${name}:setup_fxt"
 DISABLED ${${name}_DISABLED}
 REQUIRED_FILES ${arc_json_file}
 LABELS "download;${label}"

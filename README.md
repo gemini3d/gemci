@@ -47,6 +47,22 @@ This is accomplished by either/both:
 
 Note there can be over 20 GB of data, so ensure your hard drive has enough disk space.
 
+### Offline HPC batch CTest
+
+Note: some HPC systems only have internet when on a login node, but cannot run MPI simulations on the login node.
+Batch sessions, including interactive, may be offline.
+To run CTest in such an environment, download the data once from the login node:
+
+```sh
+ctest --preset download
+```
+
+then from an interactive batch session, run the tests:
+
+```sh
+ctest --preset offline
+```
+
 ## Selecting tests
 
 [CTest](https://cmake.org/cmake/help/latest/manual/ctest.1.html)

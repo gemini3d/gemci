@@ -14,6 +14,7 @@ if(NOT equil)
   set_tests_properties("setup:download_equilibrium:${name}" PROPERTIES
   LABELS "download;${label}"
   REQUIRED_FILES ${arc_json_file}
+  FIXTURES_REQUIRED internet_fxt
   TIMEOUT 900
   FIXTURES_SETUP ${name}:eq_fxt
   RESOURCE_LOCK download_lock
@@ -37,6 +38,7 @@ COMMAND ${CMAKE_COMMAND} -Dinput_dir:PATH=${source_dir}
 set_tests_properties("setup:download_neutral:${name}" PROPERTIES
 LABELS "download;${label}"
 REQUIRED_FILES ${arc_json_file}
+FIXTURES_REQUIRED internet_fxt
 TIMEOUT 7200
 FIXTURES_SETUP ${name}:eq_fxt  # no need for distinct fixture
 RESOURCE_LOCK download_lock

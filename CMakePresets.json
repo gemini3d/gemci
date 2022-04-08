@@ -20,6 +20,22 @@
   "binaryDir": "${sourceDir}/build/gemci"
 },
 {
+  "name": "offline", "inherits": "dummy",
+  "displayName": "no internet",
+  "cacheVariables":
+  {
+    "offline": true
+  }
+},
+{
+  "name": "download", "inherits": "dummy",
+  "displayName": "use internet to download ref data",
+  "cacheVariables":
+  {
+    "offline": false
+  }
+},
+{
   "name": "matlab", "inherits": "default",
   "displayName": "Prepare Gemini3D CI suite, using MatGemini if available",
   "cacheVariables": {
@@ -45,9 +61,8 @@
 }
 ],
 "buildPresets": [
-{ "name": "default", "configurePreset": "default"},
-{ "name": "regen", "configurePreset": "regen" },
-{ "name": "regen-matlab", "configurePreset": "regen-matlab" }
+{ "name": "download", "configurePreset": "download" },
+{ "name": "offline", "configurePreset": "offline" }
 ],
 "testPresets": [
 {
@@ -60,6 +75,21 @@
   "execution": {
     "noTestsAction": "error",
     "stopOnFailure": false
+  }
+},
+{
+  "name": "download", "inherits": "default",
+  "displayName": "download reference data for subsequent offline tests",
+  "description": "download with login HPC node for batch / interactive HPC offline tests",
+  "filter": {
+    "include": {"name": "download"}
+  }
+},
+{
+  "name": "offline", "inherits": "default",
+  "displayName": "Run tests without network access",
+  "filter": {
+    "exclude": {"name": "internetConnectivity", "fixtures": {"setup": "internet_fxt"}}
   }
 },
 {

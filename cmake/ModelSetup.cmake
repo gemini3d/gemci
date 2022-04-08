@@ -18,6 +18,7 @@ if(python)
   TIMEOUT 900
   ENVIRONMENT GEMINI_CIROOT=${GEMINI_CIROOT}
   FIXTURES_REQUIRED "${name}:eq_fxt;${eq_name}:run_fxt"
+  REQUIRED_FILES ${in_dir}/config.nml
   DISABLED ${${name}_DISABLED}
   )
 
@@ -34,6 +35,7 @@ elseif(matlab)
   FIXTURES_SETUP ${name}:setup_fxt
   TIMEOUT 900
   FIXTURES_REQUIRED "${name}:eq_fxt;${eq_name}:run_fxt"
+  REQUIRED_FILES ${in_dir}/config.nml
   DISABLED ${${name}_DISABLED}
   )
 
@@ -50,9 +52,10 @@ else()
 
   set_tests_properties("setup:copy:${name}" PROPERTIES
   LABELS "setup;${label}"
-  FIXTURES_SETUP "${name}:inputOK_fxt"
+  FIXTURES_SETUP ${name}:inputOK_fxt
   TIMEOUT 60
   FIXTURES_REQUIRED "${name}:eq_fxt;${name}:download_fxt"
+  REQUIRED_FILES ${ref_dir}/inputs/config.nml
   DISABLED ${${name}_DISABLED}
   )
 endif()

@@ -8,7 +8,7 @@
 cmake_minimum_required(VERSION 3.20...3.23)
 
 project(GemCI
-LANGUAGES NONE
+LANGUAGES C CXX Fortran
 HOMEPAGE_URL https://github.com/gemini3d/gemci
 DESCRIPTION "Long-running Gemini3D test cases"
 VERSION 1.0.0

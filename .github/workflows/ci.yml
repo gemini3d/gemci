@@ -45,7 +45,7 @@ jobs:
       timeout-minutes: 15
       run: |
         cmake -S gemext -B gemext/build -Dfind:BOOL=true -Dmsis2:BOOL=true -DCMAKE_INSTALL_PREFIX:PATH=${{ env.CMAKE_PREFIX_PATH }}
-        cmake --build gemext/build --target ffilesystem glow hwm14 msis mumps
+        cmake --build gemext/build --target ffilesystem glow iniparser msis mumps
         cmake --install gemext/build
 
     - name: Checkout PyGemini
@@ -94,7 +94,7 @@ jobs:
       timeout-minutes: 15
       run: |
         cmake -S gemext -B gemext/build -Dfind:BOOL=true -Dmsis2:BOOL=true -DCMAKE_INSTALL_PREFIX:PATH=${{ env.CMAKE_PREFIX_PATH }}
-        cmake --build gemext/build --target ffilesystem glow hwm14 msis mumps
+        cmake --build gemext/build --target ffilesystem glow iniparser msis mumps
         cmake --install gemext/build
 
     - name: Install MATLAB

@@ -20,22 +20,6 @@
   "binaryDir": "${sourceDir}/build/gemci"
 },
 {
-  "name": "offline", "inherits": "dummy",
-  "displayName": "no internet",
-  "cacheVariables":
-  {
-    "offline": true
-  }
-},
-{
-  "name": "download", "inherits": "dummy",
-  "displayName": "use internet to download ref data",
-  "cacheVariables":
-  {
-    "offline": false
-  }
-},
-{
   "name": "matlab", "inherits": "default",
   "displayName": "Prepare Gemini3D CI suite, using MatGemini if available",
   "cacheVariables": {
@@ -59,10 +43,6 @@
     "matlab": true
   }
 }
-],
-"buildPresets": [
-{ "name": "download", "configurePreset": "download" },
-{ "name": "offline", "configurePreset": "offline" }
 ],
 "testPresets": [
 {

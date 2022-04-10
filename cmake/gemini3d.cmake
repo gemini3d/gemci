@@ -3,9 +3,6 @@
 # with the same install directory.
 include(ExternalProject)
 
-
-cmake_path(SET GEMINI_ROOT ${PROJECT_BINARY_DIR})
-
 set(gemini_args
 -DBUILD_TESTING:BOOL=off
 -Dmpi:BOOL=on
@@ -14,8 +11,7 @@ set(gemini_args
 -Dhdf5:BOOL=on
 -Dhwm14:BOOL=off
 -Dnetcdf:BOOL=off
--DCMAKE_INSTALL_PREFIX:PATH=${GEMINI_ROOT}
--DGEMINI_ROOT:PATH=${GEMINI_ROOT}
+-DCMAKE_INSTALL_PREFIX:PATH=${PROJECT_BINARY_DIR}
 -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
 -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
 -DCMAKE_Fortran_COMPILER=${CMAKE_Fortran_COMPILER}

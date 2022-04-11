@@ -47,12 +47,6 @@ if(NOT DEFINED CTEST_BINARY_DIRECTORY)
   set(CTEST_BINARY_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/build)
 endif()
 
-if(CTEST_MODEL MATCHES "(Nightly|Continuous)")
-  if(EXISTS ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt)
-    ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
-  endif()
-endif()
-
 if(NOT DEFINED CTEST_SITE)
   if(DEFINED ENV{CTEST_SITE})
     set(CTEST_SITE $ENV{CTEST_SITE})

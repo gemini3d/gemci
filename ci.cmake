@@ -154,11 +154,11 @@ if(CTEST_MODEL MATCHES "(Nightly|Continuous)")
     execute_process(COMMAND ${GIT_EXECUTABLE} rev-parse HEAD
     WORKING_DIRECTORY ${gemini3d_ep}
     TIMEOUT 5
-    OUTPUT_VARIABLE ret OUTPUT_STRIP_TRAILING_WHITESPACE
-    ERROR_VARIABLE err
+    OUTPUT_VARIABLE out OUTPUT_STRIP_TRAILING_WHITESPACE
+    RESULT_VARIABLE ret
     )
 
-    if(err EQUAL 0 AND ret STREQUAL ${gemini_git_version})
+    if(ret EQUAL 0 AND out STREQUAL ${gemini_git_version})
       message(NOTICE "No Git-updated files -> no need to test in CTest Model ${CTEST_MODEL}. CTest stopping.")
       return()
     endif()

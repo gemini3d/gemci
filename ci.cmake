@@ -172,10 +172,6 @@ if(CTEST_MODEL MATCHES "(Nightly|Continuous)")
   endif()
 endif()
 
-if(CI)
-  ctest_submit(PARTS Start)
-endif(CI)
-
 ctest_configure(
 OPTIONS "${opts}"
 RETURN_VALUE ret
@@ -190,8 +186,8 @@ ctest_build(
 RETURN_VALUE ret
 CAPTURE_CMAKE_ERROR err
 )
+ctest_submit(BUILD_ID build_id)
 if(NOT (ret EQUAL 0 AND err EQUAL 0))
-  ctest_submit(BUILD_ID build_id)
   message(FATAL_ERROR "Build ${build_id} failed: return ${ret} cmake return ${err}")
 endif()
 

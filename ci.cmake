@@ -4,7 +4,11 @@ set(CTEST_PROJECT_NAME "GemCI")
 
 set(CTEST_LABELS_FOR_SUBPROJECTS "python;matlab")
 
-set(opts -Dmatlab:BOOL=no -Dpython:BOOL=yes)
+set(opts
+-Ddev:BOOL=no
+-Dmatlab:BOOL=no
+-Dpython:BOOL=yes
+)
 
 # --- boilerplate follows
 
@@ -137,15 +141,22 @@ if(CTEST_MODEL MATCHES "(Nightly|Continuous)")
   execute_process(COMMAND ${GIT_EXECUTABLE} status --porcelain
   WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY}
   TIMEOUT 5
-  OUTPUT_VARIABLE _ret OUTPUT_STRIP_TRAILING_WHITESPACE
+  OUTPUT_VARIABLE ret OUTPUT_STRIP_TRAILING_WHITESPACE
   COMMAND_ERROR_IS_FATAL ANY
   )
-  if(_ret)
-    message(WARNING "CTest would have erased the non-Git Push'd changes, NOT updating.")
+  if(ret)
+    message(FATAL_ERROR "CTest would have erased the non-Git Push'd changes, NOT updating.")
   else()
-    ctest_update(RETURN_VALUE _ret)
-    if(_ret EQUAL 0 AND CTEST_MODEL STREQUAL Continuous)
-      message(STATUS "No Git-updated files, so no need to test in CTest Model ${CTEST_MODEL}. CTest stopping.")
+    ctest_update(
+    RETURN_VALUE ret
+    CAPTURE_CMAKE_ERROR err
+    )
+    if(ret LESS 0 OR NOT err EQUAL 0)
+      ctest_submit(BUILD_ID build_id)
+      message(FATAL_ERROR "Configure ${build_id} failed: return ${ret} cmake return ${err}")
+    endif()
+    if(ret EQUAL 0 AND CTEST_MODEL STREQUAL Continuous)
+      message(NOTICE "No Git-updated files, so no need to test in CTest Model ${CTEST_MODEL}. CTest stopping.")
       return()
     endif()
   endif()
@@ -153,33 +164,33 @@ endif()
 
 ctest_configure(
 OPTIONS "${opts}"
-RETURN_VALUE _ret
-CAPTURE_CMAKE_ERROR _err
+RETURN_VALUE ret
+CAPTURE_CMAKE_ERROR err
 )
-if(NOT (_ret EQUAL 0 AND _err EQUAL 0))
+if(NOT (ret EQUAL 0 AND err EQUAL 0))
   ctest_submit(BUILD_ID build_id)
-  message(FATAL_ERROR "Configure ${build_id} failed: return ${_ret} cmake return ${_err}")
+  message(FATAL_ERROR "Configure ${build_id} failed: return ${ret} cmake return ${err}")
 endif()
 
 ctest_build(
-RETURN_VALUE _ret
-CAPTURE_CMAKE_ERROR _err
+RETURN_VALUE ret
+CAPTURE_CMAKE_ERROR err
 )
-if(NOT (_ret EQUAL 0 AND _err EQUAL 0))
+if(NOT (ret EQUAL 0 AND err EQUAL 0))
   ctest_submit(BUILD_ID build_id)
-  message(FATAL_ERROR "Build ${build_id} failed: return ${_ret} cmake return ${_err}")
+  message(FATAL_ERROR "Build ${build_id} failed: return ${ret} cmake return ${err}")
 endif()
 
 ctest_test(
 SCHEDULE_RANDOM ON
-RETURN_VALUE _ret
-CAPTURE_CMAKE_ERROR _err
+RETURN_VALUE ret
+CAPTURE_CMAKE_ERROR err
 )
 
 ctest_submit(BUILD_ID build_id)
 
-if(NOT (_ret EQUAL 0 AND _err EQUAL 0))
-  message(FATAL_ERROR "Test ${build_id} failed: CTest code ${_ret}, CMake code ${_err}.")
+if(NOT (ret EQUAL 0 AND err EQUAL 0))
+  message(FATAL_ERROR "Test ${build_id} failed: CTest code ${ret}, CMake code ${err}.")
 endif()
 
 message(STATUS "OK: CTest build ${build_id}")

@@ -12,7 +12,6 @@ set(opts
 
 # --- boilerplate follows
 
-set(CI)
 if(DEFINED ENV{CI})
   set(CI $ENV{CI})
 endif()
@@ -78,8 +77,8 @@ if(NOT DEFINED CTEST_BUILD_NAME)
     )
 
     if(err EQUAL 0)
-      string(REGEX MATCH "([a-f]|[0-9])+" git_version ${raw})
-      set(CTEST_BUILD_NAME ${git_version})
+      string(REGEX MATCH "([a-f]|[0-9])+" gemini_git_version ${raw})
+      set(CTEST_BUILD_NAME ${gemini_git_version})
     endif()
   endif()
 endif()
@@ -131,9 +130,6 @@ set(CTEST_UPDATE_TYPE git)
 set(CTEST_UPDATE_COMMAND git)
 
 ctest_start(${CTEST_MODEL})
-if(CI)
-  ctest_submit(PARTS Start)
-endif(CI)
 
 if(CTEST_MODEL MATCHES "(Nightly|Continuous)")
   # this erases local code changes i.e. anything not "git push" already is lost forever!
@@ -152,15 +148,33 @@ if(CTEST_MODEL MATCHES "(Nightly|Continuous)")
     CAPTURE_CMAKE_ERROR err
     )
     if(ret LESS 0 OR NOT err EQUAL 0)
-      ctest_submit(BUILD_ID build_id)
       message(FATAL_ERROR "Configure ${build_id} failed: return ${ret} cmake return ${err}")
     endif()
-    if(ret EQUAL 0 AND CTEST_MODEL STREQUAL Continuous)
-      message(NOTICE "No Git-updated files, so no need to test in CTest Model ${CTEST_MODEL}. CTest stopping.")
+  endif()
+
+  # Now check Gemini3D ExternalProject directory for changes, it autoupdates as part of CMake script ExternalProject
+  # since UPDATE_DISCONNECTED is false.
+  cmake_path(SET gemini3d_ep ${CTEST_BINARY_DIRECTORY}/GEMINI3D_RELEASE-prefix/src/GEMINI3D_RELEASE/)
+  if(CTEST_MODEL STREQUAL Continuous AND IS_DIRECTORY ${gemini3d_ep})
+
+    execute_process(COMMAND ${GIT_EXECUTABLE} rev-parse HEAD
+    WORKING_DIRECTORY ${gemini3d_ep}
+    TIMEOUT 5
+    OUTPUT_VARIABLE ret OUTPUT_STRIP_TRAILING_WHITESPACE
+    ERROR_VARIABLE err
+    )
+
+    if(err EQUAL 0 AND ret STREQUAL ${gemini_git_version})
+      message(NOTICE "No Git-updated files -> no need to test in CTest Model ${CTEST_MODEL}. CTest stopping.")
       return()
     endif()
+
   endif()
 endif()
+
+if(CI)
+  ctest_submit(PARTS Start)
+endif(CI)
 
 ctest_configure(
 OPTIONS "${opts}"
@@ -182,6 +196,7 @@ if(NOT (ret EQUAL 0 AND err EQUAL 0))
 endif()
 
 ctest_test(
+BUILD ${CTEST_BINARY_DIRECTORY}/gemci
 SCHEDULE_RANDOM ON
 RETURN_VALUE ret
 CAPTURE_CMAKE_ERROR err

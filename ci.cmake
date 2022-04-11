@@ -8,7 +8,7 @@ set(opts -Dmatlab:BOOL=no -Dpython:BOOL=yes)
 
 # --- boilerplate follows
 
-set(CI false)
+set(CI)
 if(DEFINED ENV{CI})
   set(CI $ENV{CI})
 endif()
@@ -17,7 +17,7 @@ set(CTEST_NIGHTLY_START_TIME "01:00:00 UTC")
 set(CTEST_SUBMIT_URL "https://my.cdash.org/submit.php?project=${CTEST_PROJECT_NAME}")
 
 # ctest -S doesn't have a way to pass -Dvar:type=value, so do this via env var
-list(APPEND opts $ENV{CTEST_${CTEST_PROJECT_NAME}_ARGS})
+# list(APPEND opts $ENV{CTEST_${CTEST_PROJECT_NAME}_ARGS})
 
 # --- Experimental, Nightly, Continuous
 # https://cmake.org/cmake/help/latest/manual/ctest.1.html#dashboard-client-modes
@@ -33,6 +33,10 @@ endif()
 
 # --- other defaults
 set(CTEST_TEST_TIMEOUT 10)
+# most of our tests take much longer than 10 seconds, but this helps ensure we don't accidentally
+# let a test timeout default to ~ infinity.
+
+set(CTEST_USE_LAUNCHERS 1)
 set(CTEST_OUTPUT_ON_FAILURE true)
 
 set(CTEST_SOURCE_DIRECTORY ${CTEST_SCRIPT_DIRECTORY})
@@ -40,7 +44,7 @@ if(NOT DEFINED CTEST_BINARY_DIRECTORY)
   set(CTEST_BINARY_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/build)
 endif()
 
-if(CTEST_MODEL STREQUAL Nightly OR CTEST_MODEL STREQUAL Continuous)
+if(CTEST_MODEL MATCHES "(Nightly|Continuous)")
   if(EXISTS ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt)
     ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
   endif()
@@ -58,10 +62,11 @@ endif()
 
 find_program(GIT_EXECUTABLE NAMES git REQUIRED)
 
-if(NOT CTEST_BUILD_NAME)
+if(NOT DEFINED CTEST_BUILD_NAME)
   if(DEFINED ENV{CTEST_BUILD_NAME})
     set(CTEST_BUILD_NAME $ENV{CTEST_BUILD_NAME})
   else()
+    # a priori we are going to use the latest Git commit
     execute_process(COMMAND ${GIT_EXECUTABLE} ls-remote https://github.com/gemini3d/gemini3d.git main
     OUTPUT_VARIABLE raw OUTPUT_STRIP_TRAILING_WHITESPACE
     RESULT_VARIABLE err
@@ -75,10 +80,16 @@ if(NOT CTEST_BUILD_NAME)
   endif()
 endif()
 
-set(CTEST_USE_LAUNCHERS 1)
 
 # --- find generator
 function(find_generator)
+
+if(CTEST_CMAKE_GENERATOR)
+  return()
+elseif(DEFINED ENV{CMAKE_GENERATOR})
+  set(CTEST_CMAKE_GENERATOR $ENV{CMAKE_GENERATOR} PARENT_SCOPE)
+  return()
+endif()
 
 find_program(ninja NAMES ninja ninja-build samu)
 
@@ -106,12 +117,7 @@ set(CTEST_CMAKE_GENERATOR ${CTEST_CMAKE_GENERATOR} PARENT_SCOPE)
 
 endfunction(find_generator)
 
-if(NOT CTEST_CMAKE_GENERATOR AND DEFINED ENV{CMAKE_GENERATOR})
-  set(CTEST_CMAKE_GENERATOR $ENV{CMAKE_GENERATOR})
-endif()
-if(NOT CTEST_CMAKE_GENERATOR)
-  find_generator()
-endif()
+find_generator()
 
 # --- CTest Dashboard
 
@@ -125,7 +131,7 @@ if(CI)
   ctest_submit(PARTS Start)
 endif(CI)
 
-if(CTEST_MODEL STREQUAL Nightly OR CTEST_MODEL STREQUAL Continuous)
+if(CTEST_MODEL MATCHES "(Nightly|Continuous)")
   # this erases local code changes i.e. anything not "git push" already is lost forever!
   # we try to avoid that by guarding with a Git porcelain check
   execute_process(COMMAND ${GIT_EXECUTABLE} status --porcelain

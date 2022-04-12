@@ -8,7 +8,17 @@ list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/../cmake/Modules)
 
 include(${PROJECT_SOURCE_DIR}/../cmake/ParseNml.cmake)
 
+# ensure needed libraries are available
 find_package(Gemini3D REQUIRED)
+
+find_program(MPIEXEC_EXECUTABLE
+NAMES mpiexec
+HINTS ${MPI_ROOT} ENV MPI_ROOT ENV I_MPI_ROOT
+PATHS /usr/lib64 ENV MINGWROOT ENV MSMPI_BIN
+PATH_SUFFIXES bin openmpi/bin mpich/bin
+DOC "Runs an MPI program"
+REQUIRED
+)
 
 # --- helper functions
 include(${PROJECT_SOURCE_DIR}/../cmake/GetEquil.cmake)

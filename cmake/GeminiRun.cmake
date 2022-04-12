@@ -14,7 +14,7 @@ COMMAND ${GEMINI_RUN_DEBUG} ${run_args} -dryrun
 WORKING_DIRECTORY ${run_parent}
 )
 set_tests_properties("run_bounds_check:${name}" PROPERTIES
-DISABLED $<OR:$<NOT:$<BOOL:${GEMINI_RUN_BOUNDS_CHECK}>>,${${name}_DISABLED}>
+DISABLED ${${name}_DISABLED}
 LABELS "run;${label}"
 FIXTURES_SETUP ${name}:run_bounds_fxt
 FIXTURES_REQUIRED "${name}:setup_fxt;${name}:inputOK_fxt"

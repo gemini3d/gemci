@@ -15,11 +15,6 @@
   }
 },
 {
-  "name": "dummy",
-  "displayName": "for ctest use only, not for direct use",
-  "binaryDir": "${sourceDir}/build/gemci"
-},
-{
   "name": "matlab", "inherits": "default",
   "displayName": "Prepare Gemini3D CI suite, using MatGemini if available",
   "cacheVariables": {
@@ -47,7 +42,7 @@
 "testPresets": [
 {
   "name": "default",
-  "configurePreset": "dummy",
+  "configurePreset": "default",
   "output": {
     "outputOnFailure": true,
     "verbosity": "default"
@@ -78,7 +73,6 @@
 },
 {
   "name": "regen", "inherits": "default",
-  "configurePreset": "dummy",
   "displayName": "Regenerates .zst reference data, by disabling compare. Sped up by skipping plots.",
   "filter": {
     "exclude": {"label": "(compare|download|plot)", "fixtures": {"any": "(compare_fxt|inputOK_fxt|plot_fxt)"}}

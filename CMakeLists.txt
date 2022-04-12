@@ -27,4 +27,4 @@ include(cmake/gemini3d.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake/get_simroot.cmake)
 message(STATUS "simulation root directory ${GEMINI_CIROOT}")
 
-include(cmake/gemci.cmake)
+add_subdirectory(src)

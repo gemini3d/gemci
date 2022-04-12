@@ -31,6 +31,10 @@ INACTIVITY_TIMEOUT 15
 CONFIGURE_HANDLED_BY_BUILD true
 )
 
+ExternalProject_Get_property(GEMINI3D_DEBUG BINARY_DIR)
+cmake_path(SET GEMINI_RUN_DEBUG ${BINARY_DIR}/gemini3d.run.debug)
+cmake_path(SET GEMINI_BIN_DEBUG ${BINARY_DIR}/gemini.bin.debug)
+
 ExternalProject_Add(GEMINI3D_RELEASE
 GIT_REPOSITORY ${gemini3d_url}
 GIT_TAG ${gemini3d_tag}
@@ -41,3 +45,8 @@ CONFIGURE_HANDLED_BY_BUILD true
 DEPENDS GEMINI3D_DEBUG
 )
 # DEPENDS debug to help ensure order of build, not specific dependency
+
+ExternalProject_Get_property(GEMINI3D_RELEASE BINARY_DIR)
+cmake_path(SET GEMINI_RUN ${BINARY_DIR}/gemini3d.run)
+cmake_path(SET GEMINI_BIN ${BINARY_DIR}/gemini.bin)
+cmake_path(SET GEMINI_COMPARE ${BINARY_DIR}/gemini3d.compare)

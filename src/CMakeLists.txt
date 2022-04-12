@@ -1,15 +1,4 @@
-cmake_minimum_required(VERSION 3.20...3.23)
-
-project(Gemini3D_CI LANGUAGES NONE)
-
-enable_testing()
-
-list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/../cmake/Modules)
-
-include(${PROJECT_SOURCE_DIR}/../cmake/ParseNml.cmake)
-
 # ensure needed libraries are available
-find_package(Gemini3D REQUIRED)
 
 find_program(MPIEXEC_EXECUTABLE
 NAMES mpiexec
@@ -21,16 +10,17 @@ REQUIRED
 )
 
 # --- helper functions
-include(${PROJECT_SOURCE_DIR}/../cmake/GetEquil.cmake)
-include(${PROJECT_SOURCE_DIR}/../cmake/InputSetup.cmake)
-include(${PROJECT_SOURCE_DIR}/../cmake/ModelSetup.cmake)
-include(${PROJECT_SOURCE_DIR}/../cmake/GeminiRun.cmake)
-include(${PROJECT_SOURCE_DIR}/../cmake/GeminiCompare.cmake)
-include(${PROJECT_SOURCE_DIR}/../cmake/GeminiPlot.cmake)
-include(${PROJECT_SOURCE_DIR}/../cmake/GeminiPackage.cmake)
+include(${PROJECT_SOURCE_DIR}/cmake/ParseNml.cmake)
+include(${PROJECT_SOURCE_DIR}/cmake/GetEquil.cmake)
+include(${PROJECT_SOURCE_DIR}/cmake/InputSetup.cmake)
+include(${PROJECT_SOURCE_DIR}/cmake/ModelSetup.cmake)
+include(${PROJECT_SOURCE_DIR}/cmake/GeminiRun.cmake)
+include(${PROJECT_SOURCE_DIR}/cmake/GeminiCompare.cmake)
+include(${PROJECT_SOURCE_DIR}/cmake/GeminiPlot.cmake)
+include(${PROJECT_SOURCE_DIR}/cmake/GeminiPackage.cmake)
 
 # --- top level directories
-cmake_path(SET ci_root NORMALIZE ${PROJECT_SOURCE_DIR}/../cfg)
+cmake_path(SET ci_root ${PROJECT_SOURCE_DIR}/cfg)
 cmake_path(SET ref_root ${GEMINI_CIROOT}/test_ref)
 
 file(MAKE_DIRECTORY ${ref_root})
@@ -49,19 +39,19 @@ endif()
 
 # --- PyGemini
 if(python)
-  include(${PROJECT_SOURCE_DIR}/../cmake/python.cmake)
+  include(${PROJECT_SOURCE_DIR}/cmake/python.cmake)
 endif()
 
 # --- MatGemini
 if(matlab)
-  include(${PROJECT_SOURCE_DIR}/../cmake/matlab.cmake)
+  include(${PROJECT_SOURCE_DIR}/cmake/matlab.cmake)
 endif()
-include(${PROJECT_SOURCE_DIR}/../cmake/MatlabTest.cmake)
+include(${PROJECT_SOURCE_DIR}/cmake/MatlabTest.cmake)
 
 # --- download reference data JSON file (for previously generated data)
 cmake_path(SET arc_json_file ${PROJECT_BINARY_DIR}/ref_data.json)
 if(NOT EXISTS ${arc_json_file})
-  file(READ ${PROJECT_SOURCE_DIR}/../cmake/libraries.json _libj)
+  file(READ ${PROJECT_SOURCE_DIR}/cmake/libraries.json _libj)
   string(JSON url GET ${_libj} ref_data url)
   file(DOWNLOAD ${url} ${arc_json_file}
   INACTIVITY_TIMEOUT 15
@@ -88,14 +78,14 @@ if(package)
   cmake_path(SET upload_root ${GEMINI_CIROOT}/upload-${package_date})
   cmake_path(SET ref_json_file ${upload_root}/ref_data.json)
 
-  include(${PROJECT_SOURCE_DIR}/../cmake/system_meta.cmake)
+  include(${PROJECT_SOURCE_DIR}/cmake/system_meta.cmake)
 
   message(STATUS "packaging archives in ${upload_root}")
 endif()
 
 # --- check if Internet connectivity at ctest time
 add_test(NAME internetConnectivity
-COMMAND ${CMAKE_COMMAND} -P ${PROJECT_SOURCE_DIR}/../cmake/connectivity.cmake)
+COMMAND ${CMAKE_COMMAND} -P ${PROJECT_SOURCE_DIR}/cmake/connectivity.cmake)
 set_tests_properties(internetConnectivity PROPERTIES
 TIMEOUT 3
 FIXTURES_SETUP internet_fxt

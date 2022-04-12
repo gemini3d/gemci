@@ -5,7 +5,7 @@ endif()
 
 find_path(matgemini_SOURCE_DIR
 NAMES setup_gemini3d.m
-PATHS ${PROJECT_SOURCE_DIR}/../mat_gemini/ ${PROJECT_SOURCE_DIR}/../../mat_gemini/
+PATHS ${PROJECT_SOURCE_DIR}/../mat_gemini/
 HINTS ${MATGEMINI_ROOT} ENV MATGEMINI ENV MATGEMINI_ROOT
 REQUIRED
 )

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20...3.23)
+cmake_minimum_required(VERSION 3.21...3.23)
 
 set(CTEST_PROJECT_NAME "GemCI")
 
@@ -16,11 +16,7 @@ if(DEFINED ENV{CI})
   set(CI $ENV{CI})
 endif()
 
-set(CTEST_NIGHTLY_START_TIME "01:00:00 UTC")
 set(CTEST_SUBMIT_URL "https://my.cdash.org/submit.php?project=${CTEST_PROJECT_NAME}")
-
-# ctest -S doesn't have a way to pass -Dvar:type=value, so do this via env var
-# list(APPEND opts $ENV{CTEST_${CTEST_PROJECT_NAME}_ARGS})
 
 # --- Experimental, Nightly, Continuous
 # https://cmake.org/cmake/help/latest/manual/ctest.1.html#dashboard-client-modes
@@ -185,8 +181,11 @@ if(NOT (ret EQUAL 0 AND err EQUAL 0))
   message(FATAL_ERROR "Build ${build_id} failed: return ${ret} cmake return ${err}")
 endif()
 
+string(TIMESTAMP time UTC)
+
 ctest_test(
 SCHEDULE_RANDOM ON
+OUTPUT_JUNIT ${CTEST_BINARY_DIRECTORY}/ctest_${time}.json
 RETURN_VALUE ret
 CAPTURE_CMAKE_ERROR err
 )

@@ -149,6 +149,18 @@ The tests named "run_bounds_check:" are only present if "gemini3d.run.debug" is 
 They should not have "(Disabled)" after the test name.
 Those tests use the `-dryrun` option and bounds checking.
 
+## Number of MPI processes
+
+Normally we let Gemini3D determine the number of MPI processes to use.
+For debugging, this can be manually overridden with -Dmpi_nprocs=<nprocs> argument like:
+
+```sh
+cmake -B build -Dmpi_nprocs=32
+```
+
+Then, each test will use that value instead of the automatically determined value.
+This option can make tests fail if the simulation grid isn't evenly divisible in lat/lon by the number of MPI processes.
+
 ## Regenerating reference data
 
 This is usually only done by development team.

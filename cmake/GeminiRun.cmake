@@ -4,6 +4,9 @@ cmake_path(GET GEMINI_RUN PARENT_PATH run_parent)
 # for MSIS 2.0 and similar that need WORKING_DIRECTORY
 
 set(run_args ${out_dir} -mpiexec ${MPIEXEC_EXECUTABLE} -exe ${GEMINI_BIN_DEBUG})
+if(mpi_nprocs)
+  list(APPEND run_args -n ${mpi_nprocs})
+endif()
 
 # --- if array bounds checking exe available, use it first
 # disable test if bounds check fails as result wouldn't be reliable due to incorrect code.

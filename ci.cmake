@@ -60,7 +60,9 @@ if(NOT DEFINED CTEST_BUILD_NAME)
     set(CTEST_BUILD_NAME $ENV{CTEST_BUILD_NAME})
   else()
     # a priori we are going to use the latest Git commit
-    execute_process(COMMAND ${GIT_EXECUTABLE} ls-remote https://github.com/gemini3d/gemini3d.git main
+    execute_process(COMMAND ${GIT_EXECUTABLE} ls-remote
+      https://github.com/gemini3d/gemini3d.git
+      fclaw_prep3
     OUTPUT_VARIABLE raw OUTPUT_STRIP_TRAILING_WHITESPACE
     RESULT_VARIABLE err
     TIMEOUT 15

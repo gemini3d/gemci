@@ -118,6 +118,7 @@ set(CTEST_SUBMIT_RETRY_COUNT 2)
 # avoid auto-detect version control failures on some systems
 set(CTEST_UPDATE_TYPE git)
 set(CTEST_UPDATE_COMMAND git)
+set(CTEST_NIGHTLY_START_TIME "01:00:00 UTC")
 
 ctest_start(${CTEST_MODEL})
 

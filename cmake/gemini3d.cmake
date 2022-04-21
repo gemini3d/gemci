@@ -11,6 +11,7 @@ set(gemini_args
 -Dhdf5:BOOL=on
 -Dhwm14:BOOL=off
 -Dnetcdf:BOOL=off
+-Dcpp:BOOL=off  # TODO: this is a workaround for fclaw_prep3
 -DCMAKE_INSTALL_PREFIX:PATH=${PROJECT_BINARY_DIR}
 -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
 -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}

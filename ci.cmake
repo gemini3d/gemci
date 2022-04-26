@@ -12,7 +12,7 @@ set(opts
 
 # --- boilerplate follows
 
-if(DEFINED ENV{CI})
+if(NOT DEFINED CI AND DEFINED ENV{CI})
   set(CI $ENV{CI})
 endif()
 

@@ -53,6 +53,21 @@ endif()
 
 find_program(GIT_EXECUTABLE NAMES git REQUIRED)
 
+# --- CTEST_BUILD_NAME is used by ctest_submit(); must be set before ctest_start()
+
+if(NOT DEFINED CTEST_BUILD_NAME)
+  # a priori we are going to use the latest Git commit
+  execute_process(COMMAND ${GIT_EXECUTABLE} ls-remote
+    https://github.com/gemini3d/gemini3d.git
+    fclaw_prep3
+  OUTPUT_VARIABLE raw OUTPUT_STRIP_TRAILING_WHITESPACE
+  TIMEOUT 15
+  COMMAND_ERROR_IS_FATAL ANY
+  )
+  string(REGEX MATCH "([a-f]|[0-9])+" gemini_git_version ${raw})
+  set(CTEST_BUILD_NAME ${gemini_git_version})
+endif()
+
 # --- find generator
 function(find_generator)
 
@@ -136,21 +151,6 @@ if(CTEST_MODEL MATCHES "(Nightly|Continuous)")
     endif()
 
   endif()
-endif()
-
-# --- CTEST_BUILD_NAME is used by ctest_submit()
-
-if(NOT DEFINED CTEST_BUILD_NAME)
-  # a priori we are going to use the latest Git commit
-  execute_process(COMMAND ${GIT_EXECUTABLE} ls-remote
-    https://github.com/gemini3d/gemini3d.git
-    fclaw_prep3
-  OUTPUT_VARIABLE raw OUTPUT_STRIP_TRAILING_WHITESPACE
-  TIMEOUT 15
-  COMMAND_ERROR_IS_FATAL ANY
-  )
-  string(REGEX MATCH "([a-f]|[0-9])+" gemini_git_version ${raw})
-  set(CTEST_BUILD_NAME ${gemini_git_version})
 endif()
 
 # --- configure

@@ -174,11 +174,9 @@ if(NOT (ret EQUAL 0 AND err EQUAL 0))
   message(FATAL_ERROR "Build ${build_id} failed: return ${ret} cmake return ${err}")
 endif()
 
-string(TIMESTAMP time UTC)
-
 ctest_test(
 SCHEDULE_RANDOM ON
-OUTPUT_JUNIT ${CTEST_BINARY_DIRECTORY}/ctest_${time}.json
+OUTPUT_JUNIT ${CTEST_BINARY_DIRECTORY}/ctest_${build_id}.json
 RETURN_VALUE ret
 CAPTURE_CMAKE_ERROR err
 )

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.21...3.23)
+cmake_minimum_required(VERSION 3.21)
 
 set(CTEST_PROJECT_NAME "GemCI")
 
@@ -10,28 +10,20 @@ set(opts
 -Dpython:BOOL=yes
 )
 
-# --- boilerplate follows
-
-if(NOT DEFINED CI AND DEFINED ENV{CI})
-  set(CI $ENV{CI})
-endif()
+# --- main script
 
 set(CTEST_NIGHTLY_START_TIME "01:00:00 UTC")
 set(CTEST_SUBMIT_URL "https://my.cdash.org/submit.php?project=${CTEST_PROJECT_NAME}")
 
 # --- Experimental, Nightly, Continuous
 # https://cmake.org/cmake/help/latest/manual/ctest.1.html#dashboard-client-modes
-if(NOT CTEST_MODEL AND CI)
-  set(CTEST_MODEL "Nightly")
-endif()
+
 if(NOT CTEST_MODEL)
   set(CTEST_MODEL "Experimental")
 endif()
 
 # --- other defaults
 set(CTEST_TEST_TIMEOUT 10)
-# most of our tests take much longer than 10 seconds, but this helps ensure we don't accidentally
-# let a test timeout default to ~ infinity.
 
 set(CTEST_USE_LAUNCHERS 1)
 set(CTEST_OUTPUT_ON_FAILURE true)

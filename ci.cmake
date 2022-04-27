@@ -15,6 +15,9 @@ endif()
 if(MPI_ROOT)
   list(APPEND opts -DMPI_ROOT:PATH=${MPI_ROOT})
 endif()
+if(GEMINI_CIROOT)
+  list(APPEND opts -DGEMINI_CIROOT:PATH=${GEMINI_CIROOT})
+endif()
 
 # --- main script
 

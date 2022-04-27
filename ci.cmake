@@ -9,6 +9,9 @@ set(opts
 -Dmatlab:BOOL=no
 -Dpython:BOOL=yes
 )
+if(CMAKE_PREFIX_PATH)
+  list(APPEND opts -DCMAKE_PREFIX_PATH:PATH=${CMAKE_PREFIX_PATH})
+endif()
 
 # --- main script
 

@@ -1,6 +1,3 @@
-# in general, we need both Release and Debug of Gemini3D.
-# to ensure this happens without requiring Ninja Multi-Config, we do two distinct builds
-# with the same install directory.
 include(ExternalProject)
 
 set(gemci_args

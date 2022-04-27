@@ -20,6 +20,9 @@ set(gemini_args
 if(CMAKE_PREFIX_PATH)
   list(APPEND gemini_args -DCMAKE_PREFIX_PATH:PATH=${CMAKE_PREFIX_PATH})
 endif()
+if(MPI_ROOT)
+  list(APPEND gemini_args -DMPI_ROOT:PATH=${MPI_ROOT})
+endif()
 # -DCMAKE_VERBOSE_MAKEFILE:BOOL=true
 
 file(READ ${CMAKE_CURRENT_LIST_DIR}/libraries.json lib_json)

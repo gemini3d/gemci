@@ -12,6 +12,9 @@ set(opts
 if(CMAKE_PREFIX_PATH)
   list(APPEND opts -DCMAKE_PREFIX_PATH:PATH=${CMAKE_PREFIX_PATH})
 endif()
+if(MPI_ROOT)
+  list(APPEND opts -DMPI_ROOT:PATH=${MPI_ROOT})
+endif()
 
 # --- main script
 

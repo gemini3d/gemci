@@ -38,10 +38,12 @@ endif()
 set(PYGEMINI_FOUND true CACHE BOOL "PyGemini Found")
 set(PYGEMINI_VERSION ${out} CACHE STRING "PyGemini version")
 
-endfunction()
+endfunction(check_pygemini)
 
+# --- script
 
-find_package(Python 3.8 COMPONENTS Interpreter)
-if(Python_FOUND AND NOT PYGEMINI_FOUND)
+find_package(Python 3.7 COMPONENTS Interpreter REQUIRED)
+
+if(NOT PYGEMINI_FOUND)
   check_pygemini()
 endif()

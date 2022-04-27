@@ -165,7 +165,10 @@ ctest_build(
 RETURN_VALUE ret
 CAPTURE_CMAKE_ERROR err
 )
-ctest_submit(BUILD_ID build_id)
+ctest_submit(
+BUILD_ID build_id
+PARTS Start Update Configure Build
+)
 if(NOT (ret EQUAL 0 AND err EQUAL 0))
   message(FATAL_ERROR "Build ${build_id} failed: return ${ret} cmake return ${err}")
 endif()
@@ -177,7 +180,10 @@ RETURN_VALUE ret
 CAPTURE_CMAKE_ERROR err
 )
 
-ctest_submit(BUILD_ID build_id)
+ctest_submit(
+BUILD_ID build_id
+PARTS Test Done
+)
 
 if(NOT (ret EQUAL 0 AND err EQUAL 0))
   message(FATAL_ERROR "Test ${build_id} failed: CTest code ${ret}, CMake code ${err}.")

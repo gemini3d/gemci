@@ -30,6 +30,9 @@ TIMEOUT 120
 )
 
 find_program(rclone NAMES rclone)
+if(NOT rclone)
+  return()
+endif()
 
 add_test(NAME "upload:${name}"
 COMMAND ${CMAKE_COMMAND} -Darchive:FILEPATH=${archive} -Dout_dir:PATH=${out_dir}

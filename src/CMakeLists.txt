@@ -108,28 +108,19 @@ cmake_path(GET in_dir FILENAME name)
 
 message(DEBUG "${name}: ${type_label}")
 
-# --- disable tests if Gemini3D feature not enabled
 set(${name}_DISABLED 0)
 
-if(name MATCHES "msis2" AND NOT "MSIS2" IN_LIST GEMINI_FEATURES)
-  if(msis2)
-    message(FATAL_ERROR "MSIS2 feature requested but not enabled in GEMINI3D")
+if(NOT name MATCHES "_eq$")
+  if(msis2 AND NOT name MATCHES "msis2")
+    message(STATUS "MSIS2 requested, skipping ${name}")
+    continue()
   endif()
-  message(VERBOSE "MSIS2 not enabled, disabling ${name}")
-  set(${name}_DISABLED 1)
-endif()
 
-if(name MATCHES "hwm14" AND NOT "HWM14" IN_LIST GEMINI_FEATURES)
-  if(hwm14)
-    message(FATAL_ERROR "HWM14 feature requested but not enabled in GEMINI3D")
+  if(hwm14 AND NOT name MATCHES "hwm14")
+    message(STATUS "HWM14 requested, skipping ${name}")
+    continue()
   endif()
-  # NOTE: when hwm14 enabled, need to disable non-hwm14 tests
-  # maybe we should have a config.nml flag for hwm14?
-  message(VERBOSE "HWM14 not enabled, disabling ${name}")
-  set(${name}_DISABLED 1)
 endif()
-
-message(DEBUG "FEATURES: ${GEMINI_FEATURES}   ${name}: ${${name}_DISABLED}")
 
 # --- proceed with simulation setup
 cmake_path(SET out_dir ${GEMINI_CIROOT}/${name})

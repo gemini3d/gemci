@@ -25,6 +25,18 @@ if(MPI_ROOT)
 endif()
 # -DCMAKE_VERBOSE_MAKEFILE:BOOL=true
 
+# FIXME: would write a file with ExternalProject_AddStep
+set(GEMINI_FEATURES MPI HDF5)
+if(glow)
+  list(APPEND GEMINI_FEATURES GLOW)
+endif()
+if(msis2)
+  list(APPEND GEMINI_FEATURES MSIS2)
+endif()
+if(hwm14)
+  list(APPEND GEMINI_FEATURES HWM14)
+endif()
+
 file(READ ${CMAKE_CURRENT_LIST_DIR}/libraries.json lib_json)
 string(JSON gemini3d_url GET ${lib_json} gemini3d url)
 if(gemini3d_tag)

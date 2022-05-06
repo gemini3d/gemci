@@ -112,12 +112,18 @@ message(DEBUG "${name}: ${type_label}")
 set(${name}_DISABLED 0)
 
 if(name MATCHES "msis2" AND NOT "MSIS2" IN_LIST GEMINI_FEATURES)
+  if(msis2)
+    message(FATAL_ERROR "MSIS2 feature requested but not enabled in GEMINI3D")
+  endif()
   message(VERBOSE "MSIS2 not enabled, disabling ${name}")
   set(${name}_DISABLED 1)
 endif()
 
 if(name MATCHES "hwm14" AND NOT "HWM14" IN_LIST GEMINI_FEATURES)
-  # TODO: when hwm14 enabled, need to disable non-hwm14 tests
+  if(hwm14)
+    message(FATAL_ERROR "HWM14 feature requested but not enabled in GEMINI3D")
+  endif()
+  # NOTE: when hwm14 enabled, need to disable non-hwm14 tests
   # maybe we should have a config.nml flag for hwm14?
   message(VERBOSE "HWM14 not enabled, disabling ${name}")
   set(${name}_DISABLED 1)

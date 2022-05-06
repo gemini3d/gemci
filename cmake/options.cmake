@@ -2,6 +2,10 @@ option(python "use Python for tests")
 option(matlab "use Matlab (slower than Python)")
 option(plot "plot difference between reference and computed")
 
+option(hwm14 "use HWM14")
+option(msis2 "use MSIS2")
+option(glow "use GLOW" on)
+
 option(dev "dev mode")
 
 option(equil "run equilibrium (takes 10+ hours)")

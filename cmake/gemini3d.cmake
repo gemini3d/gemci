@@ -6,12 +6,12 @@ include(ExternalProject)
 set(gemini_args
 -DBUILD_TESTING:BOOL=off
 -Dmpi:BOOL=on
--Dmsis2:BOOL=off
--Dglow:BOOL=on
+-Dmsis2:BOOL=${msis2}
+-Dglow:BOOL=${glow}
 -Dhdf5:BOOL=on
--Dhwm14:BOOL=off
+-Dhwm14:BOOL=${hwm14}
 -Dnetcdf:BOOL=off
--Dcpp:BOOL=off  # TODO: this is a workaround for fclaw_prep3
+-Dcpp:BOOL=on
 -DCMAKE_INSTALL_PREFIX:PATH=${PROJECT_BINARY_DIR}
 -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
 -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}

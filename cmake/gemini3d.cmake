@@ -58,6 +58,11 @@ ExternalProject_Get_property(GEMINI3D_DEBUG BINARY_DIR)
 cmake_path(SET GEMINI_RUN_DEBUG ${BINARY_DIR}/gemini3d.run.debug)
 cmake_path(SET GEMINI_Fortran_BIN_DEBUG ${BINARY_DIR}/gemini.bin.debug)
 
+if(cpp)
+  cmake_path(SET GEMINI_CXX_BIN_DEBUG ${BINARY_DIR}/gemini_c.bin.debug)
+endif()
+
+
 ExternalProject_Add(GEMINI3D_RELEASE
 GIT_REPOSITORY ${gemini3d_url}
 GIT_TAG ${gemini3d_tag}

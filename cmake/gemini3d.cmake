@@ -54,13 +54,9 @@ INACTIVITY_TIMEOUT 15
 CONFIGURE_HANDLED_BY_BUILD true
 )
 
-ExternalProject_Get_property(GEMINI3D_DEBUG BINARY_DIR)
-cmake_path(SET GEMINI_RUN_DEBUG ${BINARY_DIR}/gemini3d.run.debug)
-cmake_path(SET GEMINI_Fortran_BIN_DEBUG ${BINARY_DIR}/gemini.bin.debug)
-
-if(cpp)
-  cmake_path(SET GEMINI_CXX_BIN_DEBUG ${BINARY_DIR}/gemini_c.bin.debug)
-endif()
+cmake_path(SET GEMINI_RUN_DEBUG ${PROJECT_BINARY_DIR}/bin/gemini3d.run.debug)
+cmake_path(SET GEMINI_Fortran_BIN_DEBUG ${PROJECT_BINARY_DIR}/bin/gemini.bin.debug)
+cmake_path(SET GEMINI_CXX_BIN_DEBUG ${PROJECT_BINARY_DIR}/bin/gemini_c.bin.debug)
 
 
 ExternalProject_Add(GEMINI3D_RELEASE
@@ -75,10 +71,7 @@ DEPENDS GEMINI3D_DEBUG
 # DEPENDS debug to help ensure order of build, not specific dependency
 
 ExternalProject_Get_property(GEMINI3D_RELEASE BINARY_DIR)
-cmake_path(SET GEMINI_RUN ${BINARY_DIR}/gemini3d.run)
-cmake_path(SET GEMINI_Fortran_BIN ${BINARY_DIR}/gemini.bin)
-cmake_path(SET GEMINI_COMPARE ${BINARY_DIR}/gemini3d.compare)
-
-if(cpp)
-  cmake_path(SET GEMINI_CXX_BIN ${BINARY_DIR}/gemini_c.bin)
-endif()
+cmake_path(SET GEMINI_RUN ${PROJECT_BINARY_DIR}/bin/gemini3d.run)
+cmake_path(SET GEMINI_Fortran_BIN ${PROJECT_BINARY_DIR}/bin/gemini.bin)
+cmake_path(SET GEMINI_COMPARE ${PROJECT_BINARY_DIR}/bin/gemini3d.compare)
+cmake_path(SET GEMINI_CXX_BIN ${PROJECT_BINARY_DIR}/bin/gemini_c.bin)

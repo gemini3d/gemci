@@ -26,7 +26,7 @@ endif()
 # -DCMAKE_VERBOSE_MAKEFILE:BOOL=true
 
 # FIXME: would write a file with ExternalProject_AddStep
-set(GEMINI_FEATURES MPI HDF5)
+set(GEMINI_FEATURES "REALBITS:64" MPI HDF5)
 if(glow)
   list(APPEND GEMINI_FEATURES GLOW)
 endif()

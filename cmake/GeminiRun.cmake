@@ -3,7 +3,7 @@ function(gemini_run out_dir name label)
 cmake_path(GET GEMINI_RUN PARENT_PATH run_parent)
 # for MSIS 2.0 and similar that need WORKING_DIRECTORY
 
-set(run_args ${out_dir} -mpiexec ${MPIEXEC_EXECUTABLE} -exe ${GEMINI_BIN_DEBUG})
+set(run_args ${out_dir} -mpiexec ${MPIEXEC_EXECUTABLE} -exe ${GEMINI_Fortran_BIN_DEBUG})
 if(mpi_nprocs)
   list(APPEND run_args -n ${mpi_nprocs})
 endif()
@@ -26,7 +26,12 @@ RESOURCE_LOCK cpu_mpi
 ENVIRONMENT GEMINI_CIROOT=${GEMINI_CIROOT}
 )
 
-set(run_args ${out_dir} -mpiexec ${MPIEXEC_EXECUTABLE} -exe ${GEMINI_BIN})
+set(run_args ${out_dir} -mpiexec ${MPIEXEC_EXECUTABLE})
+if(cpp)
+  list(APPEND run_args -exe ${GEMINI_CXX_BIN})
+else()
+  list(APPEND run_args -exe ${GEMINI_Fortran_BIN})
+endif()
 
 add_test(NAME "run:${name}"
 COMMAND ${GEMINI_RUN} ${run_args}

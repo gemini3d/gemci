@@ -39,7 +39,7 @@ if(NOT DEFINED CACHE{GEMINI_Fortran_COMPILER_VERSION})
 endif()
 
 # --- detailed check
-if(NOT GEMINI_RUN_DEBUG AND GEMINI_BIN_DEBUG)
+if(NOT GEMINI_RUN_DEBUG AND GEMINI_Fortran_BIN_DEBUG)
   return()
 endif()
 
@@ -114,7 +114,7 @@ if(NOT GEMINI_RUN_OK)
   endif()
 endif()
 
-find_program(GEMINI_BIN
+find_program(GEMINI_Fortran_BIN
 NAMES gemini.bin
 HINTS ${GEMINI_ROOT}
 PATH_SUFFIXES build/Release build bin
@@ -131,7 +131,7 @@ NO_DEFAULT_PATH
 DOC "Gemini3d.run Fortran front-end: debug enabled"
 )
 
-find_program(GEMINI_BIN_DEBUG
+find_program(GEMINI_Fortran_BIN_DEBUG
 NAMES gemini.bin.debug
 HINTS ${GEMINI_ROOT}
 PATH_SUFFIXES build/RelWithDebInfo build/Debug build bin

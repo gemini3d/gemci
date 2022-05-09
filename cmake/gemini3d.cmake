@@ -56,7 +56,7 @@ CONFIGURE_HANDLED_BY_BUILD true
 
 ExternalProject_Get_property(GEMINI3D_DEBUG BINARY_DIR)
 cmake_path(SET GEMINI_RUN_DEBUG ${BINARY_DIR}/gemini3d.run.debug)
-cmake_path(SET GEMINI_BIN_DEBUG ${BINARY_DIR}/gemini.bin.debug)
+cmake_path(SET GEMINI_Fortran_BIN_DEBUG ${BINARY_DIR}/gemini.bin.debug)
 
 ExternalProject_Add(GEMINI3D_RELEASE
 GIT_REPOSITORY ${gemini3d_url}
@@ -71,5 +71,9 @@ DEPENDS GEMINI3D_DEBUG
 
 ExternalProject_Get_property(GEMINI3D_RELEASE BINARY_DIR)
 cmake_path(SET GEMINI_RUN ${BINARY_DIR}/gemini3d.run)
-cmake_path(SET GEMINI_BIN ${BINARY_DIR}/gemini.bin)
+cmake_path(SET GEMINI_Fortran_BIN ${BINARY_DIR}/gemini.bin)
 cmake_path(SET GEMINI_COMPARE ${BINARY_DIR}/gemini3d.compare)
+
+if(cpp)
+  cmake_path(SET GEMINI_CXX_BIN ${BINARY_DIR}/gemini_c.bin)
+endif()

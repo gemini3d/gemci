@@ -5,6 +5,7 @@ option(plot "plot difference between reference and computed")
 option(hwm14 "use HWM14")
 option(msis2 "use MSIS2")
 option(glow "use GLOW" on)
+option(cpp "test C++ Gemini3D frontend" on)
 
 option(dev "dev mode")
 

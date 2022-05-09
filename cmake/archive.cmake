@@ -61,6 +61,10 @@ else()
   message(STATUS "${name}: omitted Gemini3D version from ${ref_json_file}")
 endif()
 
+if(gemini3d_tag)
+  string(JSON ref_json SET ${ref_json} tests ${name} gemini3d_tag \"${gemini3d_tag}\")
+endif()
+
 if(pygemini_version)
   string(JSON ref_json SET ${ref_json} tests ${name} pygemini_version \"${pygemini_version}\")
 endif()

@@ -26,31 +26,5 @@ string(JSON ref_json SET ${ref_json} system cpp_compiler \"${c}\")
 set(c "${CMAKE_Fortran_COMPILER_ID} ${CMAKE_Fortran_COMPILER_VERSION}")
 string(JSON ref_json SET ${ref_json} system fortran_compiler \"${c}\")
 
-# check if tag exists, create if not
-string(JSON m ERROR_VARIABLE e GET ${ref_json} gemini3d)
-if(NOT m)
-  string(JSON ref_json SET ${ref_json} gemini3d "{}")
-endif()
-if(gemini3d_tag)
-  string(JSON ref_json SET ${ref_json} gemini3d git_tag \"${gemini3d_tag}\")
-endif()
-if(git_porcelain)
-  string(JSON ref_json SET ${ref_json} gemini3d git_porcelain ${git_porcelain})
-endif(git_porcelain)
-
-# check if tag exists, create if not
-string(JSON m ERROR_VARIABLE e GET ${ref_json} library)
-if(NOT m)
-  string(JSON ref_json SET ${ref_json} library "{}")
-endif()
-
-foreach(n LAPACK SCALAPACK MUMPS HDF5 NetCDF MPI)
-  if(${n}_LIBRARIES)
-    string(REPLACE ";" "," l "${${n}_LIBRARIES}")
-    string(TOLOWER ${n} nl)
-    string(JSON ref_json ERROR_VARIABLE e SET ${ref_json} library ${nl} \"${l}\")
-  endif()
-
-endforeach()
-
+# write meta data to file
 file(WRITE ${ref_json_file} ${ref_json})

@@ -14,6 +14,9 @@ option(package "package reference data .zst files")
 
 set(CMAKE_TLS_VERIFY true)
 
+set(Python_FIND_REGISTRY LAST)
+# this avoids non-active conda from getting picked anyway on Windows
+
 
 if(dev)
   set_directory_properties(PROPERTIES EP_UPDATE_DISCONNECTED true)

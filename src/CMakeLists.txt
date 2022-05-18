@@ -27,7 +27,6 @@ file(MAKE_DIRECTORY ${ref_root})
 
 # --- measure system physical RAM
 cmake_host_system_information(RESULT host_ramMB QUERY TOTAL_PHYSICAL_MEMORY)
-cmake_host_system_information(RESULT host_cpu QUERY PROCESSOR_DESCRIPTION)
 
 if(NOT DEFINED low_ram)
   set(low_ram false)

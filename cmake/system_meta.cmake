@@ -17,6 +17,7 @@ string(JSON ref_json SET ${ref_json} system cmake_version \"${CMAKE_VERSION}\")
 # CMAKE_BUILD_TYPE, CMAKE_*_COMPILER_ID not relevant for GemCI itself
 
 string(JSON ref_json SET ${ref_json} system operating_system \"${CMAKE_HOST_SYSTEM_NAME}\")
+cmake_host_system_information(RESULT host_cpu QUERY PROCESSOR_DESCRIPTION)
 string(JSON ref_json SET ${ref_json} system cpu \"${host_cpu}\")
 string(JSON ref_json SET ${ref_json} system memory_ram_MB ${host_ramMB})
 set(c "${CMAKE_C_COMPILER_ID} ${CMAKE_C_COMPILER_VERSION}")

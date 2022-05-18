@@ -19,6 +19,10 @@ if(GEMINI_CIROOT)
   list(APPEND opts -DGEMINI_CIROOT:PATH=${GEMINI_CIROOT})
 endif()
 
+if(NOT DEFINED CI)
+  set(CI $ENV{CI})
+endif()
+
 # --- main script
 
 set(CTEST_NIGHTLY_START_TIME "01:00:00 UTC")
@@ -120,7 +124,7 @@ if(CTEST_MODEL MATCHES "(Nightly|Continuous)")
   OUTPUT_VARIABLE ret OUTPUT_STRIP_TRAILING_WHITESPACE
   COMMAND_ERROR_IS_FATAL ANY
   )
-  if(ret)
+  if(ret AND NOT "${CI}")
     message(FATAL_ERROR "CTest would have erased the non-Git Push'd changes.")
   else()
     ctest_update(

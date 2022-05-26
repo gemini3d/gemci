@@ -74,6 +74,12 @@ if(NOT DEFINED CTEST_BUILD_NAME)
   string(REGEX MATCH "([a-f]|[0-9])+" gemini_git_version ${raw})
   string(SUBSTRING ${gemini_git_version} 0 7 gemini_git_version)
   set(CTEST_BUILD_NAME ${gemini3d_tag}-${gemini_git_version})
+
+  if(cpp)
+    string(APPEND CTEST_BUILD_NAME "-cpp")
+  else()
+    string(APPEND CTEST_BUILD_NAME "-fortran")
+  endif()
 endif()
 
 # --- find generator

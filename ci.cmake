@@ -132,10 +132,10 @@ if(CTEST_MODEL MATCHES "(Nightly|Continuous)")
     message(FATAL_ERROR "CTest would have erased the non-Git Push'd changes.")
   else()
     ctest_update(
-    RETURN_VALUE ret
+    RETURN_VALUE stat
     CAPTURE_CMAKE_ERROR err
     )
-    if(ret LESS 0 OR NOT err EQUAL 0)
+    if(stat LESS 0 OR NOT err EQUAL 0)
       message(FATAL_ERROR "Update failed: return ${ret} cmake return ${err}")
     endif()
   endif()
@@ -145,14 +145,15 @@ if(CTEST_MODEL MATCHES "(Nightly|Continuous)")
   cmake_path(SET gemini3d_ep ${CTEST_BINARY_DIRECTORY}/GEMINI3D_RELEASE-prefix/src/GEMINI3D_RELEASE/)
   if(CTEST_MODEL STREQUAL Continuous AND IS_DIRECTORY ${gemini3d_ep})
 
-    execute_process(COMMAND ${GIT_EXECUTABLE} rev-parse HEAD
+    execute_process(COMMAND ${GIT_EXECUTABLE} rev-parse --short HEAD
     WORKING_DIRECTORY ${gemini3d_ep}
     TIMEOUT 5
     OUTPUT_VARIABLE out OUTPUT_STRIP_TRAILING_WHITESPACE
     RESULT_VARIABLE ret
+    COMMAND_ERROR_IS_FATAL ANY
     )
 
-    if(ret EQUAL 0 AND out STREQUAL ${gemini_git_version})
+    if(stat EQUAL 0 AND ret EQUAL 0 AND out STREQUAL ${gemini_git_version})
       message(NOTICE "No Git-updated files -> no need to test in CTest Model ${CTEST_MODEL}. CTest stopping.")
       return()
     endif()

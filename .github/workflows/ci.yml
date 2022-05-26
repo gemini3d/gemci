@@ -12,6 +12,8 @@ on:
       - "**.cmake"
       - "**/CMakeLists.txt"
       - ".github/workflows/ci.yml"
+# paths ignore starting with "!"
+      - "!ci.cmake"
 
 
 jobs:

@@ -4,7 +4,11 @@ set(CTEST_PROJECT_NAME "GemCI")
 
 set(CTEST_LABELS_FOR_SUBPROJECTS "python;matlab")
 
+set(gemini3d_url https://github.com/gemini3d/gemini3d.git)
+set(gemini3d_tag fclaw_prep3)
+
 set(opts
+-Dgemini3d_tag=${gemini3d_tag}
 -Ddev:BOOL=no
 -Dmatlab:BOOL=no
 -Dpython:BOOL=yes
@@ -60,15 +64,15 @@ find_program(GIT_EXECUTABLE NAMES git REQUIRED)
 
 if(NOT DEFINED CTEST_BUILD_NAME)
   # a priori we are going to use the latest Git commit
-  execute_process(COMMAND ${GIT_EXECUTABLE} ls-remote
-    https://github.com/gemini3d/gemini3d.git
-    fclaw_prep3
+  execute_process(
+  COMMAND ${GIT_EXECUTABLE} ls-remote --exit-code ${gemini3d_url} ${gemini3d_tag}
   OUTPUT_VARIABLE raw OUTPUT_STRIP_TRAILING_WHITESPACE
   TIMEOUT 15
   COMMAND_ERROR_IS_FATAL ANY
   )
   string(REGEX MATCH "([a-f]|[0-9])+" gemini_git_version ${raw})
-  set(CTEST_BUILD_NAME ${gemini_git_version})
+  string(SUBSTRING ${gemini_git_version} 0 7 gemini_git_version)
+  set(CTEST_BUILD_NAME ${gemini3d_tag}-${gemini_git_version})
 endif()
 
 # --- find generator

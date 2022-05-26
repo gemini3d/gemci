@@ -8,6 +8,7 @@ set(gemini3d_url https://github.com/gemini3d/gemini3d.git)
 set(gemini3d_tag fclaw_prep3)
 
 set(opts
+-Dcpp:BOOL=${cpp}
 -Dgemini3d_tag=${gemini3d_tag}
 -Ddev:BOOL=no
 -Dmatlab:BOOL=no

@@ -16,6 +16,8 @@ cmake --build build
 ctest --preset default
 ```
 
+[CDash.md](./CDash.md) tells about configuring CDash runs with GemCI.
+
 ## Gemini3D build
 
 For robustness/repeatability, GemCI downloads and builds its own copy of Gemini3D.

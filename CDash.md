@@ -2,6 +2,22 @@
 
 A Unix-like workstation (e.g. Linux, MacOS) can be used in general as a CDash CI client by using a crontab schedule for periodic runs e.g. daily.
 
+## CTest CDash run
+
+To do a quick CDash CI run from a computer (takes 2 hours on a 64-core workstation) do like:
+
+```sh
+ctest -S ci.cmake -V
+```
+
+Options one may wish to use include:
+
+`-Dgemini3d_tag=`
+: set to Gemini3D Git branch, tag, or commit hash (default "main" branch)
+
+`-Dcpp=`
+: "true" to use C++ Gemini3d frontent, "false" to use Fortran Gemini3d front-end (default false)
+
 ## crontab basics
 
 Print the current crontab by:

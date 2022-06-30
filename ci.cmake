@@ -5,15 +5,16 @@ set(CTEST_PROJECT_NAME "GemCI")
 set(CTEST_LABELS_FOR_SUBPROJECTS "python;matlab")
 
 set(gemini3d_url https://github.com/gemini3d/gemini3d.git)
-set(gemini3d_tag fclaw_prep3)
 
 set(opts
 -Dcpp:BOOL=${cpp}
--Dgemini3d_tag=${gemini3d_tag}
 -Ddev:BOOL=no
 -Dmatlab:BOOL=no
 -Dpython:BOOL=yes
 )
+if(gemini3d_tag)
+  list(APPEND -Dgemini3d_tag=${gemini3d_tag})
+endif()
 if(CMAKE_PREFIX_PATH)
   list(APPEND opts -DCMAKE_PREFIX_PATH:PATH=${CMAKE_PREFIX_PATH})
 endif()

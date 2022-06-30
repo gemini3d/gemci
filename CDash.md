@@ -1,6 +1,9 @@
 # CDash GemCI
 
 A Unix-like workstation (e.g. Linux, MacOS) can be used in general as a CDash CI client by using a crontab schedule for periodic runs e.g. daily.
+These results are published to the public
+[GemCI CDash](https://my.cdash.org/index.php?subproject=python&project=GemCI).
+Implicit in running the CDash CTest client commands in this document are that some system details like compiler version are pushed to the public internet.
 
 ## CTest CDash run
 

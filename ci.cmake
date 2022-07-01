@@ -6,6 +6,8 @@ set(CTEST_LABELS_FOR_SUBPROJECTS "python;matlab")
 
 set(gemini3d_url https://github.com/gemini3d/gemini3d.git)
 
+option(cpp "use C++ Gemini3D frontend")
+
 set(opts
 -Dcpp:BOOL=${cpp}
 -Ddev:BOOL=no

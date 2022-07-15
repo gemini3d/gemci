@@ -31,8 +31,52 @@ if(NOT DEFINED CI)
   set(CI $ENV{CI})
 endif()
 
+function(ctest_once_only)
+
+# check if CTest already running, don't start if so
+if(WIN32)
+  find_program(tasklist NAMES tasklist REQUIRED)
+  execute_process(COMMAND ${tasklist} /fi "Imagename eq ctest.exe" /fo csv
+  TIMEOUT 10
+  RESULT_VARIABLE ret
+  OUTPUT_VARIABLE out
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+  )
+  if(NOT ret EQUAL 0)
+    message(FATAL_ERROR "Could not check if CTest already running")
+  endif()
+  string(REGEX MATCHALL "(ctest.exe)" mat "${out}")
+  list(LENGTH mat L)
+  if(NOT L EQUAL 1)
+    message(FATAL_ERROR "CTest already running ${L} times, not starting again.
+    ${mat}")
+  endif()
+else()
+  find_program(pgrep NAMES pgrep REQUIRED)
+  execute_process(COMMAND ${pgrep} ctest
+  TIMEOUT 10
+  RESULT_VARIABLE ret
+  OUTPUT_VARIABLE out
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+  )
+  if(NOT ret EQUAL 0)
+    message(FATAL_ERROR "Could not check if CTest already running")
+  endif()
+  string(REGEX MATCHALL "([0-9]+)" mat "${out}")
+  list(LENGTH mat L)
+  if(NOT L EQUAL 1)
+    message(FATAL_ERROR "CTest already running ${L} times, not starting again.
+    ${mat}")
+  endif()
+endif()
+
+endfunction(ctest_once_only)
+
 # --- main script
 
+ctest_once_only()
+
+# needed CDash params
 set(CTEST_NIGHTLY_START_TIME "01:00:00 UTC")
 set(CTEST_SUBMIT_URL "https://my.cdash.org/submit.php?project=${CTEST_PROJECT_NAME}")
 

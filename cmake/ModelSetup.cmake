@@ -8,7 +8,7 @@ endif()
 if(python)
 
   add_test(NAME "setup:python:${name}"
-  COMMAND ${Python_EXECUTABLE} -m gemini3d.model ${in_dir} ${out_dir} --gemini_root=${GEMINI_ROOT}
+  COMMAND ${Python_EXECUTABLE} -m gemini3d.model ${in_dir} ${out_dir} --root=${GEMINI_ROOT}
   WORKING_DIRECTORY ${in_dir}
   )
 

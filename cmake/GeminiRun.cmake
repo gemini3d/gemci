@@ -26,7 +26,7 @@ DISABLED ${${name}_DISABLED}
 LABELS "run;${label}"
 FIXTURES_SETUP ${name}:run_bounds_fxt
 FIXTURES_REQUIRED "${name}:setup_fxt;${name}:inputOK_fxt"
-TIMEOUT 180
+TIMEOUT 90
 RESOURCE_LOCK cpu_mpi
 ENVIRONMENT GEMINI_CIROOT=${GEMINI_CIROOT}
 )

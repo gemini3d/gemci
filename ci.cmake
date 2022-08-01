@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.21)
 
 set(CTEST_PROJECT_NAME "GemCI")
 
@@ -16,7 +16,7 @@ set(opts
 -Dpython:BOOL=yes
 )
 if(gemini3d_tag)
-  list(APPEND -Dgemini3d_tag=${gemini3d_tag})
+  list(APPEND opts -Dgemini3d_tag=${gemini3d_tag})
 endif()
 if(CMAKE_PREFIX_PATH)
   list(APPEND opts -DCMAKE_PREFIX_PATH:PATH=${CMAKE_PREFIX_PATH})

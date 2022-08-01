@@ -37,11 +37,10 @@ endif()
 
 file(READ ${CMAKE_CURRENT_LIST_DIR}/libraries.json lib_json)
 string(JSON gemini3d_url GET ${lib_json} gemini3d url)
-if(gemini3d_tag)
-  message(STATUS "overriding Gemini3D Git tag with ${gemini3d_tag}")
-else()
+if(NOT gemini3d_tag)
   string(JSON gemini3d_tag GET ${lib_json} gemini3d tag)
 endif()
+message(STATUS "Gemini3D Git: ${gemini3d_tag}")
 
 ExternalProject_Add(GEMINI3D_DEBUG
 GIT_REPOSITORY ${gemini3d_url}

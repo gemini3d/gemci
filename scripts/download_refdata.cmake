@@ -1,5 +1,5 @@
 # download all reference data
-cmake_minimum_required(VERSION 3.21...3.23)
+cmake_minimum_required(VERSION 3.21...3.24)
 
 include(${CMAKE_CURRENT_LIST_DIR}/../cmake/ParseNml.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/../cmake/GetEquil.cmake)

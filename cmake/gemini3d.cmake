@@ -8,9 +8,7 @@ set(gemini_args
 -Dmpi:BOOL=on
 -Dmsis2:BOOL=${msis2}
 -Dglow:BOOL=${glow}
--Dhdf5:BOOL=on
 -Dhwm14:BOOL=${hwm14}
--Dnetcdf:BOOL=off
 -Dcpp:BOOL=on
 -DCMAKE_INSTALL_PREFIX:PATH=${PROJECT_BINARY_DIR}
 -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}

@@ -12,7 +12,6 @@ TIMEOUT 15
 
 if(NOT ret EQUAL 0)
   message(FATAL_ERROR "Problem with Python Numpy, cannot use PyGemini
-  ${ret}
   ${out}
   ${err}"
   )

@@ -7,6 +7,7 @@ set(CTEST_LABELS_FOR_SUBPROJECTS "python;matlab")
 set(gemini3d_url https://github.com/gemini3d/gemini3d.git)
 
 option(cpp "use C++ Gemini3D frontend")
+option(submit "use CDash upload" true)
 
 set(opts
 -Dcpp:BOOL=${cpp}
@@ -225,7 +226,7 @@ OPTIONS "${opts}"
 RETURN_VALUE ret
 CAPTURE_CMAKE_ERROR err
 )
-if(NOT (ret EQUAL 0 AND err EQUAL 0))
+if(submit AND NOT (ret EQUAL 0 AND err EQUAL 0))
   ctest_submit(BUILD_ID build_id)
   message(FATAL_ERROR "Configure ${build_id} failed: return ${ret} cmake return ${err}")
 endif()
@@ -234,26 +235,33 @@ ctest_build(
 RETURN_VALUE ret
 CAPTURE_CMAKE_ERROR err
 )
-ctest_submit(
-BUILD_ID build_id
-PARTS Start Update Configure Build
-)
+if(submit)
+  ctest_submit(
+  BUILD_ID build_id
+  PARTS Start Update Configure Build
+  )
+endif()
 if(NOT (ret EQUAL 0 AND err EQUAL 0))
   message(FATAL_ERROR "Build ${build_id} failed: return ${ret} cmake return ${err}")
 endif()
 
 ctest_test(
-SCHEDULE_RANDOM ON
+SCHEDULE_RANDOM true
+EXCLUDE ${exclude}
+INCLUDE ${include}
+EXCLUDE_LABEL ${exclude_label}
+INCLUDE_LABEL ${include_label}
 RETURN_VALUE ret
 CAPTURE_CMAKE_ERROR err
 )
 # OUTPUT_JUNIT ${CTEST_BINARY_DIRECTORY}/junit_${build_id}.xml # cmake 3.21
 
-ctest_submit(
-BUILD_ID build_id
-PARTS Test Done
-)
-
+if(submit)
+  ctest_submit(
+  BUILD_ID build_id
+  PARTS Test Done
+  )
+endif()
 if(NOT (ret EQUAL 0 AND err EQUAL 0))
   message(FATAL_ERROR "Test ${build_id} failed: CTest code ${ret}, CMake code ${err}.")
 endif()

@@ -59,7 +59,10 @@ else()
   OUTPUT_VARIABLE out
   OUTPUT_STRIP_TRAILING_WHITESPACE
   )
-  if(NOT ret EQUAL 0)
+  if(ret EQUAL 1)
+    message(VERBOSE "No CTest found running, proceeding.")
+    return()
+  elseif(NOT ret EQUAL 0)
     message(FATAL_ERROR "Could not check if CTest already running")
   endif()
   string(REGEX MATCHALL "([0-9]+)" mat "${out}")

@@ -46,7 +46,6 @@ def perturb_efield(cfg: dict[str, T.Any], xg: dict[str, T.Any], params: dict[str
         cfg["indat_file"],
         dat,
         ns=nsperturb,
-        file_format=cfg["file_format"],
         Phitop=Phitop,
     )
 
@@ -258,7 +257,7 @@ def create_Efield(cfg, xg, params):
         E["Vminx2ist"][i, :] = Phislab[0, :]
 
     # %% Write electric field data to file
-    gemini3d.write.Efield(E, cfg["E0dir"], cfg["file_format"])
+    gemini3d.write.Efield(E, cfg["E0dir"])
 
 
 def moving_average(x: np.ndarray, k: int):

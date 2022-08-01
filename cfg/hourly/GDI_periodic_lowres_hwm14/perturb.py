@@ -92,5 +92,4 @@ def perturb(cfg: dict[str, T.Any], xg: dict[str, T.Any]):
         cfg["indat_file"],
         dat,
         ns=nsperturb,
-        file_format=cfg["file_format"],
     )

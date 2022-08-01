@@ -16,8 +16,8 @@ def precip_shape(pg: xarray.Dataset, Qpeak: float, Qbackground: float) -> xarray
     # changed so the arc is wider compared to its twisting
     Q = (
         Qpeak
-        * np.exp(-((pg.mlon - mlon_mean) ** 2) / 2 / pg.mlon_sigma ** 2)
-        * np.exp(-((pg.mlat - mlatctr - 1.5 * pg.mlat_sigma) ** 2) / 2 / pg.mlat_sigma ** 2)
+        * np.exp(-((pg.mlon - mlon_mean) ** 2) / 2 / pg.mlon_sigma**2)
+        * np.exp(-((pg.mlat - mlatctr - 1.5 * pg.mlat_sigma) ** 2) / 2 / pg.mlat_sigma**2)
     )
 
     # from matplotlib.pyplot import figure,show

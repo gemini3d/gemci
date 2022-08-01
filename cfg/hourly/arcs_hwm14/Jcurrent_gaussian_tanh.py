@@ -21,12 +21,12 @@ def Jcurrent_gaussian_tanh(E: xarray.Dataset, gridflag: int, flagdip: bool) -> x
         if i > 2:
             E["Vmaxx1it"].loc[t] = (
                 Jpk
-                * np.exp(-((E.mlon - E.mlonmean) ** 2) / 2 / E.mlonsig ** 2)
-                * np.exp(-((E.mlat - mlatctr - 1.5 * E.mlatsig) ** 2) / 2 / E.mlatsig ** 2)
+                * np.exp(-((E.mlon - E.mlonmean) ** 2) / 2 / E.mlonsig**2)
+                * np.exp(-((E.mlat - mlatctr - 1.5 * E.mlatsig) ** 2) / 2 / E.mlatsig**2)
             )
             E["Vmaxx1it"].loc[t] = E["Vmaxx1it"].loc[t] - Jpk * np.exp(
-                -((E.mlon - E.mlonmean) ** 2) / 2 / E.mlonsig ** 2
-            ) * np.exp(-((E.mlat - mlatctr + 1.5 * E.mlatsig) ** 2) / 2 / E.mlatsig ** 2)
+                -((E.mlon - E.mlonmean) ** 2) / 2 / E.mlonsig**2
+            ) * np.exp(-((E.mlat - mlatctr + 1.5 * E.mlatsig) ** 2) / 2 / E.mlatsig**2)
         else:
             E["Vmaxx1it"].loc[t] = np.zeros((llon, llat))
 

@@ -32,6 +32,10 @@ if(NOT DEFINED CI)
   set(CI $ENV{CI})
 endif()
 
+if(NOT DEFINED stop_time)
+  set(stop_time "03:45:00 UTC")
+endif()
+
 function(ctest_once_only)
 
 # check if CTest already running, don't start if so
@@ -81,7 +85,8 @@ endfunction(ctest_once_only)
 ctest_once_only()
 
 # needed CDash params
-set(CTEST_NIGHTLY_START_TIME "01:00:00 UTC")
+
+set(CTEST_NIGHTLY_START_TIME "04:00:00 UTC")
 set(CTEST_SUBMIT_URL "https://my.cdash.org/submit.php?project=${CTEST_PROJECT_NAME}")
 
 # --- Experimental, Nightly, Continuous
@@ -247,10 +252,11 @@ endif()
 
 ctest_test(
 SCHEDULE_RANDOM true
-EXCLUDE ${exclude}
-INCLUDE ${include}
-EXCLUDE_LABEL ${exclude_label}
-INCLUDE_LABEL ${include_label}
+EXCLUDE "${exclude}"
+INCLUDE "${include}"
+EXCLUDE_LABEL "${exclude_label}"
+INCLUDE_LABEL "${include_label}"
+STOP_TIME "${stop_time}"
 RETURN_VALUE ret
 CAPTURE_CMAKE_ERROR err
 )

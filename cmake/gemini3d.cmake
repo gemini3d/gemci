@@ -5,8 +5,6 @@ include(ExternalProject)
 
 set(gemini_args
 -DBUILD_TESTING:BOOL=off
--Dmpi:BOOL=on
--Dmsis2:BOOL=${msis2}
 -Dglow:BOOL=${glow}
 -Dhwm14:BOOL=${hwm14}
 -Dcpp:BOOL=on

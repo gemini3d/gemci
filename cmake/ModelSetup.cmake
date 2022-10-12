@@ -15,7 +15,6 @@ if(python)
   set_tests_properties("setup:python:${name}" PROPERTIES
   LABELS "setup;python;${label}"
   FIXTURES_SETUP ${name}:setup_fxt
-  TIMEOUT 900
   ENVIRONMENT GEMINI_CIROOT=${GEMINI_CIROOT}
   FIXTURES_REQUIRED "${name}:eq_fxt;${eq_name}:run_fxt"
   REQUIRED_FILES ${in_dir}/config.nml
@@ -33,7 +32,6 @@ elseif(matlab)
   set_tests_properties("setup:matlab:${name}" PROPERTIES
   LABELS "setup;matlab;${label}"
   FIXTURES_SETUP ${name}:setup_fxt
-  TIMEOUT 900
   FIXTURES_REQUIRED "${name}:eq_fxt;${eq_name}:run_fxt"
   REQUIRED_FILES ${in_dir}/config.nml
   DISABLED ${${name}_DISABLED}

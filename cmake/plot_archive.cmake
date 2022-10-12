@@ -21,7 +21,6 @@ endif()
 execute_process(
 COMMAND ${CMAKE_COMMAND} -E tar c ${out} ${arc_args} .
 WORKING_DIRECTORY ${in}
-TIMEOUT 600
 COMMAND_ERROR_IS_FATAL ANY
 )
 

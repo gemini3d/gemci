@@ -103,7 +103,7 @@ endif()
 
 # --- other defaults
 if(NOT CTEST_TEST_TIMEOUT)
-  set(CTEST_TEST_TIMEOUT 600)
+  set(CTEST_TEST_TIMEOUT 1800)
 endif()
 
 set(CTEST_USE_LAUNCHERS 1)

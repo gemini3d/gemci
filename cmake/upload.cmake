@@ -60,9 +60,11 @@ if(false)
 set(small_file_opts --fast-list --check-first)
 
 execute_process(COMMAND rclone copy ${out_dir}/plots ${PACKAGE_REMOTE}:${upload_root}/plots/${name} --verbose --checksum ${small_file_opts}
-TIMEOUT 1800
-COMMAND_ERROR_IS_FATAL ANY
+RESULT_VARIABLE ret
 )
+if(NOT ret EQUAL 0)
+  message(FATAL_ERROR "Failed to upload ${out_dir}/plots with Rclone to ${PACKAGE_REMOTE}:${upload_root}")
+endif()
 
 endif(false)
 

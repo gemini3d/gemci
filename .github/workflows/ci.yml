@@ -22,12 +22,9 @@ jobs:
       matrix:
         cpp: [true, false]
         python: [true, false]
+        pyversion: ['3.8']
 
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-python@v4
-      with:
-        python-version: '3.8'
 
     - name: Checkout Gemini3D-External
       uses: actions/checkout@v3
@@ -44,8 +41,13 @@ jobs:
       timeout-minutes: 15
       run: |
         cmake -S gemext -B gemext/build -Dfind:BOOL=true -DCMAKE_INSTALL_PREFIX:PATH=${{ runner.temp }}
-        cmake --build gemext/build --target ffilesystem glow iniparser msis mumps
+        cmake --build gemext/build --target ffilesystem glow iniparser msis --parallel
         cmake --install gemext/build
+
+    - name: Setup Python ${{ matrix.pyversion }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.pyversion }}
 
     - name: Checkout PyGemini
       if: ${{ matrix.python }}
@@ -58,6 +60,9 @@ jobs:
       if: ${{ matrix.python }}
       run: python -m pip install -e ./pygemini
 
+    - name: Git Checkout GemCI
+      uses: actions/checkout@v3
+
     - name: Configure C++=${{ matrix.cpp }} Python=${{ matrix.python }}
       run: >-
         cmake --preset default
@@ -66,7 +71,7 @@ jobs:
         -DCMAKE_PREFIX_PATH:PATH=${{ runner.temp }}
 
     - name: build Gemini3D
-      run: cmake --build build
+      run: cmake --build build --parallel
 
     - name: Run Bounds check
       run: ctest --preset default -R run_bounds_check -E 3D
@@ -75,14 +80,10 @@ jobs:
 
 
   linux-matlab:
-    if: false
-    # NOTE: This fails numeric comparision checks. This is probably an issue that needs to be fixed in MatGemini to match PyGemini.
-    # For now, disabling MatGemini CI sims.
     timeout-minutes: 15
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
 
     - name: Checkout Gemini3D-External
       uses: actions/checkout@v3
@@ -99,7 +100,7 @@ jobs:
       timeout-minutes: 15
       run: |
         cmake -S gemext -B gemext/build -Dfind:BOOL=true -DCMAKE_INSTALL_PREFIX:PATH=${{ runner.temp }}
-        cmake --build gemext/build --target ffilesystem glow iniparser msis mumps
+        cmake --build gemext/build --target ffilesystem glow iniparser msis --parallel
         cmake --install gemext/build
 
     - name: Install MATLAB
@@ -111,13 +112,16 @@ jobs:
         repository: gemini3d/mat_gemini
         path: mat_gemini
 
+    - name: Git Checkout GemCI
+      uses: actions/checkout@v3
+
     - name: Configure with Matlab
       run: cmake --preset matlab
       env:
         MATGEMINI: ${{ github.workspace }}/mat_gemini
 
     - name: build Gemini3D
-      run: cmake --build build
+      run: cmake --build build --parallel
 
     - name: Run Bounds check
       run: ctest --preset default -R run_bounds_check -E 3D

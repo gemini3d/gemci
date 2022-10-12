@@ -26,6 +26,9 @@ jobs:
 
     steps:
 
+    - name: Git Checkout GemCI
+      uses: actions/checkout@v3
+
     - name: Checkout Gemini3D-External
       uses: actions/checkout@v3
       with:
@@ -60,9 +63,6 @@ jobs:
       if: ${{ matrix.python }}
       run: python -m pip install -e ./pygemini
 
-    - name: Git Checkout GemCI
-      uses: actions/checkout@v3
-
     - name: Configure C++=${{ matrix.cpp }} Python=${{ matrix.python }}
       run: >-
         cmake --preset default
@@ -84,6 +84,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+    - name: Git Checkout GemCI
+      uses: actions/checkout@v3
 
     - name: Checkout Gemini3D-External
       uses: actions/checkout@v3
@@ -111,9 +114,6 @@ jobs:
       with:
         repository: gemini3d/mat_gemini
         path: mat_gemini
-
-    - name: Git Checkout GemCI
-      uses: actions/checkout@v3
 
     - name: Configure with Matlab
       run: cmake --preset matlab

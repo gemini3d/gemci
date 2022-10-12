@@ -17,7 +17,7 @@ Assuming Gemini3d is already built.
 Ensure environment variable MATLABPATH includes the path to MatGemini, like:
 
 ```sh
-export MATLABPATH=~/code/mat_gemini/:~/code/mat_gemini/matlab-hdf5/
+export MATLABPATH=~/code/mat_gemini/:~/code/mat_gemini/matlab-stdlib/
 ```
 
 Setup and run simulation

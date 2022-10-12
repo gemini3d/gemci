@@ -1,16 +1,23 @@
 find_package(Matlab COMPONENTS MAIN_PROGRAM REQUIRED)
-if(Matlab_VERSION_STRING AND Matlab_VERSION_STRING VERSION_LESS 9.9)
-  message(STATUS "Matlab >= 9.9 required, found ${Matlab_VERSION_STRING}")
+if(Matlab_VERSION_STRING VERSION_LESS 9.9)
+  message(STATUS "Matlab >= 9.9 required, found Matlab ${Matlab_VERSION_STRING}")
 endif()
 
 find_path(matgemini_SOURCE_DIR
-NAMES setup_gemini3d.m
+NAMES setup.m
 PATHS ${PROJECT_SOURCE_DIR}/../mat_gemini/
 HINTS ${MATGEMINI_ROOT} ENV MATGEMINI ENV MATGEMINI_ROOT
 REQUIRED
 )
 
-cmake_path(CONVERT "${matgemini_SOURCE_DIR};${matgemini_SOURCE_DIR}/matlab-stdlib/" TO_NATIVE_PATH_LIST MATLABPATH)
+find_path(stdlib_SOURCE_DIR
+NAMES +stdlib
+HINTS ${matgemini_SOURCE_DIR}/matlab-stdlib
+NO_DEFAULT_PATH
+REQUIRED
+)
+
+set(MATLABPATH ${matgemini_SOURCE_DIR} ${stdlib_SOURCE_DIR})
 
 if(MATGEMINI_FOUND)
   return()

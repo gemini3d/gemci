@@ -10,14 +10,7 @@ HINTS ${MATGEMINI_ROOT} ENV MATGEMINI ENV MATGEMINI_ROOT
 REQUIRED
 )
 
-find_path(stdlib_SOURCE_DIR
-NAMES +stdlib
-HINTS ${matgemini_SOURCE_DIR}/matlab-stdlib
-NO_DEFAULT_PATH
-REQUIRED
-)
-
-set(MATLABPATH ${matgemini_SOURCE_DIR} ${stdlib_SOURCE_DIR})
+set(MATLABPATH ${matgemini_SOURCE_DIR} ${matgemini_SOURCE_DIR}/matlab-stdlib)
 
 if(MATGEMINI_FOUND)
   return()

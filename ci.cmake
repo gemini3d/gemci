@@ -30,11 +30,6 @@ if(GEMINI_CIROOT)
   list(APPEND opts -DGEMINI_CIROOT:PATH=${GEMINI_CIROOT})
 endif()
 
-# compile warning as errors
-if(NOT (CMAKE_Fortran_COMPILER_ID MATCHES "^Intel" AND CMAKE_VERSION VERSION_LESS 3.24.3))
-  list(APPEND opts -DCMAKE_COMPILE_WARNING_AS_ERROR:BOOL=yes)
-endif()
-
 if(NOT DEFINED CI)
   set(CI $ENV{CI})
 endif()

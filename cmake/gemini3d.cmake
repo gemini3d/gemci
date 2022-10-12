@@ -21,6 +21,11 @@ if(MPI_ROOT)
 endif()
 # -DCMAKE_VERBOSE_MAKEFILE:BOOL=true
 
+# compile warning as errors
+if(NOT (CMAKE_Fortran_COMPILER_ID MATCHES "^Intel" AND CMAKE_VERSION VERSION_LESS 3.24.3))
+  list(APPEND gemini_args -DCMAKE_COMPILE_WARNING_AS_ERROR:BOOL=yes)
+endif()
+
 # FIXME: would write a file with ExternalProject_AddStep
 set(GEMINI_FEATURES "REALBITS:64" MPI HDF5)
 if(glow)

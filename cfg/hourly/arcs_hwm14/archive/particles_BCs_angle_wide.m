@@ -5,10 +5,8 @@ arguments
   xg (1,1) struct
 end
 
-import stdlib.fileio.makedir
-
 outdir = p.prec_dir;
-makedir(outdir)
+stdlib.fileio.makedir(outdir)
 
 %% CREATE PRECIPITATION CHARACTERISTICS data
 % number of grid cells.
@@ -94,6 +92,6 @@ if any(~isfinite(precip.E0it)), error('particle_BCs:value_error', 'E0 not finite
 %E0it = max(E0it,0.100);
 %E0it = E0it*1e3;
 
-gemini3d.write.precip(precip, outdir, p.file_format)
+gemini3d.write.precip(precip, outdir)
 
 end % function

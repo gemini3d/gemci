@@ -178,6 +178,6 @@ dat.Phitop = Phitop;
 gemini3d.write.state(cfg.indat_file, dat);
 
 %% Write electric field data to file
-gemini3d.write.Efield(E, cfg.E0_dir, cfg.file_format)
+gemini3d.write.Efield(E, cfg.E0_dir)
 
 end %function perturb_efield

@@ -5,8 +5,6 @@ arguments
   xg (1,1) struct
 end
 
-import stdlib.fileio.makedir
-
 %% Sizes
 x1=xg.x1(3:end-2);
 x2=xg.x2(3:end-2);
@@ -84,7 +82,7 @@ Phitop=zeros(lx2,lx3);
 %Phitop=10*randn(lx2,lx3);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-makedir(cfg.E0_dir);
+stdlib.fileio.makedir(cfg.E0_dir);
 
 
 %% CREATE ELECTRIC FIELD DATASET
@@ -178,6 +176,6 @@ dat.Phitop = Phitop;
 gemini3d.write.state(cfg.indat_file, dat);
 
 %% Write electric field data to file
-gemini3d.write.Efield(E, cfg.E0_dir, cfg.file_format)
+gemini3d.write.Efield(E, cfg.E0_dir)
 
 end %function perturb_efield

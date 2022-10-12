@@ -5,9 +5,7 @@ arguments
   xg (1,1) struct
 end
 
-import stdlib.fileio.makedir
-
-makedir(cfg.E0_dir)
+stdlib.fileio.makedir(cfg.E0_dir)
 
 % lx1 = xg.lx(1);
 lx2 = xg.lx(2);
@@ -114,6 +112,6 @@ end
 % FORTRAN CODE IN CASE DIFFERENT GRIDS NEED TO BE TRIED.
 % THE EFIELD DATA DO NOT TYPICALLY NEED TO BE SMOOTHED.
 
-gemini3d.write.Efield(E, cfg.E0_dir, cfg.file_format)
+gemini3d.write.Efield(E, cfg.E0_dir)
 
 end % function

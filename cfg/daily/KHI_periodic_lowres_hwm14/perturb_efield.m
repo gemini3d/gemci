@@ -33,7 +33,7 @@ dat.ns = perturb_density(xg, dat, nsscale, x1, x2, params);
 dat.Phitop = potential_bg(x2, lx2, lx3, params);
 
 %% Write initial plasma state out to a file
-gemini3d.write.state(cfg.indat_file, dat, cfg.file_format)
+gemini3d.write.state(cfg.indat_file, dat)
 
 %% Electromagnetic parameter inputs
 create_Efield(cfg, xg, params)
@@ -148,9 +148,7 @@ arguments
   params (1,1) struct
 end
 
-import stdlib.fileio.makedir
-
-makedir(cfg.E0_dir)
+stdlib.fileio.makedir(cfg.E0_dir)
 
 %% CREATE ELECTRIC FIELD DATASET
 E.llon=100;
@@ -234,6 +232,6 @@ for it=1:Nt
 end
 
 %% Write electric field data to file
-gemini3d.write.Efield(E, cfg.E0_dir, cfg.file_format)
+gemini3d.write.Efield(E, cfg.E0_dir)
 
 end % function create_Efield

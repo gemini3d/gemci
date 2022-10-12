@@ -10,7 +10,7 @@ HINTS ${MATGEMINI_ROOT} ENV MATGEMINI ENV MATGEMINI_ROOT
 REQUIRED
 )
 
-set(MATLABPATH ${matgemini_SOURCE_DIR} ${matgemini_SOURCE_DIR}/matlab-stdlib)
+cmake_path(CONVERT "${matgemini_SOURCE_DIR};${matgemini_SOURCE_DIR}/matlab-stdlib/" TO_NATIVE_PATH_LIST MATLABPATH)
 
 if(MATGEMINI_FOUND)
   return()

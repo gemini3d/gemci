@@ -22,9 +22,7 @@ TIMEOUT 300
 ENVIRONMENT "GEMINI_CIROOT=${GEMINI_CIROOT}"
 )
 if(matlab)
-  set_tests_properties(compare:output:${name} PROPERTIES
-  ENVIRONMENT_MODIFICATION "MATLABPATH=set:${MATLABPATH}"
-  )
+  set_property(TEST compare:output:${name} PROPERTY ENVIRONMENT_MODIFICATION MATLABPATH=set:${MATLABPATH})
 endif()
 
 if(NOT plot)
@@ -71,9 +69,7 @@ TIMEOUT 600
 ENVIRONMENT "GEMINI_CIROOT=${GEMINI_CIROOT}"
 )
 if(matlab)
-  set_tests_properties(compare:input:${name} PROPERTIES
-  ENVIRONMENT_MODIFICATION "MATLABPATH=set:${MATLABPATH}"
-  )
+  set_property(TEST compare:input:${name} PROPERTY ENVIRONMENT_MODIFICATION MATLABPATH=set:${MATLABPATH})
 endif()
 
 endfunction(compare_input)

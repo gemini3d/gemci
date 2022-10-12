@@ -9,9 +9,11 @@ function(upload_package archive out_dir name upload_root ref_json_file)
 # we use --checksum to avoid waste of data bandwidth as Dropbox requires recopy to set mod time of identical files
 execute_process(
 COMMAND rclone copy ${archive} ${PACKAGE_REMOTE}:${upload_root} --verbose --checksum
-TIMEOUT 900
-COMMAND_ERROR_IS_FATAL ANY
+RESULT_VARIABLE ret
 )
+if(NOT ret EQUAL 0)
+  message(FATAL_ERROR "Failed to upload ${archive} to ${PACKAGE_REMOTE}:${upload_root}")
+endif()
 
 cmake_path(GET archive FILENAME arc_name)
 
@@ -20,11 +22,13 @@ cmake_path(SET archive_path ${upload_root}/${arc_name})
 # retrieve remote URL for this archive
 execute_process(
 COMMAND rclone link ${PACKAGE_REMOTE}:${archive_path}
-TIMEOUT 30
 OUTPUT_VARIABLE url
 OUTPUT_STRIP_TRAILING_WHITESPACE
-COMMAND_ERROR_IS_FATAL ANY
+RESULT_VARIABLE ret
 )
+if(NOT ret EQUAL 0)
+  message(FATAL_ERROR "Failed to link Rclone URL for ${PACKAGE_REMOTE}:${archive_path}")
+endif()
 
 if(PACKAGE_REMOTE STREQUAL dropbox)
   string(REPLACE "${arc_name}?dl=0" "${arc_name}?dl=1" url ${url})
@@ -39,9 +43,11 @@ file(WRITE ${ref_json_file} ${ref_json})
 # update JSON with latest info
 execute_process(
 COMMAND rclone copy ${ref_json_file} ${PACKAGE_REMOTE}:${upload_root} --verbose --checksum
-TIMEOUT 30
-COMMAND_ERROR_IS_FATAL ANY
+RESULT_VARIABLE ret
 )
+if(NOT ret EQUAL 0)
+  message(FATAL_ERROR "Failed to upload ${ref_json_file} with Rclone to ${PACKAGE_REMOTE}:${upload_root}")
+endif()
 
 
 if(false)

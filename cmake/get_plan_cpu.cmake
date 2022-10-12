@@ -11,7 +11,6 @@ execute_process(COMMAND ${run_exe} ${out_dir} -plan
 OUTPUT_VARIABLE plan_out
 ERROR_VARIABLE plan_err
 RESULT_VARIABLE _err
-TIMEOUT 15
 OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 if(_err EQUAL 0)

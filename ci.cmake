@@ -9,6 +9,8 @@ set(gemini3d_url https://github.com/gemini3d/gemini3d.git)
 option(cpp "use C++ Gemini3D frontend")
 option(submit "use CDash upload" true)
 
+set(CMAKE_EXECUTE_PROCESS_COMMAND_ECHO STDOUT)
+
 set(opts
 -Dcpp:BOOL=${cpp}
 -Ddev:BOOL=no
@@ -28,6 +30,11 @@ if(GEMINI_CIROOT)
   list(APPEND opts -DGEMINI_CIROOT:PATH=${GEMINI_CIROOT})
 endif()
 
+# compile warning as errors
+if(NOT (CMAKE_Fortran_COMPILER_ID MATCHES "^Intel" AND CMAKE_VERSION VERSION_LESS 3.24.3))
+  list(APPEND opts -DCMAKE_COMPILE_WARNING_AS_ERROR:BOOL=yes)
+endif()
+
 if(NOT DEFINED CI)
   set(CI $ENV{CI})
 endif()
@@ -42,7 +49,6 @@ function(ctest_once_only)
 if(WIN32)
   find_program(tasklist NAMES tasklist REQUIRED)
   execute_process(COMMAND ${tasklist} /fi "Imagename eq ctest.exe" /fo csv
-  TIMEOUT 10
   RESULT_VARIABLE ret
   OUTPUT_VARIABLE out
   OUTPUT_STRIP_TRAILING_WHITESPACE
@@ -59,7 +65,6 @@ if(WIN32)
 else()
   find_program(pgrep NAMES pgrep REQUIRED)
   execute_process(COMMAND ${pgrep} ctest
-  TIMEOUT 10
   RESULT_VARIABLE ret
   OUTPUT_VARIABLE out
   OUTPUT_STRIP_TRAILING_WHITESPACE
@@ -97,7 +102,9 @@ if(NOT CTEST_MODEL)
 endif()
 
 # --- other defaults
-set(CTEST_TEST_TIMEOUT 10)
+if(NOT CTEST_TEST_TIMEOUT)
+  set(CTEST_TEST_TIMEOUT 600)
+endif()
 
 set(CTEST_USE_LAUNCHERS 1)
 set(CTEST_OUTPUT_ON_FAILURE true)
@@ -124,9 +131,11 @@ if(NOT DEFINED CTEST_BUILD_NAME)
   execute_process(
   COMMAND ${GIT_EXECUTABLE} ls-remote --exit-code ${gemini3d_url} ${gemini3d_tag}
   OUTPUT_VARIABLE raw OUTPUT_STRIP_TRAILING_WHITESPACE
-  TIMEOUT 15
-  COMMAND_ERROR_IS_FATAL ANY
+  RESULT_VARIABLE ret
   )
+  if(NOT ret EQUAL 0)
+    message(FATAL_ERROR "Could not check Git remote status ${gemini3d_url} ${gemini3d_tag}")
+  endif()
   string(REGEX MATCH "([a-f]|[0-9])+" gemini_git_version ${raw})
   string(SUBSTRING ${gemini_git_version} 0 7 gemini_git_version)
   set(CTEST_BUILD_NAME ${gemini3d_tag}-${gemini_git_version})
@@ -154,7 +163,6 @@ if(ninja)
   execute_process(COMMAND ${ninja} --version
   OUTPUT_VARIABLE ninja_version OUTPUT_STRIP_TRAILING_WHITESPACE
   RESULT_VARIABLE ret
-  TIMEOUT 5
   )
   if(ret EQUAL 0 AND ninja_version VERSION_GREATER_EQUAL 1.10)
     set(CTEST_CMAKE_GENERATOR Ninja PARENT_SCOPE)
@@ -182,41 +190,40 @@ set(CTEST_UPDATE_COMMAND git)
 
 ctest_start(${CTEST_MODEL})
 
-if(CTEST_MODEL MATCHES "(Nightly|Continuous)")
+if(CTEST_MODEL MATCHES "Nightly|Continuous")
   # this erases local code changes i.e. anything not "git push" already is lost forever!
   # we try to avoid that by guarding with a Git porcelain check
   execute_process(COMMAND ${GIT_EXECUTABLE} status --porcelain
   WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY}
-  TIMEOUT 5
-  OUTPUT_VARIABLE ret OUTPUT_STRIP_TRAILING_WHITESPACE
-  COMMAND_ERROR_IS_FATAL ANY
+  OUTPUT_VARIABLE out OUTPUT_STRIP_TRAILING_WHITESPACE
+  RESULT_VARIABLE ret
   )
-  if(ret AND NOT "${CI}")
-    message(FATAL_ERROR "CTest would have erased the non-Git Push'd changes.")
+  if(NOT ret EQUAL 0)
+    message(FATAL_ERROR "Could not check if Git ${CTEST_SOURCE_DIRECTORY} is clean")
+  elseif(out AND NOT "${CI}")
+    message(FATAL_ERROR "CTest would have erased the non-Git Push'd changes in ${CTEST_SOURCE_DIRECTORY}")
   else()
     ctest_update(
     RETURN_VALUE stat
     CAPTURE_CMAKE_ERROR err
     )
     if(stat LESS 0 OR NOT err EQUAL 0)
-      message(FATAL_ERROR "Update failed: return ${ret} cmake return ${err}")
+      message(FATAL_ERROR "Update failed ${CTEST_SOURCE_DIRECTORY}: return ${stat} cmake return ${err}")
     endif()
   endif()
 
   # Now check Gemini3D ExternalProject directory for changes, it autoupdates as part of CMake script ExternalProject
   # since UPDATE_DISCONNECTED is false.
   cmake_path(SET gemini3d_ep ${CTEST_BINARY_DIRECTORY}/GEMINI3D_RELEASE-prefix/src/GEMINI3D_RELEASE/)
-  if(CTEST_MODEL STREQUAL Continuous AND IS_DIRECTORY ${gemini3d_ep})
+  if(CTEST_MODEL STREQUAL "Continuous" AND IS_DIRECTORY ${gemini3d_ep})
 
     execute_process(COMMAND ${GIT_EXECUTABLE} rev-parse --short HEAD
     WORKING_DIRECTORY ${gemini3d_ep}
-    TIMEOUT 5
     OUTPUT_VARIABLE out OUTPUT_STRIP_TRAILING_WHITESPACE
     RESULT_VARIABLE ret
-    COMMAND_ERROR_IS_FATAL ANY
     )
 
-    if(stat EQUAL 0 AND ret EQUAL 0 AND out STREQUAL ${gemini_git_version})
+    if(stat EQUAL 0 AND ret EQUAL 0 AND out STREQUAL "${gemini_git_version}")
       message(NOTICE "No Git-updated files -> no need to test in CTest Model ${CTEST_MODEL}. CTest stopping.")
       return()
     endif()

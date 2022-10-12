@@ -26,7 +26,6 @@ DISABLED ${${name}_DISABLED}
 RESOURCE_LOCK package_rclone # prevent race ref_data.json between archive.cmake and upload.cmake
 LABELS "package;${label}"
 REQUIRED_FILES "${data_dir}/inputs/config.nml;${data_dir}/output.nml"
-TIMEOUT 120
 )
 
 find_program(rclone NAMES rclone)

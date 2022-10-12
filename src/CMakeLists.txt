@@ -82,13 +82,13 @@ if(package)
   message(STATUS "packaging archives in ${upload_root}")
 endif()
 
-# --- check if Internet connectivity at ctest time
-add_test(NAME internetConnectivity
-COMMAND ${CMAKE_COMMAND} -P ${PROJECT_SOURCE_DIR}/cmake/connectivity.cmake)
-set_tests_properties(internetConnectivity PROPERTIES
-TIMEOUT 3
-FIXTURES_SETUP internet_fxt
-)
+# # --- check if Internet connectivity at ctest time
+# add_test(NAME internetConnectivity
+# COMMAND ${CMAKE_COMMAND} -P ${PROJECT_SOURCE_DIR}/cmake/connectivity.cmake)
+# set_tests_properties(internetConnectivity PROPERTIES
+# TIMEOUT 3
+# FIXTURES_SETUP internet_fxt
+# )
 
 # --- main loop
 
@@ -163,7 +163,6 @@ if(python)
   FIXTURES_REQUIRED ${name}:setup_fxt
   LABELS python
   DISABLED ${${name}_DISABLED}
-  TIMEOUT 30
   )
 endif(python)
 

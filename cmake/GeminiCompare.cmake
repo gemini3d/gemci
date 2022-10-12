@@ -18,7 +18,6 @@ LABELS "compare;${label}"
 FIXTURES_REQUIRED "${name}:run_fxt;${name}:download_fxt"
 FIXTURES_SETUP ${name}:plotdiff_fxt
 DISABLED ${${name}_DISABLED}
-TIMEOUT 300
 ENVIRONMENT "GEMINI_CIROOT=${GEMINI_CIROOT}"
 )
 if(matlab)
@@ -35,7 +34,6 @@ COMMAND ${CMAKE_COMMAND} -Din:PATH=${out_dir}/plot_diff -Dout:FILEPATH=${out_dir
 )
 
 set_tests_properties(plotdiff:output:${name} PROPERTIES
-TIMEOUT 30
 FIXTURES_CLEANUP ${name}:plotdiff_fxt
 LABELS "compare;plot;${label}"
 REQUIRED_FILES ${out_dir}/output.nml
@@ -65,7 +63,6 @@ LABELS "compare;${label}"
 FIXTURES_REQUIRED ${name}:download_fxt
 FIXTURES_SETUP ${name}:inputOK_fxt
 DISABLED ${${name}_DISABLED}
-TIMEOUT 600
 ENVIRONMENT "GEMINI_CIROOT=${GEMINI_CIROOT}"
 )
 if(matlab)
@@ -88,12 +85,11 @@ COMMAND ${CMAKE_COMMAND}
 
 set_tests_properties(compare:download:${name} PROPERTIES
 FIXTURES_SETUP ${name}:download_fxt
-FIXTURES_REQUIRED "internet_fxt;${name}:setup_fxt"
+FIXTURES_REQUIRED "${name}:setup_fxt"
 DISABLED ${${name}_DISABLED}
 REQUIRED_FILES ${arc_json_file}
 LABELS "download;${label}"
 RESOURCE_LOCK download_lock
-TIMEOUT 600
 )
 # not required:
 # * output.nml since we may want to compare just input without running sim

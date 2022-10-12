@@ -53,7 +53,6 @@ else()
   set_tests_properties("setup:copy:${name}" PROPERTIES
   LABELS "setup;${label}"
   FIXTURES_SETUP ${name}:inputOK_fxt
-  TIMEOUT 60
   FIXTURES_REQUIRED "${name}:eq_fxt;${name}:download_fxt"
   REQUIRED_FILES ${ref_dir}/inputs/config.nml
   DISABLED ${${name}_DISABLED}

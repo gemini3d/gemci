@@ -7,7 +7,6 @@ execute_process(COMMAND ${Python_EXECUTABLE} -c "import numpy,sys; print(f'Pytho
 RESULT_VARIABLE ret
 OUTPUT_VARIABLE out
 ERROR_VARIABLE err
-TIMEOUT 15
 )
 
 if(NOT ret EQUAL 0)
@@ -21,7 +20,6 @@ execute_process(COMMAND ${Python_EXECUTABLE} -c "import gemini3d; print(gemini3d
 RESULT_VARIABLE ret
 OUTPUT_VARIABLE out
 ERROR_VARIABLE err
-TIMEOUT 15
 OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 

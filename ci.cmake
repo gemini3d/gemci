@@ -33,10 +33,6 @@ if(GEMINI_CIROOT)
   list(APPEND opts -DGEMINI_CIROOT:PATH=${GEMINI_CIROOT})
 endif()
 
-if(NOT DEFINED CI)
-  set(CI $ENV{CI})
-endif()
-
 if(NOT duration)
   set(duration 43200)
 endif()
@@ -68,33 +64,13 @@ set(${ovar} ${git_version} PARENT_SCOPE)
 endfunction(get_remote)
 
 
-function(compare_remote ovar)
-
-get_remote(${gemini3d_url} ${gemini3d_tag} gemini_git_version)
-
-execute_process(COMMAND ${GIT_EXECUTABLE} rev-parse --short HEAD
-WORKING_DIRECTORY ${gemini3d_ep}
-OUTPUT_VARIABLE out OUTPUT_STRIP_TRAILING_WHITESPACE
-RESULT_VARIABLE ret
-)
-if(NOT ret EQUAL 0)
-  message(FATAL_ERROR "Could not get Git commit hash for ${gemini3d_ep}")
-endif()
-
-if(out STREQUAL "${gemini_git_version}")
-  set(${ovar} false PARENT_SCOPE)
-else()
-  set(${ovar} true PARENT_SCOPE)
-endif()
-
-endfunction(compare_remote)
-
-
 function(windows_find_task exe ovar)
 
-find_program(tasklist NAMES tasklist REQUIRED)
+find_program(lister NAMES tasklist REQUIRED)
 
-execute_process(COMMAND ${tasklist} /fi "Imagename eq ${exe}" /fo csv
+message(STATUS "Checking if ${exe} is already running with ${lister}")
+
+execute_process(COMMAND ${lister} /fi "Imagename eq ${exe}" /fo csv
 RESULT_VARIABLE ret
 OUTPUT_VARIABLE out
 OUTPUT_STRIP_TRAILING_WHITESPACE
@@ -116,9 +92,11 @@ endfunction(windows_find_task)
 
 function(unix_find_task exe ovar)
 
-find_program(pgrep NAMES pgrep REQUIRED)
+find_program(lister NAMES pgrep REQUIRED)
 
-execute_process(COMMAND ${pgrep} ${exe}
+message(STATUS "Checking if ${exe} is already running with ${lister}")
+
+execute_process(COMMAND ${lister} ${exe}
 RESULT_VARIABLE ret
 OUTPUT_VARIABLE out
 OUTPUT_STRIP_TRAILING_WHITESPACE
@@ -168,34 +146,6 @@ message(FATAL_ERROR "Another CTest was running for ${max_wait} seconds.  Abortin
 endfunction(ctest_once_only)
 
 
-function(safe_update ovar)
-
-# this erases local code changes i.e. anything not "git push" already is lost forever!
-# avoid that by guarding with a Git porcelain check
-execute_process(COMMAND ${GIT_EXECUTABLE} status --porcelain
-WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY}
-OUTPUT_VARIABLE out OUTPUT_STRIP_TRAILING_WHITESPACE
-RESULT_VARIABLE ret
-)
-if(NOT ret EQUAL 0)
-  message(FATAL_ERROR "Could not check if Git ${CTEST_SOURCE_DIRECTORY} is clean")
-elseif(out AND NOT "${CI}")
-  message(FATAL_ERROR "CTest would have erased the non-Git Push'd changes in ${CTEST_SOURCE_DIRECTORY}")
-endif()
-
-ctest_update(
-RETURN_VALUE stat
-CAPTURE_CMAKE_ERROR err
-)
-if(stat LESS 0 OR NOT err EQUAL 0)
-  message(FATAL_ERROR "Update failed ${CTEST_SOURCE_DIRECTORY}: return ${stat} cmake return ${err}")
-endif()
-
-set(${ovar} ${stat} PARENT_SCOPE)
-
-endfunction(safe_update)
-
-
 function(find_generator)
 
 if(CTEST_CMAKE_GENERATOR)
@@ -238,8 +188,10 @@ OPTIONS "${opts}"
 RETURN_VALUE ret
 CAPTURE_CMAKE_ERROR err
 )
-if(submit AND NOT (ret EQUAL 0 AND err EQUAL 0))
-  ctest_submit(BUILD_ID build_id)
+if(NOT (ret EQUAL 0 AND err EQUAL 0))
+  if(submit)
+    ctest_submit(BUILD_ID build_id)
+  endif()
   message(FATAL_ERROR "Configure ${build_id} failed: return ${ret} cmake return ${err}")
 endif()
 
@@ -338,41 +290,52 @@ find_generator()
 set(CTEST_SUBMIT_RETRY_COUNT 2)
 # avoid auto-detect version control failures on some systems
 set(CTEST_UPDATE_TYPE git)
-set(CTEST_UPDATE_COMMAND git)
 
 ctest_start(${CTEST_MODEL})
 
+if(CTEST_MODEL MATCHES "Continuous|Nightly")
+  ctest_update(RETURN_VALUE ret CAPTURE_CMAKE_ERROR err)
+  if(ret LESS 0 OR NOT err EQUAL 0)
+    if(submit)
+      ctest_submit(BUILD_ID build_id)
+    endif()
+    message(FATAL_ERROR "Update ${build_id} failed: return ${ret} cmake return ${err}")
+  endif()
+endif()
+
 if(CTEST_MODEL STREQUAL "Nightly")
-  safe_update(stat)
   main()
 elseif(CTEST_MODEL STREQUAL "Continuous")
   # Check Gemini3D ExternalProject directory for changes, it autoupdates as part of CMake script ExternalProject
   # since UPDATE_DISCONNECTED is false.
 
-  set(gemini3d_ep ${CTEST_BINARY_DIRECTORY}/GEMINI3D_RELEASE-prefix/src/GEMINI3D_RELEASE/)
+  set(source_dir ${CTEST_BINARY_DIRECTORY}/GEMINI3D_RELEASE-prefix/src/GEMINI3D_RELEASE/)
 
   while(${CTEST_ELAPSED_TIME} LESS ${duration})
     set(t0 ${CTEST_ELAPSED_TIME})
 
-    safe_update(stat)
-
-    if(stat EQUAL 0)
-      compare_remote(${gemini3d_url} ${gemini3d_tag} need_run)
-    else()
-      set(need_run true)
+    ctest_update(SOURCE ${source_dir} RETURN_VALUE ret_source CAPTURE_CMAKE_ERROR err)
+    if(ret_source LESS 0 OR NOT err EQUAL 0)
+      if(submit)
+        ctest_submit(BUILD_ID build_id)
+      endif()
+      message(FATAL_ERROR "Update ${source_dir} ${build_id} failed: return ${ret_source} cmake return ${err}")
     endif()
 
-    if(need_run)
+    if(ret GREATER 0 OR ret_source GREATER 0)
       main()
     else()
-      message(STATUS "No changes to ${gemini3d_ep} since last build; sleeping for ${cadence} seconds")
+      message(STATUS "No changes to ${source_dir} since last build; sleeping for ${cadence} seconds")
     endif()
 
     # ensure the loop period will be at least cadence seconds
     ctest_sleep(${t0} ${cadence} ${CTEST_ELAPSED_TIME})
   endwhile()
 
-  message(STATUS "Continuous build duration ${duration} fulfilled, exiting")
+  message(STATUS "${CTEST_MODEL} duration ${duration} fulfilled, exiting")
+
 else()
   main()
 endif()
+
+message(STATUS "${CTEST_MODEL} fulfilled, exiting")

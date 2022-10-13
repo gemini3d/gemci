@@ -8,8 +8,8 @@ set(gemini3d_url https://github.com/gemini3d/gemini3d.git)
 
 option(cpp "use C++ Gemini3D frontend")
 option(submit "use CDash upload" true)
-
-set(CMAKE_EXECUTE_PROCESS_COMMAND_ECHO STDOUT)
+option(python "use Python Gemini3D frontend" true)
+option(matlab "use Matlab Gemini3D frontend")
 
 if(NOT gemini3d_tag)
   set(gemini3d_tag "main")
@@ -18,8 +18,8 @@ endif()
 set(opts
 -Dcpp:BOOL=${cpp}
 -Ddev:BOOL=no
--Dmatlab:BOOL=no
--Dpython:BOOL=yes
+-Dmatlab:BOOL=${matlab}
+-Dpython:BOOL=${python}
 -Dgemini3d_tag=${gemini3d_tag}
 )
 

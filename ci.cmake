@@ -307,10 +307,12 @@ endif()
 if(CTEST_MODEL STREQUAL "Nightly")
   main()
 elseif(CTEST_MODEL STREQUAL "Continuous")
-  # Check Gemini3D ExternalProject directory for changes, it autoupdates as part of CMake script ExternalProject
-  # since UPDATE_DISCONNECTED is false.
 
   set(source_dir ${CTEST_BINARY_DIRECTORY}/GEMINI3D_RELEASE-prefix/src/GEMINI3D_RELEASE/)
+  if(NOT IS_DIRECTORY ${source_dir})
+    set(ret 0)
+    main()
+  endif()
 
   while(${CTEST_ELAPSED_TIME} LESS ${duration})
     set(t0 ${CTEST_ELAPSED_TIME})
@@ -324,6 +326,7 @@ elseif(CTEST_MODEL STREQUAL "Continuous")
     endif()
 
     if(ret GREATER 0 OR ret_source GREATER 0)
+      set(ret 0)
       main()
     else()
       message(STATUS "No changes to ${source_dir} since last build; sleeping for ${cadence} seconds")

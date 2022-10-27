@@ -4,10 +4,11 @@ set -e
 set -o nounset
 
 wd=/tmp
+cc_name="$(basename $CC)"
 
-gemext_bin=$wd/build_gemext_gnu
-ci_bin=$wd/build_gemci_gnu
-prefix=$wd/libgem_gnu
+gemext_bin=$wd/build_gemext_${cc_name}
+ci_bin=$wd/build_gemci_${cc_name}
+prefix=$wd/libgem_${cc_name}
 ci_data=$HOME/ci_data
 
 cwd="$(dirname "${BASH_SOURCE}")"
@@ -37,7 +38,7 @@ fi
 
 source ${cwd}/ci-prep.sh
 
-site_name=$(uname -s)-$(uname -m)-$CC-$CXX-$FC
+site_name=$(uname -s)-$(uname -m)-$cc_name
 
 # run GemCI tests
 ${conda} \

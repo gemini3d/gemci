@@ -209,12 +209,20 @@ if(NOT (ret EQUAL 0 AND err EQUAL 0))
   message(FATAL_ERROR "Build ${build_id} failed: return ${ret} cmake return ${err}")
 endif()
 
+if(CTEST_STOP_TIME)
+  message(STATUS "${CTEST_MODEL} will stop testing no later than ${CTEST_STOP_TIME}")
+  set(_stop STOP_TIME ${CTEST_STOP_TIME})
+else()
+  set(_stop)
+endiF()
+
 ctest_test(
 SCHEDULE_RANDOM true
 EXCLUDE "${exclude}"
 INCLUDE "${include}"
 EXCLUDE_LABEL "${exclude_label}"
 INCLUDE_LABEL "${include_label}"
+${_stop}
 RETURN_VALUE ret
 CAPTURE_CMAKE_ERROR err
 )

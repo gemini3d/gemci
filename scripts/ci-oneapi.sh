@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-wrap=$HOME/gcc.sh
+wrap=$HOME/oneapi.sh
 
 [[ -f $wrap ]] || { echo "$wrap not found"; exit 1; }
 

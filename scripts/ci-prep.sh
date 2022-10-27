@@ -6,6 +6,12 @@ set -o nounset
 gemext_dir=$ci_code/gemext
 pygemini_dir=$ci_code/pygemini
 
+if [[ -x $(which conda) ]]; then
+  conda="conda run"
+else
+  conda=""
+fi
+
 # build libraries
 if git -C $gemext_dir pull --rebase; then
   :
@@ -34,11 +40,11 @@ else
 fi
 
 # install / update PyGemini
-if conda run python -m gemini3d; then
+if ${conda} python -m gemini3d; then
   :
 else
-  conda run python -m pip --quiet install -e $pygemini_dir
-  if conda run python -m gemini3d; then
+  ${conda} python -m pip --quiet install -e $pygemini_dir
+  if ${conda} python -m gemini3d; then
     :
   else
     echo "PyGemini install failed"

@@ -17,7 +17,7 @@ source ${cwd}/ci-prep.sh
 site_name=$(uname -s)-$(uname -m)-$CC-$CXX-$FC
 
 # run GemCI tests
-conda run \
+${conda} \
   ctest \
   -Dexclude=3D \
   -DCMAKE_PREFIX_PATH:PATH=$prefix \

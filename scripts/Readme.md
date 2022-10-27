@@ -24,7 +24,7 @@ Assuming CI runs in under 4 hours, this says:
 
 ## Continuous crontab
 
-This polls for duration 54000 seconds (15 hours) with cadence 900 seconds (15 minutes) for Git changes, and runs CI if changes detected.
+This polls for duration 43200 seconds (12 hours) with cadence 900 seconds (15 minutes) for Git changes, and runs CI if changes detected.
 
 Here, we start at 8am and poll until 11pm.
 
@@ -32,6 +32,6 @@ Here, we start at 8am and poll until 11pm.
 * Monday, Wednesday, ...: Fortran GNU frontend
 
 ```sh
-0 8 * * 0,2,4,6 $HOME/code/gemci/scripts/ci-gnu.sh Continuous 54000 900 1
-0 8 * * 1,3,5 $HOME/code/gemci/scripts/ci-gnu.sh Continuous 54000 900 0
+0 8 * * 0,2,4,6 $HOME/code/gemci/scripts/ci-gnu.sh Continuous 43200 900 1
+0 8 * * 1,3,5 $HOME/code/gemci/scripts/ci-gnu.sh Continuous 43200 900 0
 ```

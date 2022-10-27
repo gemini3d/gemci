@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+set -e
 set -o nounset
 
 wd=/tmp
@@ -9,7 +10,9 @@ ci_bin=$wd/build_gemci_gnu
 prefix=$wd/libgem_gnu
 ci_data=$HOME/ci_data
 
-source ci-prep.sh
+cwd="$(dirname "${BASH_SOURCE}")"
+
+source ${cwd}/ci-prep.sh
 
 site_name=$(uname -s)-$(uname -m)-$CC-$CXX-$FC
 
@@ -26,4 +29,4 @@ conda run \
   -Dduration=$2 \
   -Dcadence=$3 \
   -Dcpp:BOOL=$4 \
-  -S $HOME/code/gemci/ci.cmake
+  -S $ci_code/gemci/ci.cmake

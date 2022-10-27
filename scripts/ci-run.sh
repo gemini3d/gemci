@@ -29,7 +29,7 @@ if [[ $1 == "Nightly" ]]; then
   if [[ $OSTYPE == 'darwin'* ]]; then
     stop_time=$(date -v +${hdur}H +%FT%T)
   else
-    stop_time=$(date -d '+${hdur} hour' '+%FT%T')
+    stop_time=$(date -d "+${hdur} hour" '+%FT%T')
   fi
 else
   stop_time=""

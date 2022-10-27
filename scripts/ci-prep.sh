@@ -6,11 +6,15 @@ set -o nounset
 gemext_dir=$ci_code/gemext
 pygemini_dir=$ci_code/pygemini
 
+# Python wrangling
 if [[ -x $(which conda) ]]; then
   conda="conda run"
 else
   conda=""
 fi
+
+python_exe=$(${conda} which python3)
+[[ -x ${python_exe} ]] || { echo "Python not found"; exit 1; }
 
 # build libraries
 if git -C $gemext_dir pull --rebase; then
@@ -40,11 +44,11 @@ else
 fi
 
 # install / update PyGemini
-if ${conda} python -m gemini3d; then
+if ${conda} ${python_exe} -c "import gemini3d; print(gemini3d.__version__)"; then
   :
 else
-  ${conda} python -m pip --quiet install -e $pygemini_dir
-  if ${conda} python -m gemini3d; then
+  ${conda} ${python_exe} -m pip --quiet install -e $pygemini_dir
+  if ${conda} ${python_exe} -c "import gemini3d; print(gemini3d.__version__)"; then
     :
   else
     echo "PyGemini install failed"

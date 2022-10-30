@@ -13,6 +13,8 @@ ci_data=$HOME/gemci
 
 cwd="$(dirname "${BASH_SOURCE}")"
 
+test_exclude="3D"
+
 if [[ $1 == "Nightly" ]]; then
   if [[ $OSTYPE == 'darwin'* ]]; then
     Nproc=$(sysctl -n hw.physicalcpu)
@@ -21,6 +23,8 @@ if [[ $1 == "Nightly" ]]; then
   fi
   # guess at how long tests will take (hours)
   if [[ ${Nproc} -gt 8 ]]; then
+    # big computer, do 3D tests too
+    test_exclude=""
     hdur=4
   elif [[ ${Nproc} -gt 4 ]]; then
     hdur=6
@@ -54,4 +58,5 @@ ${conda} \
   -Dduration=$2 \
   -Dcadence=$3 \
   -Dcpp:BOOL=$4 \
+  -Dexclude=$test_exclude \
   -S $ci_code/gemci/ci.cmake

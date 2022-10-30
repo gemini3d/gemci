@@ -9,7 +9,7 @@ cc_name="$(basename $CC)"
 gemext_bin=$wd/build_gemext_${cc_name}
 ci_bin=$wd/build_gemci_${cc_name}
 prefix=$wd/libgem_${cc_name}
-ci_data=$HOME/ci_data
+ci_data=$HOME/gemci
 
 cwd="$(dirname "${BASH_SOURCE}")"
 

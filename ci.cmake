@@ -148,10 +148,10 @@ endfunction(ctest_once_only)
 
 function(find_generator)
 
-if(CTEST_CMAKE_GENERATOR)
-  return()
-elseif(DEFINED ENV{CMAKE_GENERATOR})
+if(NOT CTEST_CMAKE_GENERATOR AND DEFINED ENV{CMAKE_GENERATOR})
   set(CTEST_CMAKE_GENERATOR $ENV{CMAKE_GENERATOR} PARENT_SCOPE)
+endif()
+if(CTEST_CMAKE_GENERATOR)
   return()
 endif()
 
@@ -168,8 +168,6 @@ if(ninja)
   endif()
 endif(ninja)
 
-set(CTEST_BUILD_FLAGS -j PARENT_SCOPE)
-# not --parallel as this goes to generator directly
 if(WIN32)
   set(CTEST_CMAKE_GENERATOR "MinGW Makefiles" PARENT_SCOPE)
 else()
@@ -195,7 +193,14 @@ if(NOT (ret EQUAL 0 AND err EQUAL 0))
   message(FATAL_ERROR "Configure ${build_id} failed: return ${ret} cmake return ${err}")
 endif()
 
+if(DEFINED ENV{CMAKE_BUILD_PARALLEL_LEVEL})
+  set(Ncpu $ENV{CMAKE_BUILD_PARALLEL_LEVEL})
+else()
+  cmake_host_system_information(RESULT Ncpu QUERY NUMBER_OF_PHYSICAL_CORES)
+endif()
+
 ctest_build(
+PARALLEL_LEVEL ${Ncpu}
 RETURN_VALUE ret
 CAPTURE_CMAKE_ERROR err
 )
@@ -214,10 +219,17 @@ if(CTEST_STOP_TIME)
   set(_stop STOP_TIME ${CTEST_STOP_TIME})
 else()
   set(_stop)
-endiF()
+endif()
+
+if(DEFINED ENV{CTEST_PARALLEL_LEVEL})
+  set(Ntest $ENV{CTEST_PARALLEL_LEVEL})
+else()
+  set(Ntest ${Ncpu})
+endif()
 
 ctest_test(
 SCHEDULE_RANDOM true
+PARALLEL_LEVEL ${Ntest}
 EXCLUDE "${exclude}"
 INCLUDE "${include}"
 EXCLUDE_LABEL "${exclude_label}"

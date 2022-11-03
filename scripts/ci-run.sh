@@ -14,6 +14,7 @@ ci_data=$HOME/gemci
 cwd="$(dirname "${BASH_SOURCE}")"
 
 test_exclude="3D"
+test_include=""
 
 if [[ $1 == "Nightly" ]]; then
   if [[ $OSTYPE == 'darwin'* ]]; then
@@ -29,6 +30,7 @@ if [[ $1 == "Nightly" ]]; then
   elif [[ ${Nproc} -gt 4 ]]; then
     hdur=6
   else
+    test_include="mini2d"
     hdur=12
   fi
   if [[ $OSTYPE == 'darwin'* ]]; then
@@ -47,7 +49,6 @@ site_name=$(uname -s)-$(uname -m)-$cc_name
 # run GemCI tests
 ${conda} \
   ctest \
-  -Dexclude=3D \
   -DCMAKE_PREFIX_PATH:PATH=$prefix \
   -DCTEST_STOP_TIME=${stop_time} \
   -Dgemini3d_tag=main \
@@ -59,4 +60,5 @@ ${conda} \
   -Dcadence=$3 \
   -Dcpp:BOOL=$4 \
   -Dexclude=$test_exclude \
+  -Dinclude=$test_include \
   -S $ci_code/gemci/ci.cmake

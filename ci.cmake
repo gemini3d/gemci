@@ -16,6 +16,7 @@ if(NOT gemini3d_tag)
 endif()
 
 set(opts
+-DCMAKE_COMPILE_WARNING_AS_ERROR:BOOL=ON
 -Dcpp:BOOL=${cpp}
 -Ddev:BOOL=no
 -Dmatlab:BOOL=${matlab}

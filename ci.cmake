@@ -150,6 +150,8 @@ function(find_generator)
 
 if(NOT CTEST_CMAKE_GENERATOR AND DEFINED ENV{CMAKE_GENERATOR})
   set(CTEST_CMAKE_GENERATOR $ENV{CMAKE_GENERATOR} PARENT_SCOPE)
+  return()
+  # return here as if(...) wouldn't detect it in parent_scope
 endif()
 if(CTEST_CMAKE_GENERATOR)
   return()
@@ -158,17 +160,8 @@ endif()
 find_program(ninja NAMES ninja ninja-build samu)
 
 if(ninja)
-  execute_process(COMMAND ${ninja} --version
-  OUTPUT_VARIABLE ninja_version OUTPUT_STRIP_TRAILING_WHITESPACE
-  RESULT_VARIABLE ret
-  )
-  if(ret EQUAL 0 AND ninja_version VERSION_GREATER_EQUAL 1.10)
-    set(CTEST_CMAKE_GENERATOR Ninja PARENT_SCOPE)
-    return()
-  endif()
-endif(ninja)
-
-if(WIN32)
+  set(CTEST_CMAKE_GENERATOR "Ninja" PARENT_SCOPE)
+elseif(WIN32)
   set(CTEST_CMAKE_GENERATOR "MinGW Makefiles" PARENT_SCOPE)
 else()
   set(CTEST_CMAKE_GENERATOR "Unix Makefiles" PARENT_SCOPE)

@@ -51,10 +51,7 @@ jobs:
 
     - name: Install model libraries
       timeout-minutes: 15
-      run: |
-        cmake -S gemext -B gemext/build -Dfind:BOOL=true -DCMAKE_INSTALL_PREFIX:PATH=${{ runner.temp }}
-        cmake --build gemext/build --target ffilesystem glow iniparser msis --parallel
-        cmake --install gemext/build
+      run: cmake -Dfind:BOOL=true -P gemext/build-online.cmake
 
 # --- Python
     - name: Setup Python ${{ matrix.pyversion }}
@@ -79,7 +76,6 @@ jobs:
         cmake --preset default
         -Dcpp:BOOL=${{ matrix.cpp }}
         -Dpython:BOOL=${{ matrix.python }}
-        -DCMAKE_PREFIX_PATH:PATH=${{ runner.temp }}
 
 # --- Matlab
 
@@ -100,7 +96,6 @@ jobs:
       run: >-
         cmake --preset matlab
         -Dcpp:BOOL=${{ matrix.cpp }}
-        -DCMAKE_PREFIX_PATH:PATH=${{ runner.temp }}
       env:
         MATGEMINI: ${{ github.workspace }}/mat_gemini
 
@@ -111,5 +106,3 @@ jobs:
 
     - name: Run Bounds check
       run: ctest --preset default -R run_bounds_check -E 3D
-      env:
-        CMAKE_PREFIX_PATH: ${{ runner.temp }}

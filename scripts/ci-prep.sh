@@ -31,11 +31,11 @@ else
   exit 1
 fi
 
-if cmake -Dbindir=$gemext_bin -Dprefix=$prefix -P $gemext_dir/scripts/online_install.cmake; then
+if cmake -Dbindir=$gemext_bin -Dprefix=$prefix -P $gemext_dir/build-online.cmake; then
   :
 else
   rm -rf $gemext_bin
-  if cmake -Dbindir=$gemext_bin -Dprefix=$prefix -P $gemext_dir/scripts/online_install.cmake; then
+  if cmake -Dbindir=$gemext_bin -Dprefix=$prefix -P $gemext_dir/build-online.cmake; then
     :
   else
     echo "gemext cmake failed"

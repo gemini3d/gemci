@@ -11,6 +11,8 @@ on:
 # paths ignore starting with "!"
       - "!ci.cmake"
 
+env:
+  CTEST_NO_TESTS_ACTION: error
 
 jobs:
 

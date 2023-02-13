@@ -3,7 +3,7 @@
 find_program(MPIEXEC_EXECUTABLE
 NAMES mpiexec
 HINTS ${MPI_ROOT} ENV MPI_ROOT ENV I_MPI_ROOT
-PATHS /usr/lib64 ENV MINGWROOT ENV MSMPI_BIN
+PATHS /usr/lib64
 PATH_SUFFIXES bin openmpi/bin mpich/bin
 DOC "Runs an MPI program"
 REQUIRED

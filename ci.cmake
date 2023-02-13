@@ -16,13 +16,17 @@ if(NOT gemini3d_tag)
 endif()
 
 set(opts
--DCMAKE_COMPILE_WARNING_AS_ERROR:BOOL=ON
 -Dcpp:BOOL=${cpp}
 -Ddev:BOOL=no
 -Dmatlab:BOOL=${matlab}
 -Dpython:BOOL=${python}
 -Dgemini3d_tag=${gemini3d_tag}
 )
+
+list(APPEND opts
+-DCMAKE_COMPILE_WARNING_AS_ERROR:BOOL=false
+)
+# oneAPI temporarily has an issue with mpimod halo_end23
 
 if(CMAKE_PREFIX_PATH)
   list(APPEND opts -DCMAKE_PREFIX_PATH:PATH=${CMAKE_PREFIX_PATH})

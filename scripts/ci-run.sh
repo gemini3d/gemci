@@ -13,29 +13,38 @@ ci_data=$HOME/gemci
 
 cwd="$(dirname "${BASH_SOURCE}")"
 
-test_exclude="3D"
-test_include=""
-
 if [[ $1 == "Nightly" ]]; then
   if [[ $OSTYPE == 'darwin'* ]]; then
-    Nproc=$(sysctl -n hw.physicalcpu)
+    # Nproc=$(sysctl -n hw.physicalcpu)
+    memGB=$(echo "$(sysctl -n hw.memsize) / 1024^3" | bc)
+  elif [[ $OSTYPE == 'linux-gnu' ]]; then
+    # Nproc=$(nproc)
+    memKB=$(grep MemTotal /proc/meminfo | awk '{print $2}')
+    memGB=$(echo "${memKB}/1024^2" | bc)
   else
-    Nproc=$(nproc)
+    echo "Unknown OSTYPE: $OSTYPE"
+    exit 1
   fi
-  # guess at how long tests will take (hours)
-  if [[ ${Nproc} -gt 8 ]]; then
-    # big computer, do 3D tests too
+
+  hdur=8 # maximum duration (hours)
+  # select tests based on total RAM
+  if [[ ${memGB} -gt 12 ]]; then
+    # do all tests, including 3D
     test_exclude=""
-    hdur=4
-  elif [[ ${Nproc} -gt 4 ]]; then
-    hdur=6
+    test_include=""
+  elif [[ ${memGB} -gt 4 ]]; then
+    # do 2D tests
+    test_exclude="3D"
+    test_include=""
   else
+    # do only small 2D tests
+    test_exclude="3D"
     test_include="mini2d"
-    hdur=12
   fi
+
   if [[ $OSTYPE == 'darwin'* ]]; then
     stop_time=$(date -v +${hdur}H +%FT%T)
-  else
+  else # linux
     stop_time=$(date -d "+${hdur} hour" '+%FT%T')
   fi
 else

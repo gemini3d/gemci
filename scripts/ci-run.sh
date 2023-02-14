@@ -3,12 +3,17 @@
 set -e
 set -o nounset
 
+ctest_model=$1
+duration=$2
+cadence=$3
+cpp=$4
+
 wd=/tmp
 cc_name="$(basename $CC)"
 
-gemext_bin=$wd/build_gemext_${cc_name}
-ci_bin=$wd/build_gemci_${cc_name}
-prefix=$wd/libgem_${cc_name}
+gemext_bin=${wd}/build_gemext_${cc_name}
+ci_bin=${wd}/build_gemci_${cc_name}
+prefix=${wd}/libgem_${cc_name}
 ci_data=$HOME/gemci
 
 cwd="$(dirname "${BASH_SOURCE}")"
@@ -53,21 +58,21 @@ fi
 
 source ${cwd}/ci-prep.sh
 
-site_name=$(uname -s)-$(uname -m)-$cc_name
+site_name=$(uname -s)-$(uname -m)-${cc_name}
 
 # run GemCI tests
 ${conda} \
   ctest \
-  -DCMAKE_PREFIX_PATH:PATH=$prefix \
+  -DCMAKE_PREFIX_PATH:PATH=${prefix} \
   -DCTEST_STOP_TIME=${stop_time} \
   -Dgemini3d_tag=main \
-  -DGEMINI_CIROOT:PATH=$ci_data \
-  -DCTEST_BINARY_DIRECTORY=$ci_bin \
-  -DCTEST_SITE=$site_name \
-  -DCTEST_MODEL=$1 \
-  -Dduration=$2 \
-  -Dcadence=$3 \
-  -Dcpp:BOOL=$4 \
-  -Dexclude=$test_exclude \
-  -Dinclude=$test_include \
-  -S $ci_code/gemci/ci.cmake
+  -DGEMINI_CIROOT:PATH=${ci_data} \
+  -DCTEST_BINARY_DIRECTORY=${ci_bin} \
+  -DCTEST_SITE=${site_name} \
+  -DCTEST_MODEL=${ctest_model} \
+  -Dduration=${duration} \
+  -Dcadence=${cadence} \
+  -Dcpp:BOOL=${cpp} \
+  -Dexclude=${test_exclude} \
+  -Dinclude=${test_include} \
+  -S ${ci_code}/gemci/ci.cmake

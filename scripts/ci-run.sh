@@ -75,4 +75,4 @@ ${conda} \
   -Dcpp:BOOL=${cpp} \
   -Dexclude=${test_exclude} \
   -Dinclude=${test_include} \
-  -S ${ci_code}/gemci/ci.cmake
+  -S ${ci_code}/gemci/ci.cmake -V

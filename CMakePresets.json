@@ -57,8 +57,7 @@
   "execution": {
     "noTestsAction": "error",
     "scheduleRandom": true,
-    "stopOnFailure": false,
-    "timeout": 1800
+    "stopOnFailure": false
   }
 },
 {

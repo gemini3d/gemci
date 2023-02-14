@@ -46,7 +46,7 @@ if(NOT hash_ok)
   message(STATUS "${name}:DOWNLOAD: ${url} => ${archive}   ${hash}")
   file(DOWNLOAD ${url} ${archive} SHOW_PROGRESS
   EXPECTED_HASH SHA256=${hash}
-  INACTIVITY_TIMEOUT 15
+  INACTIVITY_TIMEOUT 60
   STATUS ret
   TLS_VERIFY ON
   )

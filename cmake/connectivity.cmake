@@ -1,5 +1,4 @@
 file(DOWNLOAD https://connectivitycheck.gstatic.com/generate_204
-TIMEOUT 5
 STATUS ret
 TLS_VERIFY ON
 )

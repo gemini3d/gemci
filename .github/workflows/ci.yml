@@ -13,6 +13,8 @@ on:
 
 env:
   CTEST_NO_TESTS_ACTION: error
+  TMPDIR: /tmp
+  HOMEBREW_NO_INSTALL_CLEANUP: 1
 
 jobs:
 

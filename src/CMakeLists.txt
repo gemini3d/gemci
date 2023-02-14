@@ -53,7 +53,7 @@ if(NOT EXISTS ${arc_json_file})
   file(READ ${PROJECT_SOURCE_DIR}/cmake/libraries.json _libj)
   string(JSON url GET ${_libj} ref_data url)
   file(DOWNLOAD ${url} ${arc_json_file}
-  INACTIVITY_TIMEOUT 15
+  INACTIVITY_TIMEOUT 60
   STATUS ret
   )
   list(GET ret 0 stat)
@@ -82,13 +82,11 @@ if(package)
   message(STATUS "packaging archives in ${upload_root}")
 endif()
 
-# # --- check if Internet connectivity at ctest time
-# add_test(NAME internetConnectivity
-# COMMAND ${CMAKE_COMMAND} -P ${PROJECT_SOURCE_DIR}/cmake/connectivity.cmake)
-# set_tests_properties(internetConnectivity PROPERTIES
-# TIMEOUT 3
-# FIXTURES_SETUP internet_fxt
-# )
+# --- check if Internet connectivity at ctest time
+add_test(NAME internetConnect
+COMMAND ${CMAKE_COMMAND} -P ${PROJECT_SOURCE_DIR}/cmake/connectivity.cmake)
+set_property(TEST internetConnect PROPERTY FIXTURES_SETUP internet_fxt)
+set_property(TEST internetConnect PROPERTY DISABLED true)
 
 # --- main loop
 

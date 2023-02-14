@@ -46,7 +46,6 @@ FIXTURES_REQUIRED ${name}:upload_fxt
 LABELS "package;${label}"
 REQUIRED_FILES ${archive}
 RESOURCE_LOCK package_rclone # prevent race ref_data.json between archive.cmake and upload.cmake and rclone API limit
-TIMEOUT 3600
 DISABLED $<NOT:$<BOOL:${rclone}>>
 )
 # takes a long time to upload many small files

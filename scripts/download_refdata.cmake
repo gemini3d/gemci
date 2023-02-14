@@ -26,7 +26,7 @@ if(NOT EXISTS ${arc_json_file})
   file(READ ${CMAKE_CURRENT_LIST_DIR}/../cmake/libraries.json _libj)
   string(JSON url GET ${_libj} ref_data url)
   file(DOWNLOAD ${url} ${arc_json_file}
-  INACTIVITY_TIMEOUT 15
+  INACTIVITY_TIMEOUT 60
   STATUS ret
   TLS_VERIFY ON
   )

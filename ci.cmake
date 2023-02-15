@@ -129,7 +129,7 @@ function(ctest_once_only)
 
 set(max_wait 3600)
 
-while(${CTEST_ELAPSED_TIME} LESS ${max_wait})
+while(CTEST_ELAPSED_TIME LESS max_wait)
 
   if(WIN32)
     windows_find_task("ctest.exe" ctest_running)
@@ -146,7 +146,8 @@ while(${CTEST_ELAPSED_TIME} LESS ${max_wait})
 
 endwhile()
 
-message(FATAL_ERROR "Another CTest was running for ${max_wait} seconds.  Aborting.")
+string(TIMESTAMP now)
+message(FATAL_ERROR "Another CTest was running for ${max_wait} seconds.  Aborting ${now}")
 
 endfunction(ctest_once_only)
 
@@ -213,7 +214,8 @@ if(NOT (ret EQUAL 0 AND err EQUAL 0))
 endif()
 
 if(CTEST_STOP_TIME)
-  message(STATUS "${CTEST_MODEL} will stop testing no later than ${CTEST_STOP_TIME}")
+  string(TIMESTAMP now)
+  message(STATUS "${CTEST_MODEL} will stop testing no later than ${CTEST_STOP_TIME}. Current time: ${now}")
   set(_stop STOP_TIME ${CTEST_STOP_TIME})
 else()
   set(_stop)
@@ -328,7 +330,7 @@ elseif(CTEST_MODEL STREQUAL "Continuous")
     main()
   endif()
 
-  while(${CTEST_ELAPSED_TIME} LESS ${duration})
+  while(CTEST_ELAPSED_TIME LESS duration)
     set(t0 ${CTEST_ELAPSED_TIME})
 
     ctest_update(SOURCE ${source_dir} RETURN_VALUE ret_source CAPTURE_CMAKE_ERROR err)
@@ -350,10 +352,12 @@ elseif(CTEST_MODEL STREQUAL "Continuous")
     ctest_sleep(${t0} ${cadence} ${CTEST_ELAPSED_TIME})
   endwhile()
 
-  message(STATUS "${CTEST_MODEL} duration ${duration} fulfilled, exiting")
+  string(TIMESTAMP now)
+  message(STATUS "${CTEST_MODEL} duration ${duration} fulfilled, exiting ${now}")
 
 else()
   main()
 endif()
 
-message(STATUS "${CTEST_MODEL} fulfilled, exiting")
+string(TIMESTAMP now)
+message(STATUS "${CTEST_MODEL} fulfilled, exiting ${now}")

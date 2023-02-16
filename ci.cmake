@@ -4,8 +4,9 @@ set(CTEST_PROJECT_NAME "GemCI")
 
 set(CTEST_LABELS_FOR_SUBPROJECTS "python;matlab")
 
-set(CTEST_TEST_TIMEOUT 3600)
-# default in CTest is 1500, which is too short for 3D sims
+set(CTEST_TEST_TIMEOUT 7200)
+# default in CTest is 1500, which is too short for 3D sims.
+# 3600 is too short on M2 Mac
 
 set(gemini3d_url https://github.com/gemini3d/gemini3d.git)
 

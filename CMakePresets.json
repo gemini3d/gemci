@@ -4,7 +4,7 @@
 "configurePresets": [
 {
   "name": "default",
-  "displayName": "tests existing simulations, for general CI runs to check Gemini3D code changes",
+  "displayName": "tests simulations, for general CI runs to check Gemini3D code changes",
   "binaryDir": "${sourceDir}/build",
   "cacheVariables": {
     "python": true,
@@ -44,6 +44,14 @@
   {
     "name": "default",
     "configurePreset": "default"
+  },
+  {
+    "name": "regen",
+    "configurePreset": "regen"
+  },
+  {
+    "name": "regen-matlab",
+    "configurePreset": "regen-matlab"
   }
 ],
 "testPresets": [
@@ -81,10 +89,16 @@
 },
 {
   "name": "regen", "inherits": "default",
-  "displayName": "Regenerates .zst reference data, by disabling compare. Sped up by skipping plots.",
+  "configurePreset": "regen",
+  "displayName": "Python: create .zst reference data",
   "filter": {
     "exclude": {"label": "(compare|download|plot)", "fixtures": {"any": "(compare_fxt|inputOK_fxt|plot_fxt)"}}
   }
+},
+{
+  "name": "regen-matlab", "inherits": "regen",
+  "configurePreset": "regen-matlab",
+  "displayName": "Matlab: create .zst reference data"
 },
 {
   "name": "compare-in", "inherits": "default",
@@ -105,5 +119,61 @@
     "exclude": {"fixtures": {"any": "run_fxt"}}
   }
 }
+],
+"workflowPresets": [
+  {
+    "name": "default",
+    "displayName": "tests simulations, for general CI runs to check Gemini3D code changes",
+    "steps": [
+      {
+        "type": "configure",
+        "name": "default"
+      },
+      {
+        "type": "build",
+        "name": "default"
+      },
+      {
+        "type": "test",
+        "name": "default"
+      }
+    ]
+  },
+  {
+    "name": "regen",
+    "displayName": "Python: create .zst reference data",
+    "steps": [
+      {
+        "type": "configure",
+        "name": "regen"
+      },
+      {
+        "type": "build",
+        "name": "regen"
+      },
+      {
+        "type": "test",
+        "name": "regen"
+      }
+    ]
+  },
+  {
+    "name": "regen-matlab",
+    "displayName": "Matlab: create .zst reference data",
+    "steps": [
+      {
+        "type": "configure",
+        "name": "regen-matlab"
+      },
+      {
+        "type": "build",
+        "name": "regen-matlab"
+      },
+      {
+        "type": "test",
+        "name": "regen-matlab"
+      }
+    ]
+  }
 ]
 }

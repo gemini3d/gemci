@@ -46,12 +46,14 @@ if(NOT hash_ok)
   EXPECTED_HASH SHA256=${hash}
   INACTIVITY_TIMEOUT 60
   STATUS ret
+  LOG log
   TLS_VERIFY ON
   )
   list(GET ret 0 stat)
   if(NOT stat EQUAL 0)
     list(GET ret 1 err)
-    message(FATAL_ERROR "${url} download failed: ${err}")
+    message(FATAL_ERROR "${url} download failed: ${err}
+    ${log}")
   endif()
 endif()
 

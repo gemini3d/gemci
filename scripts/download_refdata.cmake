@@ -29,11 +29,13 @@ if(NOT EXISTS ${arc_json_file})
   INACTIVITY_TIMEOUT 60
   STATUS ret
   TLS_VERIFY ON
+  LOG log
   )
   list(GET ret 0 stat)
   if(NOT stat EQUAL 0)
     list(GET ret 1 err)
-    message(FATAL_ERROR "${url} download failed: ${err}")
+    message(FATAL_ERROR "${url} download failed: ${err}
+    ${log}")
   endif()
 endif()
 

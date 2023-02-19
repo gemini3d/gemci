@@ -1,7 +1,7 @@
 function(get_plan_cpu plan_dir out_dir)
 
 # gemini3d -plan needs these files to do the planning
-foreach(f ${plan_dir}/inputs/config.nml ${plan_dir}/inputs/simsize.h5)
+foreach(f IN ITEMS ${plan_dir}/inputs/config.nml ${plan_dir}/inputs/simsize.h5)
   if(NOT EXISTS ${out_dir}/inputs/${f})
     file(COPY ${f} DESTINATION ${out_dir}/inputs/)
   endif()

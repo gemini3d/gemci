@@ -1,51 +1,4 @@
-# ensure needed libraries are available
-
-find_program(MPIEXEC_EXECUTABLE
-NAMES mpiexec
-HINTS ${MPI_ROOT} ENV MPI_ROOT ENV I_MPI_ROOT
-PATHS /usr/lib64
-PATH_SUFFIXES bin openmpi/bin mpich/bin
-DOC "Runs an MPI program"
-REQUIRED
-)
-
-# --- helper functions
-include(${PROJECT_SOURCE_DIR}/cmake/ParseNml.cmake)
-include(${PROJECT_SOURCE_DIR}/cmake/GetEquil.cmake)
-include(${PROJECT_SOURCE_DIR}/cmake/InputSetup.cmake)
-include(${PROJECT_SOURCE_DIR}/cmake/ModelSetup.cmake)
-include(${PROJECT_SOURCE_DIR}/cmake/GeminiRun.cmake)
-include(${PROJECT_SOURCE_DIR}/cmake/GeminiCompare.cmake)
-include(${PROJECT_SOURCE_DIR}/cmake/GeminiPlot.cmake)
-include(${PROJECT_SOURCE_DIR}/cmake/GeminiPackage.cmake)
-
-# --- top level directories
-cmake_path(SET ci_root ${PROJECT_SOURCE_DIR}/cfg)
-cmake_path(SET ref_root ${GEMINI_CIROOT}/test_ref)
-
 file(MAKE_DIRECTORY ${ref_root})
-
-# --- measure system physical RAM
-cmake_host_system_information(RESULT host_ramMB QUERY TOTAL_PHYSICAL_MEMORY)
-
-if(NOT DEFINED low_ram)
-  set(low_ram false)
-  if(host_ramMB LESS 18000)
-    # 18 GB: the 3D Matlab plots use 9GB RAM each
-    set(low_ram true)
-  endif()
-endif()
-
-# --- PyGemini
-if(python)
-  include(${PROJECT_SOURCE_DIR}/cmake/python.cmake)
-endif()
-
-# --- MatGemini
-if(matlab)
-  include(${PROJECT_SOURCE_DIR}/cmake/matlab.cmake)
-endif()
-include(${PROJECT_SOURCE_DIR}/cmake/MatlabTest.cmake)
 
 # --- download reference data JSON file (for previously generated data)
 cmake_path(SET arc_json_file ${PROJECT_BINARY_DIR}/ref_data.json)
@@ -55,11 +8,13 @@ if(NOT EXISTS ${arc_json_file})
   file(DOWNLOAD ${url} ${arc_json_file}
   INACTIVITY_TIMEOUT 60
   STATUS ret
+  LOG log
   )
   list(GET ret 0 stat)
   if(NOT stat EQUAL 0)
     list(GET ret 1 err)
-    message(FATAL_ERROR "${url} download failed: ${err}")
+    message(FATAL_ERROR "${url} download failed: ${err}
+    ${log}")
   endif()
 endif()
 
@@ -90,9 +45,10 @@ endif()
 
 # --- main loop
 
-foreach(in_dir ${equilibrium_dirs} ${hourly_dirs} ${daily_dirs})
+foreach(in_dir IN LISTS equilibrium_dirs hourly_dirs daily_dirs)
 
 if(NOT IS_DIRECTORY ${in_dir})
+  message(VERBOSE "${in_dir} is not a directory, thus not a simulation")
   continue()  # stray file
 elseif(NOT EXISTS ${in_dir}/config.nml)
   message(STATUS "${in_dir} does not contain config.nml")
@@ -103,7 +59,7 @@ cmake_path(GET in_dir PARENT_PATH _t)
 cmake_path(GET _t STEM type_label)
 cmake_path(GET in_dir FILENAME name)
 
-message(DEBUG "${name}: ${type_label}")
+message(DEBUG "${name}: ${type_label}   from ${in_dir}")
 
 # --- test down-selection
 set(${name}_DISABLED 0)

@@ -6,22 +6,24 @@ We recommend using PyGemini for this `pip install pygemini`.
 If neither PyGemini or MatGemini are available, the regeneration will use previously generated reference input, which is *not* a clean regeneration of the reference data.
 It's preferable to have PyGemini working before regenerating the reference data.
 
-1. set environment variable GEMINI_CIROOT to a fresh directory, or erase all the existing files/folders there.
-2. Configure GemCI in a fresh build directory. To serve as a CI, Gemini3D is rebuilt each time if change occurs in Gemini3D repo. To specify a specific Git branch/commit/tag for Gemini3D, add option below: `-Dgemini3d_tag=my_branch_or_tag_or_commit`
+Set environment variable `GEMINI_CIROOT` to a fresh directory--this is where the regenerated data will be put.
+Configure GemCI in a fresh build directory.
+To serve as a CI, Gemini3D is rebuilt each time if change occurs in Gemini3D repo.
+If using default options, simply use:
 
-    ```sh
-    cmake --preset regen
-    ```
-3. Build Gemini3D:
+```sh
+cmake --workflow --preset regen
+```
 
-    ```sh
-    cmake --build build
-    ```
-4. Run the tests, which regenerates data in the GEMINI_CIROOT directory:
+To specify a specific Git branch/commit/tag for Gemini3D, instead use the multi-step process below.
 
-    ```sh
-    ctest --preset regen
-    ```
+```sh
+cmake --preset regen -Dgemini3d_tag=my_branch_or_tag_or_commit
+
+cmake --build build
+
+ctest --preset regen
+```
 
 Uploading the reference data for public use can be manually done from the GEMINI_CIROOT directory.
 Optionally, if the program

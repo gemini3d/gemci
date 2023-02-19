@@ -24,7 +24,7 @@ OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
 if(NOT ret EQUAL 0)
-  message(FATAL_ERROR "Failed to get PyGemini version:
+  message(FATAL_ERROR "Failed to get PyGemini version using ${Python_EXECUTABLE}:
   ${ret}
   ${out}
   ${err}"

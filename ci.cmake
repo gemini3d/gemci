@@ -28,7 +28,7 @@ set(opts
 )
 
 list(APPEND opts
--DCMAKE_COMPILE_WARNING_AS_ERROR:BOOL=false
+-DCMAKE_COMPILE_WARNING_AS_ERROR:BOOL=true
 )
 # oneAPI temporarily has an issue with mpimod halo_end23
 

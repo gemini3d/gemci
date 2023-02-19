@@ -83,10 +83,10 @@ if(package)
 endif()
 
 # --- check if Internet connectivity at ctest time
-add_test(NAME internetConnect
-COMMAND ${CMAKE_COMMAND} -P ${PROJECT_SOURCE_DIR}/cmake/connectivity.cmake)
-set_property(TEST internetConnect PROPERTY FIXTURES_SETUP internet_fxt)
-set_property(TEST internetConnect PROPERTY DISABLED true)
+# add_test(NAME internetConnect
+# COMMAND ${CMAKE_COMMAND} -P ${PROJECT_SOURCE_DIR}/cmake/connectivity.cmake)
+# set_property(TEST internetConnect PROPERTY FIXTURES_SETUP internet_fxt)
+# set_property(TEST internetConnect PROPERTY DISABLED true)
 
 # --- main loop
 

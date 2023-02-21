@@ -7,6 +7,9 @@ DESCRIPTION "Long-running Gemini3D test cases"
 VERSION 1.0.0
 )
 
+set(DART_TESTING_TIMEOUT 10000)
+# set arbitrarily large timeout--must set DART_TESTING_TIMEOUT before CTest.
+# This takes effect if --timeout or preset doesn't specify timeout.
 include(CTest)
 
 include(options.cmake)

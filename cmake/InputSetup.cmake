@@ -23,19 +23,21 @@ parse_nml(${nml_file} "source_dir" "path")
 if(NOT source_dir)
   return()
 endif()
+set(neutral_json_file ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/neutral_data.json)
 
 add_test(NAME "setup:download_neutral:${name}"
-COMMAND ${CMAKE_COMMAND} -Dinput_dir:PATH=${source_dir}
--Dname=${name}
--Dinput_type=neutrals
--Darc_json_file:FILEPATH=${arc_json_file}
--Dctest_run:BOOL=true
--P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/download_input.cmake
+COMMAND ${CMAKE_COMMAND}
+  -Dinput_dir:PATH=${source_dir}
+  -Dname=${name}
+  -Dinput_type=neutrals
+  -Darc_json_file:FILEPATH=${neutral_json_file}
+  -Dctest_run:BOOL=true
+  -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/download_input.cmake
 )
 
 set_tests_properties("setup:download_neutral:${name}" PROPERTIES
 LABELS "download;${label}"
-REQUIRED_FILES ${arc_json_file}
+REQUIRED_FILES ${neutral_json_file}
 FIXTURES_SETUP ${name}:eq_fxt  # no need for distinct fixture
 RESOURCE_LOCK download_lock
 )

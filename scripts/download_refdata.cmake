@@ -1,5 +1,5 @@
 # download all reference data
-cmake_minimum_required(VERSION 3.21...3.24)
+cmake_minimum_required(VERSION 3.21)
 
 include(${CMAKE_CURRENT_LIST_DIR}/../cmake/ParseNml.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/../cmake/GetEquil.cmake)
@@ -22,6 +22,7 @@ cmake_path(SET ci_root NORMALIZE ${CMAKE_CURRENT_LIST_DIR}/../cfg)
 # --- download reference data JSON file (for previously generated data)
 
 cmake_path(SET arc_json_file ${PROJECT_BINARY_DIR}/ref_data.json)
+
 if(NOT EXISTS ${arc_json_file})
   file(READ ${CMAKE_CURRENT_LIST_DIR}/../cmake/libraries.json _libj)
   string(JSON url GET ${_libj} ref_data url)
@@ -74,7 +75,7 @@ endif()
 # --- get neutral input directory, if specified in config.nml
 parse_nml(${in_dir}/config.nml "source_dir" "path")
 if(source_dir)
-  download_input(${source_dir} ${name} neutrals ${arc_json_file})
+  download_input(${source_dir} ${name} neutrals ${CMAKE_CURRENT_LIST_DIR}/../cmake/neutral_data.json)
 endif()
 
 # --- download output comparison data

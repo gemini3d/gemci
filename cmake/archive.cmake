@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.21...3.24)
+cmake_minimum_required(VERSION 3.21)
 
 cmake_path(GET out EXTENSION LAST_ONLY ARC_TYPE)
 cmake_path(GET out FILENAME archive_name)

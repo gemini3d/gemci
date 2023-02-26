@@ -1,0 +1,29 @@
+{
+    "neutrals" :
+    {
+        "acoustic2D_axisymmetric_neutrals":
+        {
+        "archive": "acoustic2D_axisymmetric_neutrals.zst",
+        "author": "zettergm",
+        "date:": "2021-09-20",
+        "sha256": "38be5c826ea36f657b892432ca5598d100725b63a60688b5753a272541cae25c",
+        "url": "https://www.dropbox.com/s/pxjvfxguto9a4pb/acoustic2D_axisymmetric_neutrals.zst?dl=1"
+        },
+        "acoustic2D_cartesian_neutrals":
+        {
+        "archive": "acoustic2D_cartesian_neutrals.zst",
+        "author": "zettergm",
+        "date:": "2021-09-20",
+        "sha256": "641593f747332e413434940dd1766e9b797a46abfa17a50c51dd73cf5c7e46e1",
+        "url": "https://www.dropbox.com/s/uaucly9aqlap1wo/acoustic2D_cartesian_neutrals.zst?dl=1"
+        },
+        "acoustic3D_cartesian_neutrals":
+        {
+        "archive": "acoustic3D_cartesian_neutrals.zst",
+        "author": "zettergm",
+        "date:": "2021-07-17",
+        "sha256": "6fdeaaae755f6b348c1a893d23430022fb918a1646a753da808b2257efef3ce4",
+        "url": "https://www.dropbox.com/s/8uyob0kducjpngx/acoustic3D_cartesian_neutrals.zst?dl=1"
+        }
+    }
+}

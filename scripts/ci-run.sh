@@ -55,6 +55,8 @@ if [[ $1 == "Nightly" ]]; then
   fi
 else
   stop_time=""
+  test_exclude=""
+  test_include=""
 fi
 
 source ${cwd}/ci-prep.sh

@@ -14,6 +14,7 @@ option(cpp "use C++ Gemini3D frontend")
 option(submit "use CDash upload" true)
 option(python "use Python Gemini3D frontend" true)
 option(matlab "use Matlab Gemini3D frontend")
+option(CMAKE_COMPILE_WARNING_AS_ERROR "treat warnings as errors" true)
 
 if(NOT gemini3d_tag)
   set(gemini3d_tag "main")
@@ -25,12 +26,8 @@ set(opts
 -Dmatlab:BOOL=${matlab}
 -Dpython:BOOL=${python}
 -Dgemini3d_tag=${gemini3d_tag}
+-DCMAKE_COMPILE_WARNING_AS_ERROR:BOOL=${CMAKE_COMPILE_WARNING_AS_ERROR}
 )
-
-list(APPEND opts
--DCMAKE_COMPILE_WARNING_AS_ERROR:BOOL=true
-)
-# oneAPI temporarily has an issue with mpimod halo_end23
 
 if(CMAKE_PREFIX_PATH)
   list(APPEND opts -DCMAKE_PREFIX_PATH:PATH=${CMAKE_PREFIX_PATH})

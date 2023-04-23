@@ -7,6 +7,7 @@ ctest_model=$1
 duration=$2
 cadence=$3
 cpp=$4
+tag=$5
 
 wd=/tmp
 cc_name="$(basename $CC)"
@@ -65,7 +66,7 @@ ${conda} \
   ctest \
   -DCMAKE_PREFIX_PATH:PATH=${prefix} \
   -DCTEST_STOP_TIME=${stop_time} \
-  -Dgemini3d_tag=main \
+  -Dgemini3d_tag=${tag} \
   -DGEMINI_CIROOT:PATH=${ci_data} \
   -DCTEST_BINARY_DIRECTORY=${ci_bin} \
   -DCTEST_SITE=${site_name} \

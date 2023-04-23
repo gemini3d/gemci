@@ -4,7 +4,6 @@
 include(ExternalProject)
 
 set(gemini_args
--DCMAKE_COMPILE_WARNING_AS_ERROR:BOOL=${CMAKE_COMPILE_WARNING_AS_ERROR}
 -DBUILD_TESTING:BOOL=off
 -Dglow:BOOL=${glow}
 -Dhwm14:BOOL=${hwm14}

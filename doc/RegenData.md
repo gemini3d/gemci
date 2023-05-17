@@ -9,11 +9,6 @@ It's preferable to have PyGemini working before regenerating the reference data.
 Set environment variable `GEMINI_CIROOT` to a fresh directory--this is where the regenerated data will be put.
 Configure GemCI in a fresh build directory.
 To serve as a CI, Gemini3D is rebuilt each time if change occurs in Gemini3D repo.
-If using default options, simply use:
-
-```sh
-cmake --workflow --preset regen
-```
 
 To specify a specific Git branch/commit/tag for Gemini3D, instead use the multi-step process below.
 

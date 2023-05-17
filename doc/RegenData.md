@@ -33,8 +33,10 @@ Note: to specify a subset of simulations to regenerate (potentially saving hours
 ctest --preset regen -R "KHI"
 ```
 
-Uploading the reference data for public use can be manually done from the GEMINI_CIROOT directory.
+## updating JSON URLs and SHA256 hashes
+
+Uploading the reference data to Dropbox for public use can be manually done from the GEMINI_CIROOT directory.
 Optionally, if the program
 [rclone](https://rclone.org/)
-is present and has been configured by the user for the appropriate file sharing service, CTest will automatically upload the reference data to the cloud storage.
-The final step would be visually checking that the URLs in "ref_data.json" are correct and "git commit" the new ref_data.json in gemci/.
+is present and has been configured by the user for Dropbox (or other public file sharing service suitable for Gigabyte-size file archives), CTest will automatically upload the reference data to the cloud storage.
+The final step is for each new reference file either checking visually (if using Rclone) or copy-pasting the new URL from Dropbox web browsser such that the URLs in Dropbox "ref_data.json" are correct.

@@ -20,6 +20,13 @@ cmake --build build
 ctest --preset regen
 ```
 
+By default, the "--preset regen" turns on the equilibrium simulations, which take much longer to run than the normal simulations.
+If you have known good equilibrium data, you can skip the equilibrium regeneration by:
+
+```sh
+cmake --preset regen -Dequil=off
+```
+
 Note: to specify a subset of simulations to regenerate (potentially saving hours of time) use the "-R" ctest regex option like:
 
 ```sh

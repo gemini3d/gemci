@@ -25,6 +25,12 @@ cmake --build build
 ctest --preset regen
 ```
 
+Note: to specify a subset of simulations to regenerate (potentially saving hours of time) use the "-R" ctest regex option like:
+
+```sh
+ctest --preset regen -R "KHI"
+```
+
 Uploading the reference data for public use can be manually done from the GEMINI_CIROOT directory.
 Optionally, if the program
 [rclone](https://rclone.org/)

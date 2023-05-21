@@ -12,7 +12,7 @@
     "package": false,
     "equil": false,
     "plot": false,
-    "CMAKE_COMPILE_WARNING_AS_ERROR": true
+    "CMAKE_COMPILE_WARNING_AS_ERROR": false
   }
 },
 {

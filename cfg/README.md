@@ -1,6 +1,6 @@
 # Low-resolution, Comprehensive, Continuous Integration Tests
 
-This document collects together tests of various use cases for GEMINI demonstrating a range of grids and solvers.  These can be useful reference cases to build off of or can be used to do comprehensive testing of a new deployment of GEMINI.  These tests are designed to all be runnable as a 24 hour batch job on one HPC node or a good workstation (~20-36 cores).
+This document collects together tests of various use cases for GEMINI demonstrating a range of grids and solvers.  These can be useful reference cases to build off of or can be used to do comprehensive testing of a new deployment of GEMINI.  These tests are designed to all be runnable as a less than 24 hour batch job on one HPC node or reasonable workstation (~8+ cores).
 
 These test cases are too long-running to be used on every Git push.
 We choose to use CMake to orchestrate these tests as CMake is a common denominator for Gemini, and is easier and more robust for this type of task.
@@ -429,3 +429,7 @@ mpirun -np 16 ./gemini.bin ~/simulations/cusp_softprecip -manual_grid 4 4
 
 
 ## Time-dependent precipitation and fields???  ISINGLASS???
+
+## Equatorial Plasma Bubble example
+
+

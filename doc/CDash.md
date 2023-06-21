@@ -40,6 +40,12 @@ Crontab environment variables are specified at the top of the crontab.
 **Crontab environment variable must specify fully resolved absolute paths**.
 "~" or "$HOME" do NOT work in crontab environment variables in general.
 
+Note: if you prefer to edit crontab (and other terminal operations) with "nano", set in ~/.bash_profile or similar
+
+```sh
+export EDITOR=nano
+```
+
 ## Example crontab for GemCI
 
 A typical CI system uses:

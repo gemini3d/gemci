@@ -6,7 +6,6 @@ if(NOT EXISTS ${arc_json_file})
   file(READ ${PROJECT_SOURCE_DIR}/cmake/libraries.json _libj)
   string(JSON url GET ${_libj} ref_data url)
   file(DOWNLOAD ${url} ${arc_json_file}
-  INACTIVITY_TIMEOUT 60
   STATUS ret
   LOG log
   )

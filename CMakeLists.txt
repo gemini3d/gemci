@@ -14,6 +14,9 @@ include(CTest)
 
 include(options.cmake)
 
+file(GENERATE OUTPUT .gitignore CONTENT "*")
+
+
 # Gemini3D ExternalProject
 include(cmake/gemini3d.cmake)
 

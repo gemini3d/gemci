@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.21...3.26)
+cmake_minimum_required(VERSION 3.21...3.29)
 
 set(CTEST_PROJECT_NAME "GemCI")
 
@@ -191,14 +191,7 @@ if(NOT (ret EQUAL 0 AND err EQUAL 0))
   message(FATAL_ERROR "Configure ${build_id} failed: return ${ret} cmake return ${err}")
 endif()
 
-if(DEFINED ENV{CMAKE_BUILD_PARALLEL_LEVEL})
-  set(Ncpu $ENV{CMAKE_BUILD_PARALLEL_LEVEL})
-else()
-  cmake_host_system_information(RESULT Ncpu QUERY NUMBER_OF_PHYSICAL_CORES)
-endif()
-
 ctest_build(
-PARALLEL_LEVEL ${Ncpu}
 RETURN_VALUE ret
 CAPTURE_CMAKE_ERROR err
 )
@@ -220,15 +213,8 @@ else()
   set(_stop)
 endif()
 
-if(DEFINED ENV{CTEST_PARALLEL_LEVEL})
-  set(Ntest $ENV{CTEST_PARALLEL_LEVEL})
-else()
-  set(Ntest ${Ncpu})
-endif()
-
 ctest_test(
 SCHEDULE_RANDOM true
-PARALLEL_LEVEL ${Ntest}
 EXCLUDE "${exclude}"
 INCLUDE "${include}"
 EXCLUDE_LABEL "${exclude_label}"

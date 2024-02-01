@@ -30,21 +30,16 @@ jobs:
           #   cpp: false
           # TODO: tolerance/shape issues to work through in Matlab--despite MatGemini self-compare CI working
           - gen: python
-            cpp: false
-            pyversion: '3.8'
-          - gen: python
-            cpp: true
             pyversion: '3.8'
           - gen: none
-            cpp: false
 
     steps:
 
     - name: Git Checkout GemCI
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Checkout Gemini3D-External
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         repository: gemini3d/external
         path: gemext
@@ -56,18 +51,18 @@ jobs:
 
     - name: Install model libraries
       timeout-minutes: 15
-      run: cmake -Dfind:BOOL=true -P gemext/build-online.cmake
+      run: cmake -Dmumps_only:BOOL=true -Dfind:BOOL=true -P gemext/build-online.cmake
 
 # --- Python
     - name: Setup Python ${{ matrix.pyversion }}
       if: ${{ matrix.gen == 'python' }}
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '${{ matrix.pyversion }}'
 
     - name: Checkout PyGemini
       if: ${{ matrix.gen == 'python' }}
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         repository: gemini3d/pygemini
         path: pygemini
@@ -76,12 +71,11 @@ jobs:
       if: ${{ matrix.gen == 'python' }}
       run: python -m pip install -e ./pygemini
 
-    - name: Configure C++=${{ matrix.cpp }} Python=${{ matrix.python }}
+    - name: Configure Python=${{ matrix.pyversion }}
       if: ${{ matrix.gen != 'matlab' }}
       run: >-
         cmake --preset default
-        -Dcpp:BOOL=${{ matrix.cpp }}
-        -Dpython:BOOL=${{ matrix.python }}
+        -Dpython:BOOL=${{ matrix.gen == 'python' }}
 
 # --- Matlab
 
@@ -91,7 +85,7 @@ jobs:
 
     - name: Checkout MatGemini
       if: ${{ matrix.gen == 'matlab' }}
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         repository: gemini3d/mat_gemini
         path: mat_gemini
@@ -101,7 +95,6 @@ jobs:
       if: ${{ matrix.gen == 'matlab' }}
       run: >-
         cmake --preset matlab
-        -Dcpp:BOOL=${{ matrix.cpp }}
       env:
         MATGEMINI: ${{ github.workspace }}/mat_gemini
 

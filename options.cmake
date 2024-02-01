@@ -12,7 +12,7 @@ option(dev "dev mode")
 option(equil "run equilibrium (takes 10+ hours)")
 option(package "package reference data .zst files")
 
-set(CMAKE_TLS_VERIFY true)
+option(CMAKE_TLS_VERIFY "verify SSL certificates" on)
 
 set(Python_FIND_REGISTRY LAST)
 # this avoids non-active conda from getting picked anyway on Windows
@@ -20,8 +20,4 @@ set(Python_FIND_REGISTRY LAST)
 
 if(dev)
   set_directory_properties(PROPERTIES EP_UPDATE_DISCONNECTED true)
-else()
-  set_directory_properties(PROPERTIES EP_UPDATE_DISCONNECTED false)
 endif()
-
-file(GENERATE OUTPUT .gitignore CONTENT "*")

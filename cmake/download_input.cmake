@@ -48,7 +48,6 @@ if(NOT hash_ok)
   EXPECTED_HASH SHA256=${hash}
   STATUS ret
   LOG log
-  TLS_VERIFY ON
   )
   list(GET ret 0 stat)
   if(NOT stat EQUAL 0)

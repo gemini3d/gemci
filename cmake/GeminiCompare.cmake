@@ -80,6 +80,7 @@ COMMAND ${CMAKE_COMMAND}
 -Dref_root:PATH=${ref_root}
 -Darc_json_file:FILEPATH=${arc_json_file}
 -Dctest_run:BOOL=true
+-DCMAKE_TLS_VERIFY:BOOL=${CMAKE_TLS_VERIFY}
 -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/download_ref.cmake
 )
 

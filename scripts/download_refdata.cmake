@@ -1,6 +1,8 @@
 # download all reference data
 cmake_minimum_required(VERSION 3.21)
 
+option(CMAKE_TLS_VERIFY "Verify SSL certificates" ON)
+
 include(${CMAKE_CURRENT_LIST_DIR}/../cmake/ParseNml.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/../cmake/GetEquil.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/../cmake/download_input.cmake)
@@ -10,7 +12,7 @@ set(ctest_run false)
 
 if(NOT GEMINI_CIROOT)
   message(FATAL_ERROR "Please set GEMINI_CIROOT to the desired top-level data directory. Example:
-cmake -DGEMINI_CIROOT=~/gemci -P scripts/download_refdata.cmake")
+cmake -DGEMINI_CIROOT=~/gemci -P ${CMAKE_CURRENT_LIST_FILE}")
 endif()
 
 file(REAL_PATH ${GEMINI_CIROOT} GEMINI_CIROOT EXPAND_TILDE)
@@ -28,7 +30,6 @@ if(NOT EXISTS ${arc_json_file})
   string(JSON url GET ${_libj} ref_data url)
   file(DOWNLOAD ${url} ${arc_json_file}
   STATUS ret
-  TLS_VERIFY ON
   LOG log
   )
   list(GET ret 0 stat)

@@ -8,6 +8,7 @@ if(NOT equil)
   -Dinput_type=tests
   -Darc_json_file:FILEPATH=${arc_json_file}
   -Dctest_run:BOOL=true
+  -DCMAKE_TLS_VERIFY:BOOL=${CMAKE_TLS_VERIFY}
   -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/download_input.cmake
   )
 
@@ -32,6 +33,7 @@ COMMAND ${CMAKE_COMMAND}
   -Dinput_type=neutrals
   -Darc_json_file:FILEPATH=${neutral_json_file}
   -Dctest_run:BOOL=true
+  -DCMAKE_TLS_VERIFY:BOOL=${CMAKE_TLS_VERIFY}
   -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/download_input.cmake
 )
 

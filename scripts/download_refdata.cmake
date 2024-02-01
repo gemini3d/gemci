@@ -66,7 +66,7 @@ message(DEBUG "${name}: ${type_label}")
 cmake_path(SET out_dir ${GEMINI_CIROOT}/${name})
 
 # --- input data download (if not an equilibrium itself)
-if(NOT type_label STREQUAL equilibrium)
+if(NOT type_label STREQUAL "equilibrium")
   get_equil(${in_dir} ${name})
 
   download_input(${eq_dir} ${name} tests ${arc_json_file})

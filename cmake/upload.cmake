@@ -30,7 +30,7 @@ if(NOT ret EQUAL 0)
   message(FATAL_ERROR "Failed to link Rclone URL for ${PACKAGE_REMOTE}:${archive_path}")
 endif()
 
-if(PACKAGE_REMOTE STREQUAL dropbox)
+if(PACKAGE_REMOTE STREQUAL "dropbox")
   string(REPLACE "${arc_name}?dl=0" "${arc_name}?dl=1" url ${url})
 endif()
 

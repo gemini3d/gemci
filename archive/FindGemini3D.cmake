@@ -52,7 +52,7 @@ if(NOT ret EQUAL 0)
 endif()
 
 
-if(_comp_name STREQUAL GNU)
+if(_comp_name STREQUAL "GNU")
   set(_flags_exp "-fcheck=all;-fcheck=bounds")
 elseif(_comp_name MATCHES "^Intel")
   set(_flags_exp "-check;-CB;/check;/CB")

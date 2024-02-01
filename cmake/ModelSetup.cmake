@@ -1,6 +1,6 @@
 function(model_setup in_dir out_dir ref_root name label low_ram)
 
-if(NOT label STREQUAL equilibrium)
+if(NOT label STREQUAL "equilibrium")
   get_equil(${in_dir} ${name})
   message(VERBOSE "${name} setup depends on run fixture ${eq_name}")
 endif()

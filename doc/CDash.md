@@ -18,9 +18,6 @@ Options one may wish to use include:
 `-Dgemini3d_tag=`
 : set to Gemini3D Git branch, tag, or commit hash (default "main" branch)
 
-`-Dcpp=`
-: "true" to use C++ Gemini3d frontent, "false" to use Fortran Gemini3d front-end (default false)
-
 ## crontab basics
 
 Print the current crontab by:
@@ -75,8 +72,7 @@ CMAKE_PREFIX_PATH=/home/ci/lib_gcc
 CI=true
 CTEST_SITE=LinuxCI
 
-10 00 * * * ctest -Dgemini3d_tag=fclaw_prep3_geogdneu -Dcpp:BOOL=yes -DCTEST_MODEL=Nightly -S $HOME/code/gemci/ci.cmake -V
-10 04 * * * ctest -Dgemini3d_tag=fclaw_prep3_geogdneu -Dcpp:BOOL=no -DCTEST_MODEL=Nightly -S $HOME/code/gemci/ci.cmake -V
+10 00 * * * ctest -Dgemini3d_tag=fclaw_prep3_geogdneu -DCTEST_MODEL=Nightly -S $HOME/code/gemci/ci.cmake -V
 ```
 
 ### MacOS crontab
@@ -92,6 +88,5 @@ CMAKE_PREFIX_PATH=/Users/ci/lib_gcc
 CI=true
 CTEST_SITE=MacCI
 
-10 00 * * * ctest -Dgemini3d_tag=fclaw_prep3_geogdneu -Dcpp:BOOL=yes -DCTEST_MODEL=Nightly -S $HOME/code/gemci/ci.cmake -V
-10 08 * * * ctest -Dgemini3d_tag=fclaw_prep3_geogdneu -Dcpp:BOOL=no -DCTEST_MODEL=Nightly -S $HOME/code/gemci/ci.cmake -V
+10 00 * * * ctest -Dgemini3d_tag=fclaw_prep3_geogdneu -DCTEST_MODEL=Nightly -S $HOME/code/gemci/ci.cmake -V
 ```

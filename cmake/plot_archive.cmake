@@ -10,9 +10,9 @@ cmake_path(GET out EXTENSION LAST_ONLY ARC_TYPE)
 # need working_directory ${in} to avoid computer-specific relative paths
 # use . not ${in} as last argument to avoid more relative path issues
 
-if(ARC_TYPE STREQUAL .zst)
+if(ARC_TYPE STREQUAL ".zst")
   set(arc_args --zstd)
-elseif(ARC_TYPE STREQUAL .zip)
+elseif(ARC_TYPE STREQUAL ".zip")
   set(arc_args --format=zip)
 else()
   message(FATAL_ERROR "unknown archive type ${ARC_TYPE}")

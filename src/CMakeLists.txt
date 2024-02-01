@@ -36,12 +36,6 @@ if(package)
   message(STATUS "packaging archives in ${upload_root}")
 endif()
 
-# --- check if Internet connectivity at ctest time
-# add_test(NAME internetConnect
-# COMMAND ${CMAKE_COMMAND} -P ${PROJECT_SOURCE_DIR}/cmake/connectivity.cmake)
-# set_property(TEST internetConnect PROPERTY FIXTURES_SETUP internet_fxt)
-# set_property(TEST internetConnect PROPERTY DISABLED true)
-
 # --- main loop
 
 foreach(in_dir IN LISTS equilibrium_dirs hourly_dirs daily_dirs)
@@ -93,7 +87,7 @@ endif()
 cmake_path(SET out_dir ${GEMINI_CIROOT}/${name})
 
 # input data download (if not an equilibrium itself)
-if(NOT type_label STREQUAL equilibrium)
+if(NOT type_label STREQUAL "equilibrium")
   input_setup(${in_dir} ${out_dir} ${name} ${type_label} ${equil})
 endif()
 

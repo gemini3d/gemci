@@ -32,7 +32,7 @@ string(REGEX MATCH ${pat2} n ${m})
 # file(STRINGS REGEX) doesn't populate CMAKE_MATCH_*
 
 set(v ${CMAKE_MATCH_1})
-if(type STREQUAL path)
+if(type STREQUAL "path")
   string(CONFIGURE ${v} v @ONLY)
 endif()
 

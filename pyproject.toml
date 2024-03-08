@@ -5,6 +5,3 @@ line-length = 100
 files = ["."]
 ignore_missing_imports = true
 strict_optional = false
-allow_redefinition = true
-show_error_context = false
-show_column_numbers = true

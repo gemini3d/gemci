@@ -54,7 +54,6 @@ def perturb_efield(cfg: dict[str, T.Any], xg: dict[str, T.Any], params: dict[str
 
 
 def init_profile(xg: dict[str, T.Any], dat: xarray.Dataset) -> np.ndarray:
-
     lsp = dat["ns"].shape[0]
 
     # %% Choose a single profile from the center of the eq domain
@@ -151,7 +150,6 @@ def perturb_density(
 
 
 def potential_bg(x2: np.ndarray, lx2: int, lx3: int, params: dict[str, float]) -> np.ndarray:
-
     vel3 = np.empty((lx2, lx3))
     for i in range(lx3):
         vel3[:, i] = params["v0"] * np.tanh(x2 / params["ell"]) - params["vn"]
@@ -171,7 +169,6 @@ def potential_bg(x2: np.ndarray, lx2: int, lx3: int, params: dict[str, float]) -
 
 
 def create_Efield(cfg, xg, params):
-
     cfg["E0dir"].mkdir(parents=True, exist_ok=True)
 
     # %% CREATE ELECTRIC FIELD DATASET

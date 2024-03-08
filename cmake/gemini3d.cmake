@@ -3,6 +3,15 @@
 # with the same install directory.
 include(ExternalProject)
 
+set(extproj_args
+USES_TERMINAL_DOWNLOAD true
+USES_TERMINAL_UPDATE true
+USES_TERMINAL_PATCH true
+USES_TERMINAL_CONFIGURE true
+USES_TERMINAL_BUILD true
+USES_TERMINAL_INSTALL true
+USES_TERMINAL_TEST true)
+
 set(gemini_args
 -DBUILD_TESTING:BOOL=off
 -Dglow:BOOL=${glow}
@@ -44,6 +53,7 @@ GIT_REPOSITORY ${gemini3d_url}
 GIT_TAG ${gemini3d_tag}
 CMAKE_ARGS ${gemini_args} -DCMAKE_BUILD_TYPE=Debug
 CONFIGURE_HANDLED_BY_BUILD true
+${extproj_args}
 )
 
 set(GEMINI_RUN_DEBUG ${PROJECT_BINARY_DIR}/bin/gemini3d.run.debug)
@@ -57,6 +67,7 @@ GIT_TAG ${gemini3d_tag}
 CMAKE_ARGS ${gemini_args} -DCMAKE_BUILD_TYPE=Release
 CONFIGURE_HANDLED_BY_BUILD true
 DEPENDS GEMINI3D_DEBUG
+${extproj_args}
 )
 # DEPENDS debug to help ensure order of build, not specific dependency
 

@@ -16,14 +16,14 @@ cmake -DGEMINI_CIROOT=~/gemci -P ${CMAKE_CURRENT_LIST_FILE}")
 endif()
 
 file(REAL_PATH ${GEMINI_CIROOT} GEMINI_CIROOT EXPAND_TILDE)
-cmake_path(SET ref_root ${GEMINI_CIROOT}/test_ref)
+set(ref_root ${GEMINI_CIROOT}/test_ref)
 file(MAKE_DIRECTORY ${ref_root})
 
 cmake_path(SET ci_root NORMALIZE ${CMAKE_CURRENT_LIST_DIR}/../cfg)
 
 # --- download reference data JSON file (for previously generated data)
 
-cmake_path(SET arc_json_file ${PROJECT_BINARY_DIR}/ref_data.json)
+set(arc_json_file ${PROJECT_BINARY_DIR}/ref_data.json)
 
 if(NOT EXISTS ${arc_json_file})
   file(READ ${CMAKE_CURRENT_LIST_DIR}/../cmake/libraries.json _libj)
@@ -63,7 +63,7 @@ cmake_path(GET in_dir FILENAME name)
 
 message(DEBUG "${name}: ${type_label}")
 
-cmake_path(SET out_dir ${GEMINI_CIROOT}/${name})
+set(out_dir ${GEMINI_CIROOT}/${name})
 
 # --- input data download (if not an equilibrium itself)
 if(NOT type_label STREQUAL "equilibrium")

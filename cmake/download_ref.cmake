@@ -10,8 +10,8 @@ string(JSON url GET ${_refj} tests ${name} url)
 string(JSON archive_name GET ${_refj} tests ${name} archive)
 string(JSON hash GET ${_refj} tests ${name} sha256)
 
-cmake_path(SET ref_dir ${ref_root}/${name})
-cmake_path(SET archive ${ref_root}/${archive_name})
+set(ref_dir ${ref_root}/${name})
+set(archive ${ref_root}/${archive_name})
 
 # check if extracted data exists
 if(IS_DIRECTORY ${ref_dir})

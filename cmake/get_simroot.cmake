@@ -8,11 +8,11 @@
 # The latter behavior runs the risk of data state where a bug isn't
 # realized due to something in locally cached data.
 if(NOT GEMINI_CIROOT AND DEFINED ENV{GEMINI_CIROOT})
-  cmake_path(SET GEMINI_CIROOT $ENV{GEMINI_CIROOT})
+  set(GEMINI_CIROOT $ENV{GEMINI_CIROOT})
 endif()
 
 if(NOT GEMINI_CIROOT)
-  cmake_path(SET GEMINI_CIROOT ${CMAKE_CURRENT_BINARY_DIR})
+  set(GEMINI_CIROOT ${CMAKE_CURRENT_BINARY_DIR})
 endif()
 
 file(REAL_PATH ${GEMINI_CIROOT} GEMINI_CIROOT EXPAND_TILDE)

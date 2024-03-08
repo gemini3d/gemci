@@ -1,6 +1,6 @@
 function(get_equil in name)
 
-cmake_path(SET nml_file ${in}/config.nml)
+set(nml_file ${in}/config.nml)
 
 # get equilibrium directory
 parse_nml(${nml_file} "eq_dir" "path")

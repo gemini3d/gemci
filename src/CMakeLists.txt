@@ -1,7 +1,7 @@
 file(MAKE_DIRECTORY ${ref_root})
 
 # --- download reference data JSON file (for previously generated data)
-cmake_path(SET arc_json_file ${PROJECT_BINARY_DIR}/ref_data.json)
+set(arc_json_file ${PROJECT_BINARY_DIR}/ref_data.json)
 if(NOT EXISTS ${arc_json_file})
   file(READ ${PROJECT_SOURCE_DIR}/cmake/libraries.json _libj)
   string(JSON url GET ${_libj} ref_data url)
@@ -28,8 +28,8 @@ file(GLOB daily_dirs LIST_DIRECTORIES true "${ci_root}/daily/*")
 # --- init package directory and ref json
 if(package)
   string(TIMESTAMP package_date "%Y-%m-%d" UTC)
-  cmake_path(SET upload_root ${GEMINI_CIROOT}/upload-${package_date})
-  cmake_path(SET ref_json_file ${upload_root}/ref_data.json)
+  set(upload_root ${GEMINI_CIROOT}/upload-${package_date})
+  set(ref_json_file ${upload_root}/ref_data.json)
 
   include(${PROJECT_SOURCE_DIR}/cmake/system_meta.cmake)
 
@@ -84,7 +84,7 @@ else()
 endif()
 
 # --- proceed with simulation setup
-cmake_path(SET out_dir ${GEMINI_CIROOT}/${name})
+set(out_dir ${GEMINI_CIROOT}/${name})
 
 # input data download (if not an equilibrium itself)
 if(NOT type_label STREQUAL "equilibrium")

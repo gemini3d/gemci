@@ -1,6 +1,6 @@
 function(compare_output compare_exe out_dir ref_root name label)
 
-cmake_path(SET ref_dir ${ref_root}/${name})
+set(ref_dir ${ref_root}/${name})
 
 set(cmd ${compare_exe} ${out_dir} ${ref_dir} -which out)
 if(plot)
@@ -45,7 +45,7 @@ endfunction(compare_output)
 
 function(compare_input compare_exe out_dir ref_root name label)
 
-cmake_path(SET ref_dir ${ref_root}/${name})
+set(ref_dir ${ref_root}/${name})
 
 set(cmd ${compare_exe} ${out_dir} ${ref_dir} -which in)
 if(plot)

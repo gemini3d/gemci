@@ -48,8 +48,8 @@ include(cmake/GeminiPlot.cmake)
 include(cmake/GeminiPackage.cmake)
 
 # --- top level directories
-cmake_path(SET ci_root ${PROJECT_SOURCE_DIR}/cfg)
-cmake_path(SET ref_root ${GEMINI_CIROOT}/test_ref)
+set(ci_root ${PROJECT_SOURCE_DIR}/cfg)
+set(ref_root ${GEMINI_CIROOT}/test_ref)
 
 # --- measure system physical RAM
 cmake_host_system_information(RESULT host_ramMB QUERY TOTAL_PHYSICAL_MEMORY)

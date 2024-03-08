@@ -4,8 +4,8 @@ set(ARC_TYPE zst)
 
 function(gemini_package GEMINI_CIROOT out_dir ref_json_file name label)
 
-cmake_path(SET archive ${upload_root}/${name}.${ARC_TYPE})
-cmake_path(SET data_dir ${GEMINI_CIROOT}/${name})
+set(archive ${upload_root}/${name}.${ARC_TYPE})
+set(data_dir ${GEMINI_CIROOT}/${name})
 
 string(REPLACE ";" "\\;" GEMINI_FEATURES "${GEMINI_FEATURES}")
 

@@ -90,7 +90,7 @@ jobs:
 # --- build
 
     - name: build Gemini3D
-      run: cmake --build build --parallel
+      run: cmake --build build
 
     - name: Run Bounds check
       run: ctest --preset default -R run_bounds_check -E 3D

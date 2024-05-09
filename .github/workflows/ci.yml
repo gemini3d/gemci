@@ -15,7 +15,7 @@ on:
 env:
   CTEST_NO_TESTS_ACTION: error
   HOMEBREW_NO_INSTALL_CLEANUP: 1
-  CTEST_PARALLEL_LEVEL: 4
+  CTEST_PARALLEL_LEVEL: 0
   CMAKE_BUILD_PARALLEL_LEVEL: 4
 
 jobs:
@@ -35,24 +35,12 @@ jobs:
           - gen: none
 
     steps:
-
-    - name: Git Checkout GemCI
-      uses: actions/checkout@v4
-
-    - name: Checkout Gemini3D-External
-      uses: actions/checkout@v4
-      with:
-        repository: gemini3d/external
-        path: gemext
+    - uses: actions/checkout@v4
 
     - name: Install Prereqs
       run: |
         sudo apt update
-        sudo $(cmake -P gemext/scripts/requirements.cmake) libmumps-dev
-
-    - name: Install model libraries
-      timeout-minutes: 15
-      run: cmake -Dmumps_only:BOOL=true -Dfind:BOOL=true -P gemext/build-online.cmake
+        sudo apt install --no-install-recommends libopenmpi-dev openmpi-bin libhdf5-dev
 
 # --- Python
     - name: Setup Python ${{ matrix.pyversion }}

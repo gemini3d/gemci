@@ -1,8 +1,6 @@
 # download all reference data
 cmake_minimum_required(VERSION 3.21)
 
-option(CMAKE_TLS_VERIFY "Verify SSL certificates" ON)
-
 include(${CMAKE_CURRENT_LIST_DIR}/../cmake/ParseNml.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/../cmake/GetEquil.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/../cmake/download_input.cmake)

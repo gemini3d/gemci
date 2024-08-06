@@ -12,8 +12,6 @@ option(dev "dev mode")
 option(equil "run equilibrium (takes 10+ hours)")
 option(package "package reference data .zst files")
 
-option(CMAKE_TLS_VERIFY "verify SSL certificates" on)
-
 set(Python_FIND_REGISTRY LAST)
 # this avoids non-active conda from getting picked anyway on Windows
 

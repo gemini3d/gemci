@@ -1,10 +1,10 @@
 find_package(Matlab COMPONENTS MAIN_PROGRAM REQUIRED)
-if(Matlab_VERSION_STRING VERSION_LESS 9.9)
-  message(STATUS "Matlab >= 9.9 required, found Matlab ${Matlab_VERSION_STRING}")
+if(Matlab_VERSION_STRING VERSION_LESS 24.2)
+  message(WARNING "Matlab >= 24.2 required, found Matlab ${Matlab_VERSION_STRING}")
 endif()
 
 find_path(matgemini_SOURCE_DIR
-NAMES setup.m
+NAMES buildfile.m
 PATHS ${PROJECT_SOURCE_DIR}/../mat_gemini/
 HINTS ${MATGEMINI_ROOT} ENV MATGEMINI ENV MATGEMINI_ROOT
 REQUIRED
@@ -16,7 +16,7 @@ if(MATGEMINI_FOUND)
   return()
 endif()
 
-execute_process(COMMAND ${Matlab_MAIN_PROGRAM} -batch "run('${matgemini_SOURCE_DIR}/setup.m'), stdlib.fileio.expanduser('~');"
+execute_process(COMMAND ${Matlab_MAIN_PROGRAM} -batch "buildtool -buildFile ${matgemini_SOURCE_DIR}/buildfile.m, stdlib.fileio.expanduser('~');"
 RESULT_VARIABLE ret
 ERROR_VARIABLE err
 )

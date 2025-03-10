@@ -64,13 +64,13 @@ endif()
 
 # --- PyGemini
 if(python)
-  include(${PROJECT_SOURCE_DIR}/cmake/python.cmake)
+  include(cmake/python.cmake)
 endif()
 
 # --- MatGemini
 if(matlab)
-  include(${PROJECT_SOURCE_DIR}/cmake/matlab.cmake)
+  include(cmake/matlab.cmake)
 endif()
-include(${PROJECT_SOURCE_DIR}/cmake/MatlabTest.cmake)
+include(cmake/MatlabTest.cmake)
 
 add_subdirectory(src)

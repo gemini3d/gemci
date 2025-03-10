@@ -1,6 +1,6 @@
-# Regenerate Gemini3D reference data
+# Re-generate Gemini3D reference data
 
-This is done occasionally by development team.
+Re-generating reference data is useful when Gemini3D simulation code has changed, or to add new reference simulation tests.
 It takes about 12 hours to run all the simulations on a powerful workstation or HPC.
 We recommend using PyGemini for this `pip install pygemini`.
 If neither PyGemini or MatGemini are available, the regeneration will use previously generated reference input, which is *not* a clean regeneration of the reference data.
@@ -20,22 +20,24 @@ cmake --build build
 ctest --preset regen
 ```
 
-By default, the "--preset regen" turns on the equilibrium simulations, which take much longer to run than the normal simulations.
-If you have known good equilibrium data, you can skip the equilibrium regeneration by:
+## Generate one or several simulations
 
-```sh
-cmake --preset regen -Dequil=off
-```
-
-Note: to specify a subset of simulations to regenerate (potentially saving hours of time) use the "-R" ctest regex option like:
+Specify one simulation or a subset of simulations to re-generate with the "-R" ctest regex option:
 
 ```sh
 ctest --preset regen -R "KHI"
 ```
 
+By default, the "--preset regen" turns on the equilibrium simulations, which take much longer to run than the normal simulations.
+To reuse equilibrium data, skip the equilibrium regeneration by:
+
+```sh
+cmake --preset regen -R "KHI" -Dequil=off
+```
+
 ## updating JSON URLs and SHA256 hashes
 
-Uploading the reference data to Dropbox for public use can be manually done from the GEMINI_CIROOT directory.
+Uploading the reference data that is downloaded by CMake to ${CMAKE_BINARY_DIR}/ref_data.json, as referred to in cmake/libraries.json to Dropbox for public use can be manually done from the GEMINI_CIROOT directory.
 Optionally, if the program
 [rclone](https://rclone.org/)
 is present and has been configured by the user for Dropbox (or other public file sharing service suitable for Gigabyte-size file archives), CTest will automatically upload the reference data to the cloud storage.

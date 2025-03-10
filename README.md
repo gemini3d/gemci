@@ -27,7 +27,7 @@ uses MatGemini instead of PyGemini.
 
 [CDash](./doc/CDash.md) tracks automated or manual runs of GemCI.
 
-Developers occasionally [regenerate reference data](./doc/RegenData.md).
+To add a new simulation or re-generate reference data, refer to [this guide](./doc/RegenData.md).
 
 ## Gemini3D build
 

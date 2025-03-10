@@ -16,6 +16,15 @@ cmake --build build
 ctest --preset default
 ```
 
+By default PyGemini is used to create simulation inputs and process simulation outputs.
+Replacing the first command with
+
+```sh
+cmake --preset matlab
+```
+
+uses MatGemini instead of PyGemini.
+
 [CDash](./doc/CDash.md) tracks automated or manual runs of GemCI.
 
 Developers occasionally [regenerate reference data](./doc/RegenData.md).

@@ -14,11 +14,7 @@ to enable gemini.bin computing of currents. After gemini.bin runs, we run MatGem
 
 Assuming Gemini3d is already built.
 
-Ensure environment variable MATLABPATH includes the path to MatGemini, like:
-
-```sh
-export MATLABPATH=~/code/mat_gemini/:~/code/mat_gemini/matlab-stdlib/
-```
+GemCI uses MatGemini as a Git submodule for robustness and repeatability.
 
 Setup and run simulation
 

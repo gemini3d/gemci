@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.21...4.0)
+cmake_minimum_required(VERSION 3.22...4.0)
 
 set(CTEST_PROJECT_NAME "GemCI")
 
@@ -221,7 +221,7 @@ ${_stop}
 RETURN_VALUE ret
 CAPTURE_CMAKE_ERROR err
 )
-# OUTPUT_JUNIT ${CTEST_BINARY_DIRECTORY}/junit_${build_id}.xml # cmake 3.21
+# OUTPUT_JUNIT ${CTEST_BINARY_DIRECTORY}/junit_${build_id}.xml
 
 if(submit)
   ctest_submit(

@@ -27,7 +27,7 @@ jobs:
 
   linux:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
 
     strategy:
       matrix:
@@ -42,6 +42,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+      with:
+        submodules: true
 
     - uses: ./.github/workflows/composite-pkg
 
@@ -77,14 +79,6 @@ jobs:
       with:
         release: latest
         cache: true
-
-    - name: Checkout MatGemini
-      if: ${{ matrix.gen == 'matlab' }}
-      uses: actions/checkout@v4
-      with:
-        repository: gemini3d/mat_gemini
-        path: mat_gemini
-        submodules: true
 
     - name: Configure with Matlab
       if: ${{ matrix.gen == 'matlab' }}

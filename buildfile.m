@@ -14,17 +14,16 @@ end
 
 
 function setupTask(context)
-% configure paths to work with MatGemini
 
-gemini_matlab = getenv("MATGEMINI");
-if isempty(gemini_matlab)
-  gemini_matlab = fullfile(context.Plan.RootFolder, "../mat_gemini");
+mat_gemini = fullfile(context.Plan.RootFolder, "mat_gemini");
+matbf = fullfile(mat_gemini, "buildfile.m");
+
+if ~isfile(matbf)
+  ok = system("git -C " + context.Plan.RootFolder + " submodule update --init --recursive");
+  assert(ok == 0, "Failed to update MatGemini Git submodule");
 end
 
-mat_gemini = fullfile(gemini_matlab, "buildfile.m");
 
-assert(isfile(mat_gemini), "please set the environment variable MATGEMINI to the path to the mat_gemini project directory. See README.md for how to get mat_gemini.")
-
-buildtool("-buildFile", mat_gemini)
+buildtool("-buildFile", mat_gemini, "setup")
 
 end

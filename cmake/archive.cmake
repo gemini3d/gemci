@@ -1,38 +1,28 @@
 cmake_minimum_required(VERSION 3.22)
 
-cmake_path(GET out EXTENSION LAST_ONLY ARC_TYPE)
 cmake_path(GET out FILENAME archive_name)
 
-# not usable due to internal paths always relative to PROJECT_BINARY_DIR
-# https://gitlab.kitware.com/cmake/cmake/-/issues/21653
-# file(ARCHIVE_CREATE
-#   OUTPUT ${out}
-#   PATHS ${in}
-#   COMPRESSION Zstd
-#   COMPRESSION_LEVEL 3)
-
-# need working_directory ${in} to avoid computer-specific relative paths
-# use . not ${in} as last argument to avoid more relative path issues
-
-if(ARC_TYPE STREQUAL ".zst")
-  set(arc_args --zstd)
-elseif(ARC_TYPE STREQUAL ".zip")
-  set(arc_args --format=zip)
+if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.31)
+  file(ARCHIVE_CREATE
+  OUTPUT ${out}
+  PATHS ${in}
+  COMPRESSION Zstd
+  COMPRESSION_LEVEL 3
+  WORKING_DIRECTORY ${in}
+  )
+  # need WORKING_DIRECTORY ${in} to avoid computer-specific relative paths
 else()
-  message(FATAL_ERROR "unknown archive type ${ARC_TYPE}")
+  # need WORKING_DIRECTORY ${in} to avoid computer-specific relative paths
+  # use . not ${in} as last argument to avoid more relative path issues
+
+  execute_process(
+  COMMAND ${CMAKE_COMMAND} -E tar c ${out} --zstd .
+  WORKING_DIRECTORY ${in}
+  COMMAND_ERROR_IS_FATAL ANY
+  )
 endif()
 
-execute_process(
-COMMAND ${CMAKE_COMMAND} -E tar c ${out} ${arc_args} .
-WORKING_DIRECTORY ${in}
-COMMAND_ERROR_IS_FATAL ANY
-)
-
-# ensure a file was created (weak validation)
-if(NOT EXISTS ${out})
-  message(FATAL_ERROR "Archive ${out} was not created.")
-endif()
-
+# ensure a file was created (weak validation) -- errors if file doesn't exist
 file(SIZE ${out} fsize)
 if(fsize LESS 10000)
   message(FATAL_ERROR "Archive ${out} may be malformed.")

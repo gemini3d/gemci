@@ -2,13 +2,15 @@ cmake_minimum_required(VERSION 3.22)
 
 set(PACKAGE_REMOTE dropbox)
 
+find_program(rclone NAMES rclone REQUIRED)
+
 function(upload_package archive out_dir name upload_root ref_json_file)
 # NOTE: rclone copy default does not overwrite
 
 # upload archive itself
 # we use --checksum to avoid waste of data bandwidth as Dropbox requires recopy to set mod time of identical files
 execute_process(
-COMMAND rclone copy ${archive} ${PACKAGE_REMOTE}:${upload_root} --verbose --checksum
+COMMAND ${rclone} copy ${archive} ${PACKAGE_REMOTE}:${upload_root} --verbose --checksum
 RESULT_VARIABLE ret
 )
 if(NOT ret EQUAL 0)
@@ -21,7 +23,7 @@ set(archive_path ${upload_root}/${arc_name})
 
 # retrieve remote URL for this archive
 execute_process(
-COMMAND rclone link ${PACKAGE_REMOTE}:${archive_path}
+COMMAND ${rclone} link ${PACKAGE_REMOTE}:${archive_path}
 OUTPUT_VARIABLE url
 OUTPUT_STRIP_TRAILING_WHITESPACE
 RESULT_VARIABLE ret
@@ -42,7 +44,7 @@ file(WRITE ${ref_json_file} ${ref_json})
 
 # update JSON with latest info
 execute_process(
-COMMAND rclone copy ${ref_json_file} ${PACKAGE_REMOTE}:${upload_root} --verbose --checksum
+COMMAND ${rclone} copy ${ref_json_file} ${PACKAGE_REMOTE}:${upload_root} --verbose --checksum
 RESULT_VARIABLE ret
 )
 if(NOT ret EQUAL 0)
@@ -50,7 +52,7 @@ if(NOT ret EQUAL 0)
 endif()
 
 
-if(false)
+if(0)
 # NOTE: disabled this as it's very slow to upload many small plot files.
 
 # upload plots directory to avoid needing to extract on local computers
@@ -59,14 +61,14 @@ if(false)
 # these options help for lots of small files (plots)
 set(small_file_opts --fast-list --check-first)
 
-execute_process(COMMAND rclone copy ${out_dir}/plots ${PACKAGE_REMOTE}:${upload_root}/plots/${name} --verbose --checksum ${small_file_opts}
+execute_process(COMMAND ${rclone} copy ${out_dir}/plots ${PACKAGE_REMOTE}:${upload_root}/plots/${name} --verbose --checksum ${small_file_opts}
 RESULT_VARIABLE ret
 )
 if(NOT ret EQUAL 0)
   message(FATAL_ERROR "Failed to upload ${out_dir}/plots with Rclone to ${PACKAGE_REMOTE}:${upload_root}")
 endif()
 
-endif(false)
+endif()
 
 endfunction(upload_package)
 

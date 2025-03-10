@@ -1,11 +1,10 @@
-set(ARC_TYPE zst)
-# prefer .zst to .zstd as tools are better at recognizing .zst
-
 
 function(gemini_package GEMINI_CIROOT out_dir ref_json_file name label)
 
-set(archive ${upload_root}/${name}.${ARC_TYPE})
-set(data_dir ${GEMINI_CIROOT}/${name})
+# prefer .zst to .zstd as tools are better at recognizing .zst
+set(archive "${upload_root}/${name}.zst")
+
+set(data_dir "${GEMINI_CIROOT}/${name}")
 
 string(REPLACE ";" "\\;" GEMINI_FEATURES "${GEMINI_FEATURES}")
 

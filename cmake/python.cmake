@@ -3,10 +3,12 @@ function(check_pygemini)
 # Python::Interpreter does NOT work, use ${Python_EXECUTABLE}
 
 # Numpy conflicts are a general source of trouble
-execute_process(COMMAND ${Python_EXECUTABLE} -c "import numpy,sys; print(f'Python {sys.version}  Numpy {numpy.__version__}')"
+message(CHECK_START "Checking for Python NumPy")
+execute_process(COMMAND ${Python_EXECUTABLE} -c "import numpy; print(numpy.__version__)"
 RESULT_VARIABLE ret
 OUTPUT_VARIABLE out
 ERROR_VARIABLE err
+OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
 if(NOT ret EQUAL 0)
@@ -15,7 +17,9 @@ if(NOT ret EQUAL 0)
   ${err}"
   )
 endif()
+message(CHECK_PASS "Found Python NumPy ${out}")
 
+message(CHECK_START "Checking for PyGemini")
 execute_process(COMMAND ${Python_EXECUTABLE} -c "import gemini3d; print(gemini3d.__version__)"
 RESULT_VARIABLE ret
 OUTPUT_VARIABLE out
@@ -30,6 +34,7 @@ if(NOT ret EQUAL 0)
   ${err}"
   )
 endif()
+message(CHECK_PASS "Found PyGemini ${out}")
 
 set(PYGEMINI_FOUND true CACHE BOOL "PyGemini Found")
 set(PYGEMINI_VERSION ${out} CACHE STRING "PyGemini version")

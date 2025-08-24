@@ -21,6 +21,7 @@ concurrency:
 env:
   CTEST_NO_TESTS_ACTION: error
   HOMEBREW_NO_INSTALL_CLEANUP: 1
+  CMAKE_GENERATOR: Ninja
 
 
 jobs:
@@ -41,7 +42,7 @@ jobs:
           - gen: none
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
       with:
         submodules: true
 
@@ -56,7 +57,7 @@ jobs:
 
     - name: Checkout PyGemini
       if: ${{ matrix.gen == 'python' }}
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         repository: gemini3d/pygemini
         path: pygemini
@@ -89,7 +90,7 @@ jobs:
 # --- build
 
     - name: build Gemini3D
-      run: cmake --build build
+      run: cmake --build --preset default
 
     - name: Run Bounds check
       run: ctest --preset default -R run_bounds_check -E 3D

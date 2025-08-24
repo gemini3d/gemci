@@ -38,7 +38,7 @@ endfunction(check_pygemini)
 
 # --- script
 
-find_package(Python 3.7 COMPONENTS Interpreter REQUIRED)
+find_package(Python COMPONENTS Interpreter REQUIRED)
 
 if(NOT PYGEMINI_FOUND)
   check_pygemini()

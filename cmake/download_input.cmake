@@ -64,7 +64,7 @@ file(ARCHIVE_EXTRACT INPUT ${archive} DESTINATION ${input_dir})
 file(SHA256 ${archive} archive_hash)
 file(WRITE ${input_dir}/sha256sum.txt ${archive_hash})
 
-endfunction(download_input)
+endfunction()
 
 if(ctest_run)
   download_input(${input_dir} ${name} ${input_type} ${arc_json_file})

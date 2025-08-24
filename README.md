@@ -173,3 +173,18 @@ cmake -B build -Dmpi_nprocs=32
 
 Then, each test will use that value instead of the automatically determined value.
 This option can make tests fail if the simulation grid isn't evenly divisible in lat/lon by the number of MPI processes.
+
+## Adding new tests
+
+
+```sh
+cmake -Bbuild -Dpackage=true
+
+cmake --build build
+
+ctest --test-dir build -R my_new_test_name -V
+```
+
+This will create a new .zst file under the GEMINI_CIROOT directory.
+This file would be uploaded to the public data server e.g. Dropbox or university server.
+The new test configuation (especially URL) needs to be added to cmake/ref_data.json and "git push".

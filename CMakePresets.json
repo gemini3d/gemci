@@ -45,6 +45,13 @@
   "displayName": "Debug short simulations bounds check"
 },
 {
+  "name": "nofind-sim-bounds", "inherits": "debug-sim-bounds",
+  "displayName": "Debug short simulations bounds check, but don't find auto-build packages like HDF5",
+  "cacheVariables": {
+    "FETCHCONTENT_TRY_FIND_PACKAGE_MODE": "NEVER"
+  }
+},
+{
   "name": "regen", "inherits": "default",
   "displayName": "Create .zst reference data, using Python if available",
   "cacheVariables": {
@@ -67,7 +74,8 @@
   { "name": "regen-matlab", "configurePreset": "regen-matlab" },
   { "name": "reldebug", "inherits": "default", "configurePreset": "reldebug", "configuration": "RelWithDebInfo" },
   { "name": "debug", "inherits": "default", "configurePreset": "debug", "configuration": "Debug" },
-  { "name": "debug-sim-bounds", "inherits": "reldebug", "configurePreset": "debug-sim-bounds" }
+  { "name": "debug-sim-bounds", "inherits": "reldebug", "configurePreset": "debug-sim-bounds" },
+  { "name": "nofind-sim-bounds", "inherits": "debug-sim-bounds", "configurePreset": "nofind-sim-bounds" }
 
 ],
 "testPresets": [
@@ -105,6 +113,10 @@
     "include": { "name": "run_bounds_check" },
     "exclude": { "name": "3D" }
   }
+},
+{ "name": "nofind-sim-bounds", "inherits": "debug-sim-bounds",
+  "configurePreset": "nofind-sim-bounds",
+  "displayName": "Debug short simulations bounds check, but don't find auto-build packages like HDF5"
 },
 {
   "name": "download", "inherits": "default",
@@ -175,6 +187,14 @@
       { "type": "configure", "name": "debug-sim-bounds" },
       { "type": "build", "name": "debug-sim-bounds" },
       { "type": "test", "name": "debug-sim-bounds" }
+    ]
+  },
+  { "name": "nofind-sim-bounds",
+    "displayName": "Short simulations bounds check, but don't find auto-build packages like HDF5",
+    "steps": [
+      { "type": "configure", "name": "nofind-sim-bounds" },
+      { "type": "build", "name": "nofind-sim-bounds" },
+      { "type": "test", "name": "nofind-sim-bounds" }
     ]
   },
   {

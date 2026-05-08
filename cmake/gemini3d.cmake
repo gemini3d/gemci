@@ -14,14 +14,17 @@ USES_TERMINAL_TEST true)
 
 set(gemini_args
 -DBUILD_TESTING:BOOL=off
--Dglow:BOOL=${glow}
--Dhwm14:BOOL=${hwm14}
+-Dgemini3d_glow:BOOL=${gemini3d_glow}
+-Dgemini3d_hwm14:BOOL=${gemini3d_hwm14}
 -DCMAKE_INSTALL_PREFIX:PATH=${PROJECT_BINARY_DIR}
 -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
 -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
 -DCMAKE_Fortran_COMPILER=${CMAKE_Fortran_COMPILER}
 -DCMAKE_COMPILE_WARNING_AS_ERROR:BOOL=${CMAKE_COMPILE_WARNING_AS_ERROR}
 )
+if(DEFINED FETCHCONTENT_TRY_FIND_PACKAGE_MODE)
+  list(APPEND gemini_args -DFETCHCONTENT_TRY_FIND_PACKAGE_MODE:STRING=${FETCHCONTENT_TRY_FIND_PACKAGE_MODE})
+endif()
 if(CMAKE_PREFIX_PATH)
   list(APPEND gemini_args -DCMAKE_PREFIX_PATH:PATH=${CMAKE_PREFIX_PATH})
 endif()
@@ -32,13 +35,13 @@ endif()
 
 # FIXME: would write a file with ExternalProject_AddStep
 set(GEMINI_FEATURES "REALBITS:64" MPI HDF5)
-if(glow)
+if(gemini3d_glow)
   list(APPEND GEMINI_FEATURES GLOW)
 endif()
-if(msis2)
+if(gemini3d_msis2)
   list(APPEND GEMINI_FEATURES MSIS2)
 endif()
-if(hwm14)
+if(gemini3d_hwm14)
   list(APPEND GEMINI_FEATURES HWM14)
 endif()
 

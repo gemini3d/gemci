@@ -12,8 +12,8 @@ set(CTEST_TEST_TIMEOUT 7200)
 set(gemini3d_url https://github.com/gemini3d/gemini3d.git)
 
 option(submit "use CDash upload" true)
-option(python "use Python Gemini3D frontend" true)
-option(matlab "use Matlab Gemini3D frontend")
+option(gemini3d_python "use Python Gemini3D frontend" true)
+option(gemini3d_matlab "use Matlab Gemini3D frontend")
 
 if(NOT gemini3d_tag)
   set(gemini3d_tag "main")
@@ -21,8 +21,8 @@ endif()
 
 set(opts
 -Ddev:BOOL=no
--Dmatlab:BOOL=${matlab}
--Dpython:BOOL=${python}
+-Dgemini3d_matlab:BOOL=${gemini3d_matlab}
+-Dgemini3d_python:BOOL=${gemini3d_python}
 -Dgemini3d_tag=${gemini3d_tag}
 )
 

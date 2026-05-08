@@ -3,10 +3,10 @@ function(compare_output compare_exe out_dir ref_root name label)
 set(ref_dir ${ref_root}/${name})
 
 set(cmd ${compare_exe} ${out_dir} ${ref_dir} -which out)
-if(plot)
-  if(matlab)
+if(gemini3d_plot)
+  if(gemini3d_matlab)
     list(APPEND cmd -matlab)
-  elseif(python)
+  elseif(gemini3d_python)
     list(APPEND cmd -python)
   endif()
 endif()
@@ -20,11 +20,11 @@ FIXTURES_SETUP ${name}:plotdiff_fxt
 DISABLED ${${name}_DISABLED}
 ENVIRONMENT "GEMINI_CIROOT=${GEMINI_CIROOT}"
 )
-if(matlab)
+if(gemini3d_matlab)
   set_property(TEST compare:output:${name} PROPERTY ENVIRONMENT_MODIFICATION MATLABPATH=set:${MATLABPATH})
 endif()
 
-if(NOT plot)
+if(NOT gemini3d_plot)
   return()
 endif()
 
@@ -48,10 +48,10 @@ function(compare_input compare_exe out_dir ref_root name label)
 set(ref_dir ${ref_root}/${name})
 
 set(cmd ${compare_exe} ${out_dir} ${ref_dir} -which in)
-if(plot)
-  if(matlab)
+if(gemini3d_plot)
+  if(gemini3d_matlab)
     list(APPEND cmd -matlab)
-  elseif(python)
+  elseif(gemini3d_python)
     list(APPEND cmd -python)
   endif()
 endif()
@@ -65,7 +65,7 @@ FIXTURES_SETUP ${name}:inputOK_fxt
 DISABLED ${${name}_DISABLED}
 ENVIRONMENT "GEMINI_CIROOT=${GEMINI_CIROOT}"
 )
-if(matlab)
+if(gemini3d_matlab)
   set_property(TEST compare:input:${name} PROPERTY ENVIRONMENT_MODIFICATION MATLABPATH=set:${MATLABPATH})
 endif()
 

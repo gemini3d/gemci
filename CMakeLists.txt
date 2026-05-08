@@ -18,10 +18,10 @@ include(options.cmake)
 file(GENERATE OUTPUT .gitignore CONTENT "*")
 
 
-# Gemini3D ExternalProject
+# Gemini3D subproject
 include(cmake/gemini3d.cmake)
 
-# GemCI ExternalProject
+# GemCI main script follows.
 
 # GEMINI_CIROOT at initial superproject configure for better UX (it's orthogonal to Gemini3D)
 include(cmake/get_simroot.cmake)
@@ -64,12 +64,12 @@ if(NOT DEFINED low_ram)
 endif()
 
 # --- PyGemini
-if(python)
+if(gemini3d_python)
   include(cmake/python.cmake)
 endif()
 
 # --- MatGemini
-if(matlab)
+if(gemini3d_matlab)
   include(cmake/matlab.cmake)
 endif()
 include(cmake/MatlabTest.cmake)

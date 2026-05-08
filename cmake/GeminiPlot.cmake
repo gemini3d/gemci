@@ -2,7 +2,7 @@ function(gemini_plot out_dir name label)
 
 set(_n)
 
-if(python)
+if(gemini3d_python)
 
 list(APPEND _n "plot:python:${name}")
 
@@ -11,7 +11,7 @@ COMMAND ${Python_EXECUTABLE} -m gemini3d.plot ${out_dir} all
 )
 set_property(TEST "plot:python:${name}" PROPERTY LABELS "plot;python;${label}")
 
-elseif(matlab)
+elseif(gemini3d_matlab)
 
 list(APPEND _n "plot:matlab:${name}")
 

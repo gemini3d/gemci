@@ -8,11 +8,11 @@
   "generator": "Ninja",
   "binaryDir": "build",
   "cacheVariables": {
-    "python": true,
-    "matlab": false,
+    "gemini3d_python": true,
+    "gemini3d_matlab": false,
     "package": false,
     "equil": false,
-    "plot": false,
+    "gemini3d_plot": false,
     "CMAKE_BUILD_TYPE": "Release",
     "CMAKE_COMPILE_WARNING_AS_ERROR": false,
     "CMAKE_LINK_WARNING_AS_ERROR": true
@@ -22,8 +22,8 @@
   "name": "matlab", "inherits": "default",
   "displayName": "Prepare Gemini3D CI suite, using MatGemini if available",
   "cacheVariables": {
-    "python": false,
-    "matlab": true
+    "gemini3d_python": false,
+    "gemini3d_matlab": true
   }
 },
 {
@@ -56,8 +56,8 @@
   "name": "regen-matlab", "inherits": "regen",
   "displayName": "Create .zst reference data, using Matlab if available",
   "cacheVariables": {
-    "python": false,
-    "matlab": true
+    "gemini3d_python": false,
+    "gemini3d_matlab": true
   }
 }
 ],

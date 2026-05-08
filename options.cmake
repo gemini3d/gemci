@@ -1,11 +1,10 @@
-option(python "use Python for tests")
-option(matlab "use Matlab (slower than Python)")
-option(plot "plot difference between reference and computed")
+option(gemini3d_python "use Python for tests")
+option(gemini3d_matlab "use Matlab (slower than Python)")
+option(gemini3d_plot "plot difference between reference and computed")
 
-option(hwm14 "use HWM14")
-option(msis2 "use MSIS2")
-option(glow "use GLOW" on)
-option(cpp "test C++ Gemini3D frontend")
+option(gemini3d_hwm14 "use HWM14")
+option(gemini3d_msis2 "use MSIS2")
+option(gemini3d_glow "use GLOW" on)
 
 option(dev "dev mode")
 

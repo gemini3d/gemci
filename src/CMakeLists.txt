@@ -96,12 +96,12 @@ model_setup(${in_dir} ${out_dir} ${ref_root} ${name} ${type_label} ${low_ram})
 
 # --- compare sim input
 compare_download(${out_dir} ${ref_root} ${name} ${type_label})
-if(python OR matlab)
+if(gemini3d_python OR gemini3d_matlab)
   compare_input(${GEMINI_COMPARE} ${out_dir} ${ref_root} ${name} ${type_label})
 endif()
 
 # check that scripts can read grid
-if(python)
+if(gemini3d_python)
   add_test(NAME "read_grid:python:${name}"
   COMMAND ${Python_EXECUTABLE} -c "import gemini3d.read; xg = gemini3d.read.grid('${out_dir}'); print(xg['lx'])"
   )
@@ -111,7 +111,7 @@ if(python)
   LABELS python
   DISABLED ${${name}_DISABLED}
   )
-endif(python)
+endif()
 
 # --- run
 gemini_run(${out_dir} ${name} ${type_label})
@@ -120,7 +120,7 @@ gemini_run(${out_dir} ${name} ${type_label})
 compare_output(${GEMINI_COMPARE} ${out_dir} ${ref_root} ${name} ${type_label})
 
 # --- plot
-if(plot)
+if(gemini3d_plot)
   gemini_plot(${out_dir} ${name} ${type_label})
 endif()
 

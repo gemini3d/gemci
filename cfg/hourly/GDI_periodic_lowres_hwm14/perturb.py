@@ -1,4 +1,3 @@
-from __future__ import annotations
 import typing as T
 import numpy as np
 
@@ -6,7 +5,7 @@ import gemini3d.read
 import gemini3d.write
 
 
-def perturb(cfg: dict[str, T.Any], xg: dict[str, T.Any]):
+def perturb(cfg: dict[str, T.Any], xg: dict[str, T.Any]) -> None:
     """
     perturb plasma from initial_conditions file
     """

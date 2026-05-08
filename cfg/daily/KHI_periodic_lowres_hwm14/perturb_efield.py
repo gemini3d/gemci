@@ -1,4 +1,3 @@
-from __future__ import annotations
 import typing as T
 import xarray
 import numpy as np
@@ -8,7 +7,9 @@ import gemini3d.read
 from gemini3d.config import datetime_range
 
 
-def perturb_efield(cfg: dict[str, T.Any], xg: dict[str, T.Any], params: dict[str, float] = None):
+def perturb_efield(
+    cfg: dict[str, T.Any], xg: dict[str, T.Any], params: dict[str, float] | None = None
+) -> None:
     """Electric field boundary conditions and initial condition for KHI case arguments"""
 
     if not params:
@@ -53,7 +54,7 @@ def perturb_efield(cfg: dict[str, T.Any], xg: dict[str, T.Any], params: dict[str
     create_Efield(cfg, xg, params)
 
 
-def init_profile(xg: dict[str, T.Any], dat: xarray.Dataset) -> np.ndarray:
+def init_profile(xg: dict[str, T.Any], dat: xarray.Dataset):
     lsp = dat["ns"].shape[0]
 
     # %% Choose a single profile from the center of the eq domain
@@ -80,11 +81,11 @@ def perturb_density(
     cfg: dict[str, T.Any],
     xg: dict[str, T.Any],
     dat: xarray.Dataset,
-    nsscale: np.ndarray,
-    x1: np.ndarray,
-    x2: np.ndarray,
+    nsscale,
+    x1,
+    x2,
     params: dict[str, float],
-) -> np.ndarray:
+):
     """
     because this is derived from current density it is invariant with respect
     to frame of reference.
@@ -149,7 +150,7 @@ def perturb_density(
     return nsperturb
 
 
-def potential_bg(x2: np.ndarray, lx2: int, lx3: int, params: dict[str, float]) -> np.ndarray:
+def potential_bg(x2, lx2: int, lx3: int, params: dict[str, float]):
     vel3 = np.empty((lx2, lx3))
     for i in range(lx3):
         vel3[:, i] = params["v0"] * np.tanh(x2 / params["ell"]) - params["vn"]
@@ -168,7 +169,8 @@ def potential_bg(x2: np.ndarray, lx2: int, lx3: int, params: dict[str, float]) -
     return Phitop
 
 
-def create_Efield(cfg, xg, params):
+def create_Efield(cfg: dict, xg: dict, params: dict) -> None:
+
     cfg["E0dir"].mkdir(parents=True, exist_ok=True)
 
     # %% CREATE ELECTRIC FIELD DATASET
@@ -257,6 +259,6 @@ def create_Efield(cfg, xg, params):
     gemini3d.write.Efield(E, cfg["E0dir"])
 
 
-def moving_average(x: np.ndarray, k: int):
+def moving_average(x, k: int):
     # https://stackoverflow.com/a/54628145
     return np.convolve(x, np.ones(k), mode="same") / k

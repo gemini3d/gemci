@@ -1,3 +1,6 @@
+name: "Install dependencies"
+description: "Install dependencies for PyGemini and MatGemini"
+
 runs:
 
   using: 'composite'

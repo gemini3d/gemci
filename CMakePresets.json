@@ -5,14 +5,17 @@
 {
   "name": "default",
   "displayName": "tests simulations, for general CI runs to check Gemini3D code changes",
-  "binaryDir": "${sourceDir}/build",
+  "generator": "Ninja",
+  "binaryDir": "build",
   "cacheVariables": {
     "python": true,
     "matlab": false,
     "package": false,
     "equil": false,
     "plot": false,
-    "CMAKE_COMPILE_WARNING_AS_ERROR": false
+    "CMAKE_BUILD_TYPE": "Release",
+    "CMAKE_COMPILE_WARNING_AS_ERROR": false,
+    "CMAKE_LINK_WARNING_AS_ERROR": true
   }
 },
 {
@@ -22,6 +25,24 @@
     "python": false,
     "matlab": true
   }
+},
+{
+  "name": "debug", "inherits": "default",
+  "displayName": "Debug build with bounds checking",
+  "cacheVariables": {
+    "CMAKE_BUILD_TYPE": "Debug"
+  }
+},
+{
+  "name": "reldebug", "inherits": "default",
+  "displayName": "Release with Debug Info bounds check",
+  "cacheVariables": {
+    "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+  }
+},
+{
+  "name": "debug-sim-bounds", "inherits": "reldebug",
+  "displayName": "Debug short simulations bounds check"
 },
 {
   "name": "regen", "inherits": "default",
@@ -41,23 +62,19 @@
 }
 ],
 "buildPresets": [
-  {
-    "name": "default",
-    "configurePreset": "default"
-  },
-  {
-    "name": "regen",
-    "configurePreset": "regen"
-  },
-  {
-    "name": "regen-matlab",
-    "configurePreset": "regen-matlab"
-  }
+  { "name": "default", "configurePreset": "default", "configuration": "Release" },
+  { "name": "regen", "configurePreset": "regen" },
+  { "name": "regen-matlab", "configurePreset": "regen-matlab" },
+  { "name": "reldebug", "inherits": "default", "configurePreset": "reldebug", "configuration": "RelWithDebInfo" },
+  { "name": "debug", "inherits": "default", "configurePreset": "debug", "configuration": "Debug" },
+  { "name": "debug-sim-bounds", "inherits": "reldebug", "configurePreset": "debug-sim-bounds" }
+
 ],
 "testPresets": [
 {
   "name": "default",
   "configurePreset": "default",
+  "configuration": "Release",
   "output": {
     "outputOnFailure": true,
     "verbosity": "default"
@@ -65,9 +82,28 @@
   "execution": {
     "noTestsAction": "error",
     "scheduleRandom": true,
-    "stopOnFailure": false,
-    "timeout": 7200,
-    "jobs": 0
+    "stopOnFailure": false
+  }
+},
+{
+  "name": "reldebug", "inherits": "default",
+  "configurePreset": "reldebug",
+  "configuration": "RelWithDebInfo",
+  "displayName": "Release with Debug Info"
+},
+{
+  "name": "debug", "inherits": "default",
+  "configurePreset": "debug",
+  "configuration": "Debug",
+  "displayName": "Debug test with bounds checking"
+},
+{
+  "name": "debug-sim-bounds", "inherits": "reldebug",
+  "configurePreset": "debug-sim-bounds",
+  "displayName": "Debug short simulations bounds check",
+  "filter": {
+    "include": { "name": "run_bounds_check" },
+    "exclude": { "name": "3D" }
   }
 },
 {
@@ -127,54 +163,36 @@
     "name": "default",
     "displayName": "tests simulations, for general CI runs to check Gemini3D code changes",
     "steps": [
-      {
-        "type": "configure",
-        "name": "default"
-      },
-      {
-        "type": "build",
-        "name": "default"
-      },
-      {
-        "type": "test",
-        "name": "default"
-      }
+      { "type": "configure", "name": "default" },
+      { "type": "build", "name": "default" },
+      { "type": "test", "name": "default" }
+    ]
+  },
+  {
+    "name": "debug-sim-bounds",
+    "displayName": "Debug short simulations bounds check",
+    "steps": [
+      { "type": "configure", "name": "debug-sim-bounds" },
+      { "type": "build", "name": "debug-sim-bounds" },
+      { "type": "test", "name": "debug-sim-bounds" }
     ]
   },
   {
     "name": "regen",
     "displayName": "Python: create .zst reference data",
     "steps": [
-      {
-        "type": "configure",
-        "name": "regen"
-      },
-      {
-        "type": "build",
-        "name": "regen"
-      },
-      {
-        "type": "test",
-        "name": "regen"
-      }
+      { "type": "configure", "name": "regen" },
+      { "type": "build", "name": "regen" },
+      { "type": "test", "name": "regen" }
     ]
   },
   {
     "name": "regen-matlab",
     "displayName": "Matlab: create .zst reference data",
     "steps": [
-      {
-        "type": "configure",
-        "name": "regen-matlab"
-      },
-      {
-        "type": "build",
-        "name": "regen-matlab"
-      },
-      {
-        "type": "test",
-        "name": "regen-matlab"
-      }
+      { "type": "configure", "name": "regen-matlab" },
+      { "type": "build", "name": "regen-matlab" },
+      { "type": "test", "name": "regen-matlab" }
     ]
   }
 ]

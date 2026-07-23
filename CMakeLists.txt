@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.25...4.3)
+cmake_minimum_required(VERSION 3.25...4.5)
 # CMake >= 3.25 as Gemini3D and other subprojects require it for packagins and block()
 
 project(GemCI

@@ -5,12 +5,12 @@ cmake_path(GET out FILENAME archive_name)
 if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.31)
   file(ARCHIVE_CREATE
   OUTPUT ${out}
-  PATHS ${in}
+  PATHS .
+  WORKING_DIRECTORY ${in}
   COMPRESSION Zstd
   COMPRESSION_LEVEL 3
-  WORKING_DIRECTORY ${in}
   )
-  # need WORKING_DIRECTORY ${in} to avoid computer-specific relative paths
+  # need WORKING_DIRECTORY ${in} PATHS . to avoid computer-specific relative paths
 else()
   # need WORKING_DIRECTORY ${in} to avoid computer-specific relative paths
   # use . not ${in} as last argument to avoid more relative path issues

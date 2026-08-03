@@ -40,7 +40,7 @@ REQUIRED_FILES ${out_dir}/output.nml
 DISABLED ${${name}_DISABLED}
 )
 
-endfunction(compare_output)
+endfunction()
 
 
 function(compare_input compare_exe out_dir ref_root name label)
@@ -69,7 +69,7 @@ if(gemini3d_matlab)
   set_property(TEST compare:input:${name} PROPERTY ENVIRONMENT_MODIFICATION MATLABPATH=set:${MATLABPATH})
 endif()
 
-endfunction(compare_input)
+endfunction()
 
 
 function(compare_download out_dir ref_root name label)
@@ -95,4 +95,4 @@ RESOURCE_LOCK download_lock
 # * output.nml since we may want to compare just input without running sim
 # * config.nml since we may choose not to generate input
 
-endfunction(compare_download)
+endfunction()

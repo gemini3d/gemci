@@ -38,4 +38,4 @@ endif()
 
 set(${var} ${v} PARENT_SCOPE)
 
-endfunction(parse_nml)
+endfunction()

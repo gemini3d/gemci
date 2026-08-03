@@ -42,4 +42,4 @@ FIXTURES_SETUP ${name}:eq_fxt  # no need for distinct fixture
 RESOURCE_LOCK download_lock
 )
 
-endfunction(input_setup)
+endfunction()

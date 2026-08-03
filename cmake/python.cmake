@@ -39,7 +39,7 @@ message(CHECK_PASS "Found PyGemini ${out}")
 set(PYGEMINI_FOUND true CACHE BOOL "PyGemini Found")
 set(PYGEMINI_VERSION ${out} CACHE STRING "PyGemini version")
 
-endfunction(check_pygemini)
+endfunction()
 
 # --- script
 

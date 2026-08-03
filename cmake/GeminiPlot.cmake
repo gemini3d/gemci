@@ -32,4 +32,4 @@ if(low_ram)
 endif()
 
 
-endfunction(gemini_plot)
+endfunction()

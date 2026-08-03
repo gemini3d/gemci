@@ -20,4 +20,4 @@ set(nml_file ${nml_file} PARENT_SCOPE)
 set(eq_dir ${eq_dir} PARENT_SCOPE)
 set(eq_name ${eq_name} PARENT_SCOPE)
 
-endfunction(get_equil)
+endfunction()

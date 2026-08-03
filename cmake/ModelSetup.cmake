@@ -59,4 +59,4 @@ else()
   )
 endif()
 
-endfunction(model_setup)
+endfunction()

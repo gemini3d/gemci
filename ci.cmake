@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.25)
-# CMake >= 3.25 as Gemini3D and other subprojects require it for packagins and block()
+# CMake >= 3.25 as Gemini3D and other subprojects require it for packaging and block()
 
 set(CTEST_PROJECT_NAME "GemCI")
 
@@ -64,7 +64,7 @@ string(SUBSTRING ${git_version} 0 7 git_version)
 
 set(${ovar} ${git_version} PARENT_SCOPE)
 
-endfunction(get_remote)
+endfunction()
 
 
 function(windows_find_task exe ovar)
@@ -90,7 +90,7 @@ else()
   set(${ovar} true PARENT_SCOPE)
 endif()
 
-endfunction(windows_find_task)
+endfunction()
 
 
 function(unix_find_task exe ovar)
@@ -119,7 +119,7 @@ else()
   set(${ovar} true PARENT_SCOPE)
 endif()
 
-endfunction(unix_find_task)
+endfunction()
 
 
 function(ctest_once_only)
@@ -147,7 +147,7 @@ endwhile()
 string(TIMESTAMP now)
 message(FATAL_ERROR "Another CTest was running for ${max_wait} seconds.  Aborting ${now}")
 
-endfunction(ctest_once_only)
+endfunction()
 
 
 function(find_generator)
@@ -171,7 +171,7 @@ else()
   set(CTEST_CMAKE_GENERATOR "Unix Makefiles" PARENT_SCOPE)
 endif()
 
-endfunction(find_generator)
+endfunction()
 
 
 
@@ -236,7 +236,7 @@ endif()
 
 message(STATUS "OK: CTest build ${build_id}")
 
-endfunction(main)
+endfunction()
 
 
 # --- main script

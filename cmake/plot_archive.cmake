@@ -31,7 +31,7 @@ if(fsize LESS 10000)
   message(FATAL_ERROR "Archive ${out} may be malformed.")
 endif()
 
-endfunction(plot_archive)
+endfunction()
 
 
 plot_archive(${in} ${out})

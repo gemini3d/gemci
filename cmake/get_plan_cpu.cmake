@@ -27,4 +27,4 @@ endif()
 set(plan_cpu ${Ncpu} PARENT_SCOPE)
 
 
-endfunction(get_plan_cpu)
+endfunction()

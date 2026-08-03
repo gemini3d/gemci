@@ -49,4 +49,4 @@ DISABLED $<NOT:$<BOOL:${rclone}>>
 )
 # takes a long time to upload many small files
 
-endfunction(gemini_package)
+endfunction()

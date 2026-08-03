@@ -70,7 +70,7 @@ endif()
 
 endif()
 
-endfunction(upload_package)
+endfunction()
 
 
 upload_package(${archive} ${out_dir} ${name} ${upload_root} ${ref_json_file})

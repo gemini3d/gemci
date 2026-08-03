@@ -1,41 +1,7 @@
-# in general, we need both Release and Debug of Gemini3D.
-# to ensure this happens without requiring Ninja Multi-Config, we do two distinct builds
-# with the same install directory.
-include(ExternalProject)
+include(FetchContent)
 
 set(GEMINI_ROOT ${PROJECT_BINARY_DIR})
 
-set(extproj_args
-USES_TERMINAL_DOWNLOAD true
-USES_TERMINAL_UPDATE true
-USES_TERMINAL_PATCH true
-USES_TERMINAL_CONFIGURE true
-USES_TERMINAL_BUILD true
-USES_TERMINAL_INSTALL true
-USES_TERMINAL_TEST true)
-
-set(gemini_args
--DBUILD_TESTING:BOOL=off
--Dgemini3d_glow:BOOL=${gemini3d_glow}
--Dgemini3d_hwm14:BOOL=${gemini3d_hwm14}
--DCMAKE_INSTALL_PREFIX:PATH=${GEMINI_ROOT}
--DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
--DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
--DCMAKE_Fortran_COMPILER=${CMAKE_Fortran_COMPILER}
--DCMAKE_COMPILE_WARNING_AS_ERROR:BOOL=${CMAKE_COMPILE_WARNING_AS_ERROR}
-)
-if(DEFINED FETCHCONTENT_TRY_FIND_PACKAGE_MODE)
-  list(APPEND gemini_args -DFETCHCONTENT_TRY_FIND_PACKAGE_MODE:STRING=${FETCHCONTENT_TRY_FIND_PACKAGE_MODE})
-endif()
-if(CMAKE_PREFIX_PATH)
-  list(APPEND gemini_args -DCMAKE_PREFIX_PATH:PATH=${CMAKE_PREFIX_PATH})
-endif()
-if(MPI_ROOT)
-  list(APPEND gemini_args -DMPI_ROOT:PATH=${MPI_ROOT})
-endif()
-# -DCMAKE_VERBOSE_MAKEFILE:BOOL=true
-
-# FIXME: would write a file with ExternalProject_AddStep
 set(GEMINI_FEATURES "REALBITS:64" MPI HDF5)
 if(gemini3d_glow)
   list(APPEND GEMINI_FEATURES GLOW)
@@ -48,38 +14,16 @@ if(gemini3d_hwm14)
 endif()
 
 file(READ ${CMAKE_CURRENT_LIST_DIR}/libraries.json lib_json)
+
 string(JSON gemini3d_url GET ${lib_json} gemini3d url)
 if(NOT gemini3d_tag)
   string(JSON gemini3d_tag GET ${lib_json} gemini3d tag)
 endif()
+
 message(STATUS "Gemini3D Git: ${gemini3d_tag}")
 
-ExternalProject_Add(GEMINI3D_DEBUG
-GIT_REPOSITORY ${gemini3d_url}
-GIT_TAG ${gemini3d_tag}
-CMAKE_ARGS ${gemini_args} -DCMAKE_BUILD_TYPE=Debug
-CONFIGURE_HANDLED_BY_BUILD true
-${extproj_args}
-)
+set(gemini3d_BUILD_TESTING OFF)
 
-set(bindir ${GEMINI_ROOT}/bin)
+FetchContent_Declare(GEMINI3D GIT_REPOSITORY ${gemini3d_url} GIT_TAG ${gemini3d_tag})
 
-set(GEMINI_RUN_DEBUG         ${bindir}/gemini3d.run.debug)
-set(GEMINI_Fortran_BIN_DEBUG ${bindir}/gemini.bin.debug)
-set(GEMINI_CXX_BIN_DEBUG     ${bindir}/gemini_c.bin.debug)
-
-
-ExternalProject_Add(GEMINI3D_RELEASE
-GIT_REPOSITORY ${gemini3d_url}
-GIT_TAG ${gemini3d_tag}
-CMAKE_ARGS ${gemini_args} -DCMAKE_BUILD_TYPE=Release
-CONFIGURE_HANDLED_BY_BUILD true
-DEPENDS GEMINI3D_DEBUG
-${extproj_args}
-)
-# DEPENDS debug to help ensure order of build, not specific dependency
-
-set(GEMINI_RUN         ${bindir}/gemini3d.run)
-set(GEMINI_Fortran_BIN ${bindir}/gemini.bin)
-set(GEMINI_COMPARE     ${bindir}/gemini3d.compare)
-set(GEMINI_CXX_BIN     ${bindir}/gemini_c.bin)
+FetchContent_MakeAvailable(GEMINI3D)

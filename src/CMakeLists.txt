@@ -97,7 +97,7 @@ model_setup(${in_dir} ${out_dir} ${ref_root} ${name} ${type_label} ${low_ram})
 # --- compare sim input
 compare_download(${out_dir} ${ref_root} ${name} ${type_label})
 if(gemini3d_python OR gemini3d_matlab)
-  compare_input(${GEMINI_COMPARE} ${out_dir} ${ref_root} ${name} ${type_label})
+  compare_input($<TARGET_FILE:gemini3d.compare> ${out_dir} ${ref_root} ${name} ${type_label})
 endif()
 
 # check that scripts can read grid
@@ -117,7 +117,7 @@ endif()
 gemini_run(${out_dir} ${name} ${type_label})
 
 # --- compare sim output
-compare_output(${GEMINI_COMPARE} ${out_dir} ${ref_root} ${name} ${type_label})
+compare_output($<TARGET_FILE:gemini3d.compare> ${out_dir} ${ref_root} ${name} ${type_label})
 
 # --- plot
 if(gemini3d_plot)

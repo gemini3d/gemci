@@ -35,27 +35,25 @@ jobs:
           #   cpp: false
           # TODO: tolerance/shape issues to work through in Matlab--despite MatGemini self-compare CI working
           - gen: python
-            pyversion: '3.11'
+            pyversion: '3.14'
           # use whatever Python version you like; the minimum Python version is set in pygemini/pyproject.toml
           - gen: none
 
     steps:
-    - uses: actions/checkout@v6
-      with:
-        submodules: true
+    - uses: actions/checkout@v7
 
     - uses: ./.github/workflows/composite-pkg
 
 # --- Python setup
     - name: Setup Python ${{ matrix.pyversion }}
       if: ${{ matrix.gen == 'python' }}
-      uses: actions/setup-python@v6
+      uses: actions/setup-python@v7
       with:
         python-version: ${{ matrix.pyversion }}
 
     - name: Checkout PyGemini
       if: ${{ matrix.gen == 'python' }}
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
       with:
         repository: gemini3d/pygemini
         path: pygemini

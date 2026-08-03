@@ -6,11 +6,12 @@ if(NOT label STREQUAL "equilibrium")
 endif()
 
 if(gemini3d_python)
+  set(cmd Python::Interpreter -m gemini3d.model ${in_dir} ${out_dir})
+  if(GEMINI_ROOT)
+    list(APPEND cmd --root=${GEMINI_ROOT})
+  endif()
 
-  add_test(NAME "setup:python:${name}"
-  COMMAND ${Python_EXECUTABLE} -m gemini3d.model ${in_dir} ${out_dir} --root=${GEMINI_ROOT}
-  WORKING_DIRECTORY ${in_dir}
-  )
+  add_test(NAME "setup:python:${name}" COMMAND ${cmd})
 
   set_tests_properties("setup:python:${name}" PROPERTIES
   LABELS "setup;python;${label}"
@@ -19,6 +20,7 @@ if(gemini3d_python)
   FIXTURES_REQUIRED "${name}:eq_fxt;${eq_name}:run_fxt"
   REQUIRED_FILES ${in_dir}/config.nml
   DISABLED ${${name}_DISABLED}
+  WORKING_DIRECTORY ${in_dir}
   )
 
   if(low_ram)

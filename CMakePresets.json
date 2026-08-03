@@ -178,6 +178,12 @@
       { "type": "test", "name": "default" }
     ]
   },
+  { "name": "build", "displayName": "build Gemini3D and get ready for test runs, without yet running tests",
+    "steps": [
+      { "type": "configure", "name": "default" },
+      { "type": "build", "name": "default" }
+    ]
+  },
   {
     "name": "debug-sim-bounds",
     "displayName": "Debug short simulations bounds check",

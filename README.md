@@ -11,7 +11,7 @@ As typical for CMake projects, there is a 3 step process: configure-build-test:
 ```sh
 cmake --preset default
 
-cmake --build build
+cmake --build --preset default
 
 ctest --preset default
 ```

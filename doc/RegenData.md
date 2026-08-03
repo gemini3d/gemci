@@ -15,7 +15,7 @@ To specify a specific Git branch/commit/tag for Gemini3D, instead use the multi-
 ```sh
 cmake --preset regen -Dgemini3d_tag=my_branch_or_tag_or_commit
 
-cmake --build build
+cmake --build --preset regen
 
 ctest --preset regen
 ```

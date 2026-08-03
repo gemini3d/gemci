@@ -3,6 +3,8 @@
 # with the same install directory.
 include(ExternalProject)
 
+set(GEMINI_ROOT ${PROJECT_BINARY_DIR})
+
 set(extproj_args
 USES_TERMINAL_DOWNLOAD true
 USES_TERMINAL_UPDATE true
@@ -16,7 +18,7 @@ set(gemini_args
 -DBUILD_TESTING:BOOL=off
 -Dgemini3d_glow:BOOL=${gemini3d_glow}
 -Dgemini3d_hwm14:BOOL=${gemini3d_hwm14}
--DCMAKE_INSTALL_PREFIX:PATH=${PROJECT_BINARY_DIR}
+-DCMAKE_INSTALL_PREFIX:PATH=${GEMINI_ROOT}
 -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
 -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
 -DCMAKE_Fortran_COMPILER=${CMAKE_Fortran_COMPILER}
@@ -60,9 +62,11 @@ CONFIGURE_HANDLED_BY_BUILD true
 ${extproj_args}
 )
 
-set(GEMINI_RUN_DEBUG ${PROJECT_BINARY_DIR}/bin/gemini3d.run.debug)
-set(GEMINI_Fortran_BIN_DEBUG ${PROJECT_BINARY_DIR}/bin/gemini.bin.debug)
-set(GEMINI_CXX_BIN_DEBUG ${PROJECT_BINARY_DIR}/bin/gemini_c.bin.debug)
+set(bindir ${GEMINI_ROOT}/bin)
+
+set(GEMINI_RUN_DEBUG         ${bindir}/gemini3d.run.debug)
+set(GEMINI_Fortran_BIN_DEBUG ${bindir}/gemini.bin.debug)
+set(GEMINI_CXX_BIN_DEBUG     ${bindir}/gemini_c.bin.debug)
 
 
 ExternalProject_Add(GEMINI3D_RELEASE
@@ -75,8 +79,7 @@ ${extproj_args}
 )
 # DEPENDS debug to help ensure order of build, not specific dependency
 
-ExternalProject_Get_property(GEMINI3D_RELEASE BINARY_DIR)
-set(GEMINI_RUN ${PROJECT_BINARY_DIR}/bin/gemini3d.run)
-set(GEMINI_Fortran_BIN ${PROJECT_BINARY_DIR}/bin/gemini.bin)
-set(GEMINI_COMPARE ${PROJECT_BINARY_DIR}/bin/gemini3d.compare)
-set(GEMINI_CXX_BIN ${PROJECT_BINARY_DIR}/bin/gemini_c.bin)
+set(GEMINI_RUN         ${bindir}/gemini3d.run)
+set(GEMINI_Fortran_BIN ${bindir}/gemini.bin)
+set(GEMINI_COMPARE     ${bindir}/gemini3d.compare)
+set(GEMINI_CXX_BIN     ${bindir}/gemini_c.bin)

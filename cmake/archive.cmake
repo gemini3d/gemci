@@ -44,6 +44,18 @@ string(JSON ref_json SET ${ref_json} tests ${name} "{}")
 string(JSON ref_json SET ${ref_json} tests ${name} archive \"${archive_name}\")
 string(JSON ref_json SET ${ref_json} tests ${name} sha256 \"${hash}\")
 
+if(Python_EXECUTABLE)
+# the .tolist() makes it print like a JSON array.
+  execute_process(COMMAND ${Python_EXECUTABLE} -c "import h5py; f = h5py.File('${in}/inputs/simsize.h5','r'); print(f['lx'][:].tolist()); f.close()"
+  RESULT_VARIABLE ret
+  OUTPUT_VARIABLE out
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+  )
+  if(ret EQUAL 0)
+    string(JSON ref_json SET ${ref_json} tests ${name} lx ${out})
+  endif()
+endif()
+
 if(gemini_version)
   string(JSON ref_json SET ${ref_json} tests ${name} gemini3d_version \"${gemini_version}\")
 else()

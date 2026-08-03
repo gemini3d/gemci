@@ -14,6 +14,7 @@ COMMAND ${CMAKE_COMMAND} -Din:PATH=${data_dir} -Dout:FILEPATH=${archive}
 -Dgemini_version=${GEMINI_VERSION}
 -Dgemini_features=${GEMINI_FEATURES}
 -Dpygemini_version=${PYGEMINI_VERSION}
+-DPython_EXECUTABLE:FILEPATH=${Python_EXECUTABLE}
 -Dname=${name}
 -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/archive.cmake
 )

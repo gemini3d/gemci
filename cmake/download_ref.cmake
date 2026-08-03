@@ -6,7 +6,11 @@ if(NOT IS_DIRECTORY ${ref_root})
 endif()
 
 file(READ ${arc_json_file} _refj)
-string(JSON url GET ${_refj} tests ${name} url)
+string(JSON url ERROR_VARIABLE _url_missing GET ${_refj} tests ${name} url)
+if(_url_missing)
+  message(FATAL_ERROR "${name} url key not found in ${arc_json_file}")
+endif()
+
 string(JSON archive_name GET ${_refj} tests ${name} archive)
 string(JSON hash GET ${_refj} tests ${name} sha256)
 
@@ -62,7 +66,7 @@ file(ARCHIVE_EXTRACT INPUT ${archive} DESTINATION ${ref_dir})
 file(SHA256 ${archive} archive_hash)
 file(WRITE ${ref_dir}/sha256sum.txt ${archive_hash})
 
-endfunction(download_ref)
+endfunction()
 
 if(ctest_run)
   download_ref(${name} ${ref_root} ${arc_json_file})

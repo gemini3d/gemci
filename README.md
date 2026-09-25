@@ -180,14 +180,20 @@ This option can make tests fail if the simulation grid isn't evenly divisible in
 1. Put the config.nml for the particular simulation under a new subdirectory with the desired simulation name under `gemci/cfg/{daily,equilibrium}`. For example "cfg/daily/my_new/config.nml"
 2. Generate the new archive .zst that will be created under the directory defined in `GEMINI_CIROOT` environment variable.
 
-```sh
-cmake -Bbuild -Dpackage=true
+  ```sh
+  cmake -Bbuild -Dpackage=true
+  
+  cmake --build build
+  
+  ctest --test-dir build -R my_new -V
+  ```
 
-cmake --build build
+3. Compute the sha256 hash of the file that you need for the ref_data.json of the next step like
 
-ctest --test-dir build -R my_new -V
-```
+  ```sh
+  cmake -E sha256sum my_new.zst
+  ```
 
-3. Upload this my_new.zst to the public data server e.g. Dropbox or university server.
-4. Add this my_new simulation info to the ref_data.json that's at the URL given in [cmake/libraries.json](./cmake/libraries.json). The name of the simulation must match the directory under `cfg/{daily,hourly}` of this gemci/ repo - gemci/CMakeLists.txt scans all the given subdirectories.
-5. Finally, `git add` your "my_new/config.nml" and `git commit` and `git push` from gemci/
+4. Upload this my_new.zst to the public data server e.g. Dropbox or university server.
+5. Add this my_new simulation info to the ref_data.json that's at the URL given in [cmake/libraries.json](./cmake/libraries.json). The name of the simulation must match the directory under `cfg/{daily,hourly}` of this gemci/ repo - gemci/CMakeLists.txt scans all the given subdirectories. Look at the other sims in ref_data.json for how to define the sha256sum and url etc.
+6. Finally, `git add` your "my_new/config.nml" and `git commit` and `git push` from gemci/

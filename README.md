@@ -176,8 +176,9 @@ This option can make tests fail if the simulation grid isn't evenly divisible in
 
 ## Adding new tests
 
+0. set an environment variable `GEMINI_CIROOT` in your Terminal that points to an existing directory to store the multi-gigabyte simulation outputs.
 1. Put the config.nml for the particular simulation under a new subdirectory with the desired simulation name under `gemci/cfg/{daily,equilibrium}`. For example "cfg/daily/my_new/config.nml"
-2. Generate the new archive .zst like:
+2. Generate the new archive .zst that will be created under the directory defined in `GEMINI_CIROOT` environment variable.
 
 ```sh
 cmake -Bbuild -Dpackage=true
@@ -187,7 +188,6 @@ cmake --build build
 ctest --test-dir build -R my_new -V
 ```
 
-This will create a my_new.zst archive under the GEMINI_CIROOT directory.
 3. Upload this my_new.zst to the public data server e.g. Dropbox or university server.
 4. Add this my_new simulation info to the ref_data.json that's at the URL given in [cmake/libraries.json](./cmake/libraries.json). The name of the simulation must match the directory under `cfg/{daily,hourly}` of this gemci/ repo - gemci/CMakeLists.txt scans all the given subdirectories.
 5. Finally, `git add` your "my_new/config.nml" and `git commit` and `git push` from gemci/

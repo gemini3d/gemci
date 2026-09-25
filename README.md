@@ -177,7 +177,7 @@ This option can make tests fail if the simulation grid isn't evenly divisible in
 ## Adding new tests
 
 0. set an environment variable `GEMINI_CIROOT` in your Terminal that points to an existing directory to store the multi-gigabyte simulation outputs.
-1. Put the config.nml for the particular simulation under a new subdirectory with the desired simulation name under `gemci/cfg/{daily,equilibrium}`. For example "cfg/daily/my_new/config.nml"
+1. Put the config.nml for the particular simulation under a new subdirectory with the desired simulation name under `gemci/cfg/{daily,equilibrium}`. For example "cfg/daily/my_new/config.nml". Notice how `eq_dir` of config.nml is defined in an [example](https://github.com/gemini3d/gemci/blob/main/cfg/hourly/mini2dns_glow/config.nml) under `&setup` `eq_dir = '@GEMINI_CIROOT@/mini2dns_eq'` that means to look under env var $GEMINI_CIROOT/mini2dns_eq. For your simulation, tell where your equilibrium data is similarly in your my_new/config.nml
 2. Generate the new archive .zst that will be created under the directory defined in `GEMINI_CIROOT` environment variable.
 
   ```sh

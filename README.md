@@ -58,7 +58,7 @@ This is accomplished by either/both:
 * set environment variable GEMINI_CIROOT
 * CMake configure option `cmake -DGEMINI_CIROOT=<path>`  (priority over environment variable)
 
-Note there can be over 20 GB of data, so ensure your hard drive has enough disk space.
+Note there can be over 20 GB of data, so ensure the hard drive has enough disk space.
 
 ### Offline HPC batch CTest
 
@@ -176,15 +176,27 @@ This option can make tests fail if the simulation grid isn't evenly divisible in
 
 ## Adding new tests
 
-0. set an environment variable `GEMINI_CIROOT` in your Terminal that points to an existing directory to store the multi-gigabyte simulation outputs.
-1. Put the config.nml for the particular simulation under a new subdirectory with the desired simulation name under `gemci/cfg/{daily,equilibrium}`. For example "cfg/daily/my_new/config.nml". Notice how `eq_dir` of config.nml is defined in an [example](https://github.com/gemini3d/gemci/blob/main/cfg/hourly/mini2dns_glow/config.nml) under `&setup` `eq_dir = '@GEMINI_CIROOT@/mini2dns_eq'` that means to look under env var $GEMINI_CIROOT/mini2dns_eq. For your simulation, tell where your equilibrium data is similarly in your my_new/config.nml
-2. Generate the new archive .zst that will be created under the directory defined in `GEMINI_CIROOT` environment variable.
+Many new tests use an existing equilibrium simulation to kickstart the new simulation with initial conditions.
+Option `cmake -Dequil=false` is the default the CMake condition when configuring the build, which means that by default new simulations will not create a new equilibrium simulation.
+If you are making a new equilibrium simulation, then add option `cmake-Dequil=true` when configuring the build.
+Notice how `eq_dir` of config.nml is defined in an
+[example](https://github.com/gemini3d/gemci/blob/main/cfg/hourly/mini2dns_glow/config.nml)
+under `&setup / eq_dir = '@GEMINI_CIROOT@/mini2dns_eq'`
+that means to look under env var `$GEMINI_CIROOT/mini2dns_eq`.
+For a simulation, tell where the equilibrium data is similarly in the my_new/config.nml if `cmake -Dequil=false`.
+
+* `-Dequil=true`: the Fortran simulation doesn't look for config.nml field `&setup / eq_dir` because it is creating a new equilibrium simulation.
+* `-Dequil=false`: the Fortran simulation looks for config.nml field `&setup / eq_dir` to find the existing equilibrium simulation.
+
+0. set an environment variable `GEMINI_CIROOT` in Terminal that points to an existing directory to store the multi-gigabyte simulation outputs.
+1. Put the config.nml for the particular simulation under a new subdirectory with the desired simulation name under `gemci/cfg/{daily,equilibrium}`. For example "cfg/daily/my_new/config.nml".
+2. Generate the new archive .zst that will be created under the directory defined in `GEMINI_CIROOT` environment variable. For clarity we set `-Dequil=false` even though it's the default - set `-Dequil=true` if you're making a new equilibrium simulation.
 
   ```sh
-  cmake -Bbuild -Dpackage=true
-  
+  cmake -Bbuild -Dpackage=true -Dequil=false
+
   cmake --build build
-  
+
   ctest --test-dir build -R my_new -V
   ```
 
@@ -196,4 +208,4 @@ This option can make tests fail if the simulation grid isn't evenly divisible in
 
 4. Upload this my_new.zst to the public data server e.g. Dropbox or university server.
 5. Add this my_new simulation info to the ref_data.json that's at the URL given in [cmake/libraries.json](./cmake/libraries.json). The name of the simulation must match the directory under `cfg/{daily,hourly}` of this gemci/ repo - gemci/CMakeLists.txt scans all the given subdirectories. Look at the other sims in ref_data.json for how to define the sha256sum and url etc.
-6. Finally, `git add` your "my_new/config.nml" and `git commit` and `git push` from gemci/
+6. Finally, `git add` the file "my_new/config.nml" and `git commit` and `git push` from gemci/

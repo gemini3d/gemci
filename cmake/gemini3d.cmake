@@ -13,12 +13,15 @@ endif()
 
 file(READ ${CMAKE_CURRENT_LIST_DIR}/libraries.json lib_json)
 
-string(JSON gemini3d_url GET ${lib_json} gemini3d url)
-if(NOT gemini3d_tag)
+if(NOT DEFINED gemini3d_url OR gemini3d_url STREQUAL "")
+  string(JSON gemini3d_url GET ${lib_json} gemini3d url)
+endif()
+
+if(NOT DEFINED gemini3d_tag OR gemini3d_tag STREQUAL "")
   string(JSON gemini3d_tag GET ${lib_json} gemini3d tag)
 endif()
 
-message(STATUS "Gemini3D Git: ${gemini3d_tag}")
+message(STATUS "Gemini3D from URL: ${gemini3d_url} tag: ${gemini3d_tag}")
 
 set(gemini3d_BUILD_TESTING OFF)
 

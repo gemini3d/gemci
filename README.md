@@ -32,23 +32,37 @@ To add a new simulation or re-generate reference data, refer to [this guide](./d
 ## Gemini3D build
 
 For robustness/repeatability, GemCI downloads and builds its own copy of Gemini3D.
-The default Git tag/commit is in the top-level gemci/libraries.json.
+The default Git tag/commit is in the top-level [cmake/libraries.json](./cmake/libraries.json).
+
 The user may specify a custom Gemini3D Git tag/commit like:
 
 ```sh
-cmake --preset default -Dgemini3d_tag=my_branch_or_tag_or_commit
+cmake -B build -Dgemini3d_tag=my_branch_or_tag_or_commit
+```
+
+and/or a custom Gemini3D URL like:
+
+```sh
+cmake -B build -Dgemini3d_url=https://github.com/gemini3d/gemini3d.git
+```
+
+If you already have a Gemini3D source checkout that you want to use on your computer, say using someone else's fork of Gemini3D,
+you can also do
+
+```sh
+cmake -B build -DFETCHCONTENT_SOURCE_DIR_GEMINI3D=/path/to/your/gemini3d
 ```
 
 Every time GemCI CMake reconfigures, it checks if there is an update to Gemini3D on gemini3d_tag.
 If you make a change to Gemini3D that you want to test with GemCI, reconfigure before CTest like:
 
 ```sh
-cmake --preset default
+cmake -B build
 
-ctest --preset default
+ctest --test-dir build
 ```
 
-CTest ignores changes to CMake scripts and other projects.
+CTest ignores changes to CMake scripts.
 
 ## Data directory
 

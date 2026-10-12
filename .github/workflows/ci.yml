@@ -42,7 +42,7 @@ jobs:
     steps:
     - uses: actions/checkout@v7
 
-    - uses: ./.github/workflows/composite-pkg
+    - uses: gemini3d/gemini3d/.github/actions/composite-pkg@main
 
 # --- Python setup
     - name: Setup Python ${{ matrix.pyversion }}

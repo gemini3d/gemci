@@ -8,7 +8,7 @@
     "issueTracker": "https://github.com/gemini3d/gemci/issues",
     "name": "Gemini3D-CI",
     "softwareRequirements": [
-        "https://github.com/geospace-code/matlab-stdlib/releases/download/5.9.3/stdlib.mltbx"
+        "https://github.com/gemini3d/mat_gemini/releases/download/v5.7.1/gemini3d.mltbx"
     ],
     "description": "CI testing setup for Gemini3D",
     "developmentStatus": "active"

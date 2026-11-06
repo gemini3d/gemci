@@ -64,18 +64,18 @@ jobs:
 
 # --- Matlab
 
-    # - name: Install MATLAB
-    #   if: ${{ matrix.gen == 'matlab' }}
-    #   uses: matlab-actions/setup-matlab@v3
-    #   with:
-    #     release: latest
-    #     cache: true
+    - name: Install MATLAB
+      if: ${{ matrix.gen == 'matlab' }}
+      uses: matlab-actions/setup-matlab@v3
+      with:
+        release: latest
+        cache: true
 
-    # - name: Configure with Matlab
-    #   if: ${{ matrix.gen == 'matlab' }}
-    #   run: cmake --preset matlab
-    #   env:
-    #     MATGEMINI: ${{ github.workspace }}/mat_gemini
+    - name: Configure GemCI Matlab - installs MatGemini
+      if: ${{ matrix.gen == 'matlab' }}
+      uses: matlab-actions/run-build@v3
+      with:
+        tasks: setup
 
 # --- build
 

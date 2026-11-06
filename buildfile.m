@@ -15,15 +15,25 @@ end
 
 function setupTask(context)
 
-mat_gemini = fullfile(context.Plan.RootFolder, "mat_gemini");
-matbf = fullfile(mat_gemini, "buildfile.m");
+meta = jsondecode(fileread(fullfile(context.Plan.RootFolder, 'codemeta.json')));
+url = meta.softwareRequirements{1};
 
-if ~isfile(matbf)
-  ok = system("git -C " + context.Plan.RootFolder + " submodule update --init --recursive");
-  assert(ok == 0, "Failed to update MatGemini Git submodule");
+pkg = websave('gemini3d.mltbx', url);
+matlab.addons.toolbox.installToolbox(pkg);
+
 end
 
 
-buildtool("-buildFile", mat_gemini, "setup")
+function checkTask(context)
+root = context.Plan.RootFolder;
+
+c = codeIssues(root + ["/test", "/+gemini3d"]);
+
+if isempty(c.Issues)
+  fprintf('%d files checked OK with %s under %s\n', numel(c.Files), c.Release, root)
+else
+  disp(c.Issues)
+  error("Errors found in " + join(c.Issues.Location, newline))
+end
 
 end

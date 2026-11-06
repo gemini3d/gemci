@@ -69,8 +69,9 @@ if(gemini3d_python)
 endif()
 
 # --- MatGemini
+# requires that Matlab has previously had "buildtool setup" run from the gemci/ top directory
 if(gemini3d_matlab)
-  include(cmake/matlab.cmake)
+  find_package(Matlab COMPONENTS MAIN_PROGRAM REQUIRED)
 endif()
 include(cmake/MatlabTest.cmake)
 

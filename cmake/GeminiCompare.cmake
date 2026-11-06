@@ -20,9 +20,6 @@ FIXTURES_SETUP ${name}:plotdiff_fxt
 DISABLED ${${name}_DISABLED}
 ENVIRONMENT "GEMINI_CIROOT=${GEMINI_CIROOT}"
 )
-if(gemini3d_matlab)
-  set_property(TEST compare:output:${name} PROPERTY ENVIRONMENT_MODIFICATION MATLABPATH=set:${MATLABPATH})
-endif()
 
 if(NOT gemini3d_plot)
   return()
@@ -65,9 +62,6 @@ FIXTURES_SETUP ${name}:inputOK_fxt
 DISABLED ${${name}_DISABLED}
 ENVIRONMENT "GEMINI_CIROOT=${GEMINI_CIROOT}"
 )
-if(gemini3d_matlab)
-  set_property(TEST compare:input:${name} PROPERTY ENVIRONMENT_MODIFICATION MATLABPATH=set:${MATLABPATH})
-endif()
 
 endfunction()
 
